@@ -18,8 +18,8 @@ public class DesktopLauncher {
 
         config.height = (int) height; //Altura
         config.width = (int) width;  //Anchura*/
-        //config.width = 1280;
-        //config.height = 720;
+        config.width = 1280;
+        config.height = 720;
 		new LwjglApplication(new MHMain(), config);
 	}
 }

@@ -81,7 +81,7 @@ public class ScreenOne extends Pantalla {
 
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenOne/ScreenOneFondo1920.png");
+        BackgroundLayerOne = new Texture("ScreenOne/Fondo.png");
         //Imagenes de la pinturas
         paint1 =new Texture("Puzzle1/P1.png");
         pinturas[0]=paint1;
@@ -128,6 +128,7 @@ public class ScreenOne extends Pantalla {
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
+        //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
         if(nImage>0 && nImage<16){
             batch.draw(pinturas[nImage-1],50,100);
         }
