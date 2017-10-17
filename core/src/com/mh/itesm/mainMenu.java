@@ -24,6 +24,8 @@ public class mainMenu extends Pantalla{
     private Texture texturaBtnAyuda;
     private Texture texturaBtnCredits;
     private Texture texturaBackground;
+    private Texture texturaBtnAjustes;
+
 
     public mainMenu(MHMain juego) {
         this.juego = juego;
@@ -42,7 +44,7 @@ public class mainMenu extends Pantalla{
         //boton jugar
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
         ImageButton btnPlay = new ImageButton(trdPlay);
-        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.6f*ALTO);
+        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.7f*ALTO);
         escenaMenu.addActor(btnPlay);
         btnPlay.addListener(new ClickListener(){
             @Override
@@ -55,7 +57,7 @@ public class mainMenu extends Pantalla{
         //boton
         TextureRegionDrawable trdAyuda = new TextureRegionDrawable(new TextureRegion(texturaBtnAyuda));
         ImageButton btnAyuda = new ImageButton(trdAyuda);
-        btnAyuda.setPosition(ANCHO/3 - btnAyuda.getWidth()/2, 0.3f*ALTO);
+        btnAyuda.setPosition(ANCHO/2 - btnAyuda.getWidth()/2, 0.5f*ALTO);
         escenaMenu.addActor(btnAyuda);
         btnAyuda.addListener(new ClickListener(){
             @Override
@@ -68,7 +70,7 @@ public class mainMenu extends Pantalla{
         //botonCreditos
         TextureRegionDrawable trdCreditos = new TextureRegionDrawable(new TextureRegion(texturaBtnCredits));
         ImageButton btnCredits = new ImageButton(trdCreditos);
-        btnAyuda.setPosition(ANCHO/3*2 - btnAyuda.getWidth()/2, 0.3f*ALTO);
+        btnAyuda.setPosition(ANCHO/2 - btnCredits.getWidth()/2, 0.3f*ALTO);
         escenaMenu.addActor(btnCredits);
         btnCredits.addListener(new ClickListener(){
             @Override
@@ -78,6 +80,22 @@ public class mainMenu extends Pantalla{
                 juego.setScreen(new Credits(juego)); //Primer Nivel!!!!
             }
         });
+
+        //botonAjustes
+        /*TextureRegionDrawable trdAjustes=new TextureRegionDrawable(new TextureRegion(texturaBtnAjustes));
+        ImageButton btnAjustes= new ImageButton(trdAjustes);
+        btnAjustes.setPosition(ANCHO/2-btnAjustes.getWidth()/2,0.3f*ALTO);
+        escenaMenu.addActor(btnAjustes);
+        btnAjustes.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.log("clicked" , "***** TOUCH!!!!");
+                juego.setScreen(new Credits(juego)); //Primer Nivel!!!!
+            }
+        });*/
+
+
         //-----------------fin botones---------------
 
     }
