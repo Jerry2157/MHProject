@@ -34,8 +34,10 @@ public class ScreenOne extends Pantalla {
     private Texture BackgroundLayerOne;   // Imagen que se muestra
     //Pinturas interactuables
     //Imagen(Pintura) interactuable
-    private Texture paint1, paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
+    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
     private Texture[] pinturas;
+    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
+    private int nImage;
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
@@ -48,6 +50,9 @@ public class ScreenOne extends Pantalla {
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
         b2dr = new Box2DDebugRenderer();
 
+        //Inicializamos variables
+        pinturas=new Texture[16];
+        nImage=0;
 
         createGround();
         createPlayer();
@@ -123,7 +128,10 @@ public class ScreenOne extends Pantalla {
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
-        //batch.draw(puzzlePintura(),50,100);
+        if(nImage>0 && nImage<16){
+            batch.draw(pinturas[nImage-1],50,100);
+        }
+
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
         b2dr.render(world,camara.combined);
@@ -154,10 +162,11 @@ public class ScreenOne extends Pantalla {
         @Override
         //coordenadas pintura
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            /*if(screenX==Pantalla.ANCHO/2 && screenY==Pantalla.ALTO/2){
-                System.out.println("exito");
+            if(screenX>=Pantalla.ANCHO/2 && screenY>=Pantalla.ALTO/2){
+                System.out.println("Toco en : "+screenX);
+                nImage++;
                 return  true;
-            }*/
+            }
             return false;
 
         }
@@ -233,10 +242,10 @@ public class ScreenOne extends Pantalla {
         handleInput();
         world.step(1/60f,6,2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
-<<<<<<< HEAD
+
         //camara.update();
-=======
+
         camara.update();
->>>>>>> aec5d5ca296689c29b3c2d26e4bfe9a195f3f7f7
+
     }
 }
