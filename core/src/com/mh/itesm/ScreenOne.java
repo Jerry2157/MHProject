@@ -233,6 +233,10 @@ public class ScreenOne extends Pantalla {
         handleInput();
         world.step(1/60f,6,2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
+<<<<<<< HEAD
         //camara.update();
+=======
+        camara.update();
+>>>>>>> aec5d5ca296689c29b3c2d26e4bfe9a195f3f7f7
     }
 }
