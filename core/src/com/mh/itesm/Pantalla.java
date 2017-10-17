@@ -22,8 +22,8 @@ import org.xml.sax.helpers.AttributeListImpl;
 public abstract class Pantalla implements Screen
 {
     // Atributos disponibles en todas las clases del proyecto
-    public static final float ANCHO = 1920;
-    public static final float ALTO = 1080;
+    public static final float ANCHO = 1280;
+    public static final float ALTO = 720;
 
     // Atributos disponibles en las subclases
     // Todas las pantallas tienen una cámara y la vista

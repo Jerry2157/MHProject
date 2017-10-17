@@ -125,7 +125,7 @@ public class ScreenOne extends Pantalla {
     public void update(float dt){
         handleInput();
         world.step(1/60f,6,2);
-        camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
+        //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
         camara.update();
     }
 }
