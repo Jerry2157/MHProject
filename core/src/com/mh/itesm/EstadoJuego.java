@@ -6,6 +6,7 @@ package com.mh.itesm;
 
 public enum EstadoJuego
 {
+    //INICIO,
     JUGANDO,
     PAUSADO,
     PIERDE,

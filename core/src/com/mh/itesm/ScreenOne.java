@@ -45,6 +45,7 @@ public class ScreenOne extends Pantalla {
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
+    //private EstadoJuego estado=EstadoJuego.INICIO;
     
 
     public ScreenOne(MHMain juego) {
@@ -68,11 +69,16 @@ public class ScreenOne extends Pantalla {
 
     public void handleInput(){
         if(controller.isRightPressed())
+            //estado=EstadoJuego.JUGANDO;
             player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
+            //estado=EstadoJuego.JUGANDO;
         else if (controller.isLeftPressed())
+            //estado=EstadoJuego.JUGANDO;
             player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
         else
+            //estado=EstadoJuego.JUGANDO;
             player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
+
         if (controller.isUpPressed() && player.getLinearVelocity().y == 0)
             player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
     }
@@ -147,7 +153,9 @@ public class ScreenOne extends Pantalla {
         }
 
         //Mostrando texto al inicio del nivel
-        texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque",ANCHO/2, ALTO/2);
+        //if(estado==EstadoJuego.INICIO) {
+            texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque", ANCHO / 2, ALTO / 2);
+        //}
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
         b2dr.render(world,camara.combined);
