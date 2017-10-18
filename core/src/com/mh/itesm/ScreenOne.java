@@ -32,6 +32,9 @@ public class ScreenOne extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
+    private Texture esposaSentada;
+    //Texto para poner en pantalla
+    private Texto texto;
     //Pinturas interactuables
     //Imagen(Pintura) interactuable
     private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
@@ -57,6 +60,9 @@ public class ScreenOne extends Pantalla {
         createGround();
         createPlayer();
         controller = new Controller();
+        texto=new Texto();
+
+
     }
 
     public void handleInput(){
@@ -82,6 +88,7 @@ public class ScreenOne extends Pantalla {
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenOne/Fondo.png");
+        //esposaSentada=new Texture("");
         //Imagenes de la pinturas
         paint1 =new Texture("Puzzle1/P1.png");
         pinturas[0]=paint1;
@@ -133,6 +140,8 @@ public class ScreenOne extends Pantalla {
             batch.draw(pinturas[nImage-1],50,100);
         }
 
+        //Mostrando texto al inicio del nivel
+        texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque",ANCHO/2, ALTO/2);
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
         b2dr.render(world,camara.combined);
@@ -229,6 +238,7 @@ public class ScreenOne extends Pantalla {
 
         fdef.shape = shape;
         player.createFixture(fdef);
+
     }
 
 
