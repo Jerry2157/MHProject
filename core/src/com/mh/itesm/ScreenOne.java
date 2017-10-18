@@ -32,6 +32,10 @@ public class ScreenOne extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
+    private Texture esposaParada;
+    private Texture lienzo;
+    //Texto para poner en pantalla
+    private Texto texto;
     //Pinturas interactuables
     //Imagen(Pintura) interactuable
     private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
@@ -57,6 +61,9 @@ public class ScreenOne extends Pantalla {
         createGround();
         createPlayer();
         controller = new Controller();
+        texto=new Texto();
+
+
     }
 
     public void handleInput(){
@@ -82,6 +89,9 @@ public class ScreenOne extends Pantalla {
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenOne/Fondo.png");
+        //Textura personajes estaticos
+        esposaParada=new Texture("Characters/EsposaNormal.png");
+        lienzo=new Texture("Lienzo.png");
         //Imagenes de la pinturas
         paint1 =new Texture("Puzzle1/P1.png");
         pinturas[0]=paint1;
@@ -126,6 +136,9 @@ public class ScreenOne extends Pantalla {
 
         batch.begin();
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        //dibujando personajes y elementosIMPLEMENTAR PARPADEO
+        //batch.draw(esposaParada,0,0);
+        batch.draw(lienzo,0,0);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
@@ -133,6 +146,8 @@ public class ScreenOne extends Pantalla {
             batch.draw(pinturas[nImage-1],50,100);
         }
 
+        //Mostrando texto al inicio del nivel
+        texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque",ANCHO/2, ALTO/2);
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
         b2dr.render(world,camara.combined);
@@ -229,6 +244,7 @@ public class ScreenOne extends Pantalla {
 
         fdef.shape = shape;
         player.createFixture(fdef);
+
     }
 
 

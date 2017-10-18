@@ -13,6 +13,11 @@ public class Texto
 {
     private BitmapFont font;
 
+    //Cargamos la fuente que queremos utilizar para nuestro texto
+    public Texto() {
+        font = new BitmapFont(Gdx.files.internal("fuentes/TextoNivel/fuenteTexto.fnt"));
+    }
+    //Metodo whackamole
     public Texto(String archivo) {
         font = new BitmapFont(Gdx.files.internal(archivo));
     }

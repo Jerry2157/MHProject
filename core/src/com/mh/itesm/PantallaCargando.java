@@ -40,6 +40,7 @@ class PantallaCargando extends Pantalla
         spriteCargando = new Sprite(texturaCargando);
         spriteCargando.setPosition(ANCHO/2-spriteCargando.getWidth()/2,ALTO/2-spriteCargando.getHeight()/2);
         cargarRecursosSigPantalla();
+        //Para whackamole
         texto = new Texto("fuentes/fuente.fnt");
     }
 
