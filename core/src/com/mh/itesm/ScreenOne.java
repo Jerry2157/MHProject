@@ -32,7 +32,8 @@ public class ScreenOne extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    private Texture esposaSentada;
+    private Texture esposaParada;
+    private Texture lienzo;
     //Texto para poner en pantalla
     private Texto texto;
     //Pinturas interactuables
@@ -88,7 +89,9 @@ public class ScreenOne extends Pantalla {
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenOne/Fondo.png");
-        //esposaSentada=new Texture("");
+        //Textura personajes estaticos
+        esposaParada=new Texture("Characters/EsposaNormal.png");
+        lienzo=new Texture("Lienzo.png");
         //Imagenes de la pinturas
         paint1 =new Texture("Puzzle1/P1.png");
         pinturas[0]=paint1;
@@ -133,6 +136,9 @@ public class ScreenOne extends Pantalla {
 
         batch.begin();
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        //dibujando personajes y elementosIMPLEMENTAR PARPADEO
+        //batch.draw(esposaParada,0,0);
+        batch.draw(lienzo,0,0);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
