@@ -1,9 +1,12 @@
 package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import static com.badlogic.gdx.graphics.g3d.particles.ParticleChannels.Color;
 
 /**
  * Muestra un texto en la pantalla.
@@ -27,5 +30,12 @@ public class Texto
         glyp.setText(font, mensaje);
         float anchoTexto = glyp.width;
         font.draw(batch, glyp, x-anchoTexto/2, y);
+        font.setColor(com.badlogic.gdx.graphics.Color.BLACK);
     }
+    //Mueve color por escala RGB
+    public void setColor(float a,float b, float c,float d){
+        font.setColor(a,b,c,d);
+    }
+
+
 }

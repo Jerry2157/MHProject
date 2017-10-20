@@ -45,7 +45,11 @@ public class ScreenOne extends Pantalla {
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
+    //Variable para llevar un cronometro
+    private float tiempo;
     //private EstadoJuego estado=EstadoJuego.INICIO;
+    //Transparencia por int para ir reduciendo
+    private float textoTransparencia;
     
 
     public ScreenOne(MHMain juego) {
@@ -86,6 +90,8 @@ public class ScreenOne extends Pantalla {
     @Override
     public void show() {
         cargarTexturas();
+        tiempo=0;
+        textoTransparencia=1;
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
     }
@@ -148,16 +154,24 @@ public class ScreenOne extends Pantalla {
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
+        //Para dejar de pintar debe presionar tal boton que agregaremos en la condicion
         if(nImage>0 && nImage<16){
             batch.draw(pinturas[nImage-1],50,100);
         }
 
         //Mostrando texto al inicio del nivel
-        //if(estado==EstadoJuego.INICIO) {
+        //buscar alfa para ir desapareciendo el texto
+
+        if(tiempo<=2) {
+
             texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque", ANCHO / 2, ALTO / 2);
-        //}
+            texto.setColor(0,0,0,1);
+        }
+
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
+        tiempo +=Gdx.graphics.getDeltaTime();
+        textoTransparencia -=0.5;
         b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
         if(Gdx.app.getType() == Application.ApplicationType.Android)
@@ -184,7 +198,7 @@ public class ScreenOne extends Pantalla {
         }
 
         @Override
-        //coordenadas pintura
+        //coordenadas pintura con testeo podemos saber exactamente donde toca
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             if(screenX>=Pantalla.ANCHO/2 && screenY>=Pantalla.ALTO/2){
                 System.out.println("Toco en : "+screenX);
