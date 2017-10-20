@@ -38,8 +38,12 @@ public class ScreenOne extends Pantalla {
     private Texture hijaSentada;
     private Texture lienzo;
 
-    //Botones
+    //Estado del juego
+    private EstadoJuego estadoJuego;
+
+    //Elementos para pausa
     private Boton btnPausa;
+    private Fondo fondoPausa;
 
     //Texto para poner en pantalla
     private Texto texto;
@@ -52,12 +56,14 @@ public class ScreenOne extends Pantalla {
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
-    //Variable para llevar un cronometro
+    //Variable para llevar un cronometro para manejar texturas
     private float tiempo;
-    //private EstadoJuego estado=EstadoJuego.INICIO;
+
     //Transparencia por int para ir reduciendo
     private float textoTransparencia;
-    private Texture texturaPausa;
+    private Texture texturaFondoPausa,texturaPausa;
+
+    //Objeto animation para parpadeo y mov.
 
 
     public ScreenOne(MHMain juego) {
@@ -76,6 +82,7 @@ public class ScreenOne extends Pantalla {
         createPlayer();
         controller = new Controller();
         texto=new Texto();
+        estadoJuego=EstadoJuego.JUGANDO;
 
 
     }
@@ -99,14 +106,14 @@ public class ScreenOne extends Pantalla {
     @Override
     public void show() {
         cargarTexturas();
-        //manejoBotones();
+        //manejoElementos();
         tiempo=0;
         textoTransparencia=1;
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
     }
 
-    private void manejoBotones() {
+    private void manejoElementos() {
         AssetManager assetManager = juego.getAssetManager();   // Referencia al assetManager
         //Botones
         texturaPausa=assetManager.get("Botones/pausa.png");
@@ -114,6 +121,11 @@ public class ScreenOne extends Pantalla {
         btnPausa.setAlfa(0.7f);
         btnPausa.setPosicion(80,80);
         btnPausa.setTamanio(btnPausa.getAncho() + 10, btnPausa.getAlto() + 10);
+        //fondoPausa
+        texturaFondoPausa = assetManager.get("Background_loading.png");
+
+        //menu pausa
+        fondoPausa =  new Fondo(texturaFondoPausa);
 
         //Texturas de pausa que se utilizan en todos los niveles.
         //texturaFondoPausa = assetManager.get("seleccionNivel/recursosPausa/fondoPausa.png");
@@ -177,7 +189,10 @@ public class ScreenOne extends Pantalla {
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         //dibujando personajes y elementosIMPLEMENTAR PARPADEO
         //batch.draw(esposaParada,0,0);
-        btnPausa.render(batch);
+        if(estadoJuego==EstadoJuego.PAUSADO){
+            btnPausa.render(batch);
+        }
+
         batch.draw(lienzo,600,170);
         batch.draw(esposaParada,720,200);
         batch.draw(hijaSentada,750,200);
