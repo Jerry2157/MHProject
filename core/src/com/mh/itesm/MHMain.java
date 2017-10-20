@@ -13,11 +13,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class MHMain extends Game {
 	// Hay un SOLO assetManager para el juego
-	private final AssetManager assetManager;
+	private final AssetManager assetManager=new AssetManager();
 
-	public MHMain() {
+
+	/*public MHMain() {
+
 		assetManager = new AssetManager();
-	}
+	}*/
 
 	// Para que las otras pantallas usen el assetManager
 	public AssetManager getAssetManager() {

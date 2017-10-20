@@ -3,6 +3,7 @@ package com.mh.itesm;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,8 +33,14 @@ public class ScreenOne extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
+    //Peronajes no tan interactuables
     private Texture esposaParada;
+    private Texture hijaSentada;
     private Texture lienzo;
+
+    //Botones
+    private Boton btnPausa;
+
     //Texto para poner en pantalla
     private Texto texto;
     //Pinturas interactuables
@@ -50,7 +57,8 @@ public class ScreenOne extends Pantalla {
     //private EstadoJuego estado=EstadoJuego.INICIO;
     //Transparencia por int para ir reduciendo
     private float textoTransparencia;
-    
+    private Texture texturaPausa;
+
 
     public ScreenOne(MHMain juego) {
         Gdx.input.setInputProcessor(escenaMenu);
@@ -61,6 +69,7 @@ public class ScreenOne extends Pantalla {
 
         //Inicializamos variables
         pinturas=new Texture[16];
+        //Contador para que pintura se colocara
         nImage=0;
 
         createGround();
@@ -90,10 +99,26 @@ public class ScreenOne extends Pantalla {
     @Override
     public void show() {
         cargarTexturas();
+        //manejoBotones();
         tiempo=0;
         textoTransparencia=1;
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
+    }
+
+    private void manejoBotones() {
+        AssetManager assetManager = juego.getAssetManager();   // Referencia al assetManager
+        //Botones
+        texturaPausa=assetManager.get("Botones/pausa.png");
+        btnPausa=new Boton(texturaPausa);
+        btnPausa.setAlfa(0.7f);
+        btnPausa.setPosicion(80,80);
+        btnPausa.setTamanio(btnPausa.getAncho() + 10, btnPausa.getAlto() + 10);
+
+        //Texturas de pausa que se utilizan en todos los niveles.
+        //texturaFondoPausa = assetManager.get("seleccionNivel/recursosPausa/fondoPausa.png");
+        //texturaContinue = assetManager.get("seleccionNivel/recursosPerdiste/continue.png");
+        //texturaMenu = assetManager.get("seleccionNivel/recursosPausa/menu.png");
     }
 
     //es importante que se indique que parte debe tocar e ir pintando restringuiendo que parte toco, si es posible
@@ -103,7 +128,9 @@ public class ScreenOne extends Pantalla {
         BackgroundLayerOne = new Texture("ScreenOne/Fondo.png");
         //Textura personajes estaticos
         esposaParada=new Texture("Characters/EsposaNormal.png");
+        hijaSentada=new Texture("Characters/HijaNORMAL.png");
         lienzo=new Texture("Lienzo.png");
+
         //Imagenes de la pinturas
         paint1 =new Texture("Puzzle1/P1.png");
         pinturas[0]=paint1;
@@ -150,7 +177,10 @@ public class ScreenOne extends Pantalla {
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         //dibujando personajes y elementosIMPLEMENTAR PARPADEO
         //batch.draw(esposaParada,0,0);
-        batch.draw(lienzo,0,0);
+        btnPausa.render(batch);
+        batch.draw(lienzo,600,170);
+        batch.draw(esposaParada,720,200);
+        batch.draw(hijaSentada,750,200);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
@@ -201,7 +231,7 @@ public class ScreenOne extends Pantalla {
         //coordenadas pintura con testeo podemos saber exactamente donde toca
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             if(screenX>=Pantalla.ANCHO/2 && screenY>=Pantalla.ALTO/2){
-                System.out.println("Toco en : "+screenX);
+                System.out.println("TOCO en X: "+screenX+" y: "+screenY);
                 nImage++;
                 return  true;
             }
@@ -256,7 +286,7 @@ public class ScreenOne extends Pantalla {
     }
     public void createPlayer(){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(vista.getWorldWidth()/2,80);
+        bdef.position.set(vista.getWorldWidth()/4,60);
         bdef.type = BodyDef.BodyType.DynamicBody;
         player = world.createBody(bdef);
 
@@ -266,6 +296,7 @@ public class ScreenOne extends Pantalla {
 
         fdef.shape = shape;
         player.createFixture(fdef);
+
 
     }
 
