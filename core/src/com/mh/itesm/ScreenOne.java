@@ -211,12 +211,13 @@ public class ScreenOne extends Pantalla {
 
             texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque", ANCHO / 2, ALTO / 2);
             texto.setColor(0,0,0,1);
+            //manejo de alfa
         }
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
         tiempo +=Gdx.graphics.getDeltaTime();
-        textoTransparencia -=0.5;
+
         b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
         if(Gdx.app.getType() == Application.ApplicationType.Android)
