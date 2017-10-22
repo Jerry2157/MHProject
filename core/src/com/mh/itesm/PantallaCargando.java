@@ -55,7 +55,17 @@ class PantallaCargando extends Pantalla
             case NIVEL_WHACK_A_MOLE:
                 cargarRecursosWhackAMole();
                 break;
+            case PRIMER_NIVEL:
+                cargarRecursosPrimerNivel();
+                break;
         }
+    }
+
+    private void cargarRecursosPrimerNivel() {
+        manager.load("whackamole/btnSalir.png", Texture.class);
+        manager.load("comun/btnPausa.png", Texture.class);
+        manager.load("whackamole/btnContinuar.png", Texture.class);
+        manager.load("Lienzo.png",Texture.class);
     }
 
     private void cargarRecursosRunner() {
@@ -132,6 +142,8 @@ class PantallaCargando extends Pantalla
                 case NIVEL_WHACK_A_MOLE:
                     juego.setScreen(new PantallaWhackAMole(juego));
                     break;
+                case PRIMER_NIVEL:
+                    juego.setScreen(new ScreenOne(juego));
             }
         }
         avance = (int)(manager.getProgress()*100);

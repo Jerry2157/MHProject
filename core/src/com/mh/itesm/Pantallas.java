@@ -7,5 +7,6 @@ package com.mh.itesm;
 public enum Pantallas
 {
     MENU,
+    PRIMER_NIVEL,
     NIVEL_WHACK_A_MOLE
 }

@@ -56,7 +56,7 @@ public class Credits extends Pantalla {
         btnAyuda.setPosition(ANCHO/2 - btnAyuda.getWidth()/2, 0.3f*ALTO);
         escenaMenu.addActor(btnAyuda);*/
     }
-
+    //cambiar la flecha que sea como boton
     private void cargarTexturas() {
         texturaBtnJugar = new Texture("MENU.png");
         texturaBtnAyuda = new Texture("MENU.png");
