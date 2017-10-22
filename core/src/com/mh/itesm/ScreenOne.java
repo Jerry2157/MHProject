@@ -41,7 +41,9 @@ public class ScreenOne extends Pantalla {
     private Texture BackgroundLayerOne;   // Imagen que se muestra
     //Peronajes no tan interactuables
     private Texture esposaParada;
+    private Texture esposaParadaPar;
     private Texture hijaSentada;
+    private Texture hijaSentadaPar;
     private Objeto lienzo;
     private Texture texturaLienzo;
 
@@ -69,6 +71,8 @@ public class ScreenOne extends Pantalla {
     private Texture texturaBtnPintura;
     //Variable para llevar un cronometro para manejar texturas
     private float tiempo;
+    private float tiempoParpadeo;
+    private final float TIEMPO_PASO = 0.5f; //la usaremos para el parpadeo
 
     //Transparencia por int para ir reduciendo
     private float textoTransparencia;
@@ -156,7 +160,9 @@ public class ScreenOne extends Pantalla {
         BackgroundLayerOne = new Texture("ScreenOne/Fondo.png");
         //Textura personajes estaticos
         esposaParada = new Texture("Characters/EsposaNORMAL.png");
+        esposaParadaPar=new Texture("Characters/EsposaParpadeo.png");
         hijaSentada = new Texture("Characters/HijaNORMAL.png");
+        hijaSentadaPar=new Texture("Characters/HijaParpadeo.png");
         texturaLienzo = manager.get("Lienzo.png");
         //pausa con el manager ponerlo en otro metodo si uso manager???
         texturaBtnPausa = manager.get("comun/btnPausa.png");
@@ -208,7 +214,15 @@ public class ScreenOne extends Pantalla {
         //dibujando personajes y elementosIMPLEMENTAR PARPADEO
 
         batch.draw(esposaParada, 750, 60);
-        batch.draw(hijaSentada, 950, 110);
+        batch.draw(hijaSentada, 957, 110);
+        //Manejo del parpadeo esposa
+        if (tiempoParpadeo>=TIEMPO_PASO) {
+            tiempoParpadeo = 0;
+            batch.draw(esposaParadaPar,750,60);
+            batch.draw(hijaSentadaPar, 957, 110);
+        }
+
+
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
@@ -230,6 +244,8 @@ public class ScreenOne extends Pantalla {
         dibujarEstado(batch);
         batch.end();
         tiempo += Gdx.graphics.getDeltaTime();
+        //Tiempo parpadeo
+        tiempoParpadeo +=Gdx.graphics.getDeltaTime();
         if (estadoJuego == EstadoJuego.PAUSADO) {
             escenaPausa.draw();
         }
