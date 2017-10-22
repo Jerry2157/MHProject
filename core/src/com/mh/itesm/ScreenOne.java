@@ -126,7 +126,7 @@ public class ScreenOne extends Pantalla {
 
         // Definir quién atiende los eventos de touch
         Gdx.input.setInputProcessor(procesadorEntrada);
-
+        //Gdx.input.setInputProcessor(handleInput());
         // Crear rectángulo transparente utilizado en pausa
         /*Pixmap pixmap = new Pixmap((int)ANCHO, (int)(btnPausa.sprite.getHeight()), Pixmap.Format.RGBA8888 );
         pixmap.setColor( 0, 0, 0, 0.45f );
@@ -283,12 +283,9 @@ public class ScreenOne extends Pantalla {
             if(estadoPintura==true) {
                 System.out.println("TOCO en X: " + screenX + " y: " + screenY);
                 nImage++;
-
-
-
             }
             estadoPintura=false;
-            Gdx.input.setInputProcessor(escenaPausa);
+            //Gdx.input.setInputProcessor(escenaPausa);
 
             // Prueba botón pausa
             if (btnPausa.contiene(v)) {

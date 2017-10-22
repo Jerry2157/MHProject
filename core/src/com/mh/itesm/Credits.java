@@ -60,7 +60,7 @@ public class Credits extends Pantalla {
     private void cargarTexturas() {
         texturaBtnJugar = new Texture("MENU.png");
         texturaBtnAyuda = new Texture("MENU.png");
-        texturaBackground = new Texture("Menu/creditosBNG1920.png");
+        texturaBackground = new Texture("Menu/creditos.png");
     }
 
 
