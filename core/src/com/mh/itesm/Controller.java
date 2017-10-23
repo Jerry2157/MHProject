@@ -203,4 +203,8 @@ public class Controller extends Pantalla{
     public void dispose() {
 
     }
+
+    public Stage getStage(){
+        return stage;
+    }
 }

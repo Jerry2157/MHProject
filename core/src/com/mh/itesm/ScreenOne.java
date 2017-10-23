@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.corba.se.impl.oa.poa.POAPolicyMediator;
 
 /**
  * Created by jerry2157 on 10/09/17.
@@ -49,6 +50,9 @@ public class ScreenOne extends Pantalla {
 
     //Estado del juego
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO;
+
+    //Escala necesaria para llamar a steven
+    private final float SCALE=2.0f;
 
     //Elementos para pausa
     private Texture texturaBtnPausa;
@@ -76,13 +80,15 @@ public class ScreenOne extends Pantalla {
 
     //Transparencia por int para ir reduciendo
     private float textoTransparencia;
+    //Esta condicion le otorga el procesor a quien lo necesite.
+    private boolean condicionProcesor=false;
 
     // Procesador de eventos
     // Procesador de eventos
     private final ProcesadorEntrada procesadorEntrada = new ProcesadorEntrada();
     //Para el fondo de pausa
     private Texture texturaCuadro;
-    //Objeto animation para parpadeo y mov.
+    private Texture stevenParado;
 
 
     public ScreenOne(MHMain juego) {
@@ -121,6 +127,9 @@ public class ScreenOne extends Pantalla {
 
         if (controller.isUpPressed() && player.getLinearVelocity().y == 0)
             player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
+
+        //Si no esta siendo utilizado pasa el control el boton pausa y el lienzo
+        //condicionProcesor=false;
     }
 
     @Override
@@ -130,15 +139,13 @@ public class ScreenOne extends Pantalla {
 
         // Definir quién atiende los eventos de touch
         Gdx.input.setInputProcessor(procesadorEntrada);
-        //Gdx.input.setInputProcessor(handleInput());
-        // Crear rectángulo transparente utilizado en pausa
-        /*Pixmap pixmap = new Pixmap((int)ANCHO, (int)(btnPausa.sprite.getHeight()), Pixmap.Format.RGBA8888 );
-        pixmap.setColor( 0, 0, 0, 0.45f );
-        pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
-        //texturaCuadro = new Texture( pixmap );
-        pixmap.dispose();*/
-
+        //Proceso entrada para mover a steven
+        condicionProcesor=false;
+        if(condicionProcesor==true){
+            Gdx.input.setInputProcessor(controller.getStage());
+        }
         tiempo = 0;
+        tiempoParpadeo=0;
         //textoTransparencia=1;
         //Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
@@ -166,6 +173,8 @@ public class ScreenOne extends Pantalla {
         texturaLienzo = manager.get("Lienzo.png");
         //pausa con el manager ponerlo en otro metodo si uso manager???
         texturaBtnPausa = manager.get("comun/btnPausa.png");
+        //Steven
+        stevenParado=new Texture("Characters/StevenPie.png");
 
         //Imagenes de la pinturas
         paint1 = new Texture("Puzzle1/P1.png");
@@ -215,6 +224,7 @@ public class ScreenOne extends Pantalla {
 
         batch.draw(esposaParada, 750, 60);
         batch.draw(hijaSentada, 957, 110);
+        batch.draw(stevenParado,player.getPosition().x,player.getPosition().y);
         //Manejo del parpadeo esposa
         if (tiempoParpadeo>=TIEMPO_PASO) {
             tiempoParpadeo = 0;
@@ -337,6 +347,7 @@ public class ScreenOne extends Pantalla {
         public boolean scrolled(int amount) {
             return false;
         }
+
     }
 
 
@@ -380,6 +391,7 @@ public class ScreenOne extends Pantalla {
 
     }
 
+    //aqui descargamos todo lo utilizado para ahorrar memoria
 
     @Override
     public void dispose() {
@@ -394,7 +406,7 @@ public class ScreenOne extends Pantalla {
         handleInput();
         world.step(1 / 60f, 6, 2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
-
+        batch.setProjectionMatrix(camara.combined);
         //camara.update();
 
         camara.update();
