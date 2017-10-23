@@ -40,7 +40,6 @@ class PantallaCargando extends Pantalla
         spriteCargando = new Sprite(texturaCargando);
         spriteCargando.setPosition(ANCHO/2-spriteCargando.getWidth()/2,ALTO/2-spriteCargando.getHeight()/2);
         cargarRecursosSigPantalla();
-        //Para whackamole
         texto = new Texto("fuentes/fuente.fnt");
     }
 
@@ -55,17 +54,7 @@ class PantallaCargando extends Pantalla
             case NIVEL_WHACK_A_MOLE:
                 cargarRecursosWhackAMole();
                 break;
-            case PRIMER_NIVEL:
-                cargarRecursosPrimerNivel();
-                break;
         }
-    }
-
-    private void cargarRecursosPrimerNivel() {
-        manager.load("whackamole/btnSalir.png", Texture.class);
-        manager.load("comun/btnPausa.png", Texture.class);
-        manager.load("whackamole/btnContinuar.png", Texture.class);
-        manager.load("Lienzo.png",Texture.class);
     }
 
     private void cargarRecursosRunner() {
@@ -77,9 +66,9 @@ class PantallaCargando extends Pantalla
     }
 
     private void cargarRecursosWhackAMole() {
-        manager.load("whackamole/fondoPasto.jpg", Texture.class);
-        manager.load("whackamole/hoyo.png", Texture.class);
-        manager.load("whackamole/mole.png", Texture.class);
+        manager.load("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/fondoSopa.png", Texture.class);
+        manager.load("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/holeTest.png", Texture.class);
+        manager.load("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/mole.png", Texture.class);
         manager.load("whackamole/estrellasGolpe.png", Texture.class);
         manager.load("whackamole/mazo.png", Texture.class);
         manager.load("whackamole/golpe.mp3", Sound.class);
@@ -142,8 +131,6 @@ class PantallaCargando extends Pantalla
                 case NIVEL_WHACK_A_MOLE:
                     juego.setScreen(new PantallaWhackAMole(juego));
                     break;
-                case PRIMER_NIVEL:
-                    juego.setScreen(new ScreenOne(juego));
             }
         }
         avance = (int)(manager.getProgress()*100);

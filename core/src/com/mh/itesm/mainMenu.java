@@ -51,7 +51,7 @@ public class mainMenu extends Pantalla{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Gdx.app.log("clicked" , "***** TOUCH!!!!");
-                juego.setScreen(new PantallaCargando(juego,Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
+                juego.setScreen(new ScreenOne(juego)); //Primer Nivel!!!!
             }
         });
         //boton
@@ -64,7 +64,10 @@ public class mainMenu extends Pantalla{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Gdx.app.log("clicked" , "***** TOUCH!!!!");
-                juego.setScreen(new PantallaCargando(juego,Pantallas.NIVEL_WHACK_A_MOLE)); //Segungo Nivel!!!!
+                //BUEEEEEENAAAAAAAAAAAAASSSSS
+                //juego.setScreen(new PantallaCargando(juego,Pantallas.NIVEL_WHACK_A_MOLE)); //Primer Nivel!!!!
+                //BUUUUUEEEEENNNNNNNAAAAAAAASSS
+                juego.setScreen(new ScreenFour(juego));
             }
         });
         //botonCreditos
@@ -77,7 +80,7 @@ public class mainMenu extends Pantalla{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Gdx.app.log("clicked" , "***** TOUCH!!!!");
-                juego.setScreen(new Credits(juego)); //Creditos!!!!
+                juego.setScreen(new Credits(juego)); //Primer Nivel!!!!
             }
         });
 
@@ -94,6 +97,7 @@ public class mainMenu extends Pantalla{
                 juego.setScreen(new Credits(juego)); //Primer Nivel!!!!
             }
         });*/
+
 
         //-----------------fin botones---------------
 

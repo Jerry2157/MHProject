@@ -41,7 +41,7 @@ public class PantallaWhackAMole extends Pantalla
     private SpriteBatch batch;
 
     // Los 9 hoyos en el pasto
-    private final int NUM_HOYOS = 9;
+    private final int NUM_HOYOS = 7;
     private Array<Objeto> arrHoyos;
 
     // Los 9 topos en el juego
@@ -60,6 +60,11 @@ public class PantallaWhackAMole extends Pantalla
     private int mazos = 5;      // Intentos
     private Texto texto;        // Para imprimir el estado
     private Texture texturaCuadro;
+
+    //Tiempo restante
+    private int tiempo = 6000;
+    private Texto textoTiempo;
+
 
     // Estado del juego
     private EstadoJuego estado = EstadoJuego.JUGANDO;
@@ -97,14 +102,14 @@ public class PantallaWhackAMole extends Pantalla
         pixmap.dispose();
 
         // Marcador más alto
-        cargarMarcadorMayor();
+        //cargarMarcadorMayor();
     }
 
-    private void cargarMarcadorMayor() {
+    /*private void cargarMarcadorMayor() {
         Preferences preferencias = Gdx.app.getPreferences("marcador");
         marcadorMayor = preferencias.getInteger("mayor",0);
         nombreMarcadorMayor = preferencias.getString("nombre", "");
-    }
+    }*/
 
     /**
      * Crea los objetos que forman parte del juego
@@ -113,23 +118,31 @@ public class PantallaWhackAMole extends Pantalla
         batch = new SpriteBatch();
         // Crea los hoyos y los guarda en el arreglo
         arrHoyos = new Array<Objeto>(NUM_HOYOS);
-        for (int x = 0; x < NUM_HOYOS/3; x++) {
-            for (int y = 0; y < NUM_HOYOS/3; y++) {
-                float posX = (x+1) * Pantalla.ANCHO/4 - texturaHoyo.getWidth()/2;
-                float posY = (y+1) * Pantalla.ALTO/4 - texturaHoyo.getHeight()/2;
-                Hoyo hoyo = new Hoyo(texturaHoyo, posX, posY);
-                arrHoyos.add(hoyo);
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                if(x == 1 && y == 0 || x == 2 && y == 0 || x == 2 && y == 2 || x == 0 && y == 2) {
+
+                }else{
+                    float posX = (x + 1) * Pantalla.ANCHO / 4 - texturaHoyo.getWidth() / 2;
+                    float posY = (y + 1) * Pantalla.ALTO / 4 - texturaHoyo.getHeight() / 2;
+                    Hoyo hoyo = new Hoyo(texturaHoyo, posX, posY);
+                    arrHoyos.add(hoyo);
+                }
             }
         }
         // Crea los topos y los guarda en el arreglo
         arrTopos = new Array<Objeto>(NUM_TOPOS);
-        for (int x = 0; x < NUM_TOPOS/3; x++) {
-            for (int y = 0; y < NUM_TOPOS/3; y++) {
-                float posX = (x+1) * Pantalla.ANCHO/4 - texturaTopo.getWidth()/2;
-                float posY = (y+1) * Pantalla.ALTO/4 - texturaTopo.getHeight()/50;
-                Topo topo = new Topo(texturaTopo, posX, posY);
-                arrTopos.add(topo);
-                topo.setTexturaEstrellas(texturaEstrellas);
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                if(x == 1 && y == 0 || x == 2 && y == 0 || x == 2 && y == 2 || x == 0 && y == 2) {
+
+                }else{
+                    float posX = (x + 1) * Pantalla.ANCHO / 4 - texturaTopo.getWidth() / 2;
+                    float posY = (y + 1) * Pantalla.ALTO / 4 - texturaTopo.getHeight() / 50;
+                    Topo topo = new Topo(texturaTopo, posX, posY);
+                    arrTopos.add(topo);
+                    topo.setTexturaEstrellas(texturaEstrellas);
+                }
             }
         }
         // Botón pausa
@@ -142,9 +155,9 @@ public class PantallaWhackAMole extends Pantalla
      */
     private void cargarRecursos() {
         // Con el AssetManager
-        texturaFondo = manager.get("whackamole/fondoPasto.jpg");
-        texturaHoyo = manager.get("whackamole/hoyo.png");
-        texturaTopo = manager.get("whackamole/mole.png");
+        texturaFondo = manager.get("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/fondoSopa.png");
+        texturaHoyo = manager.get("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/holeTest.png");
+        texturaTopo = manager.get("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/mole.png");
         texturaEstrellas = manager.get("whackamole/estrellasGolpe.png");
         texturaMazo = manager.get("whackamole/mazo.png");
         texturaBtnPausa = manager.get("comun/btnPausa.png");
@@ -154,6 +167,7 @@ public class PantallaWhackAMole extends Pantalla
 
         // Texto
         texto = new Texto("fuentes/mole.fnt");
+        textoTiempo = new Texto("fuentes/mole.fnt");
     }
 
     /**
@@ -163,6 +177,16 @@ public class PantallaWhackAMole extends Pantalla
      */
     @Override
     public void render(float delta) {
+        //timer
+        if(estado == EstadoJuego.JUGANDO) {
+            tiempo -= Gdx.graphics.getDeltaTime();
+        }
+        if(tiempo<= 0){
+            tiempo = 0;
+            estado = EstadoJuego.PAUSADO;
+            juego.setScreen(new mainMenu(juego));
+        }
+
         // ACTUALIZAR
         if ( estado==EstadoJuego.JUGANDO) {
             actualizarObjetos(delta);   // mandamos el tiempo para calcular distancia
@@ -192,11 +216,13 @@ public class PantallaWhackAMole extends Pantalla
             batch.draw(texturaMazo,texturaMazo.getWidth()*1f*i,ALTO-texturaCuadro.getHeight()/2-texturaMazo.getHeight()/2);
         }
         // Dibuja marcador
-        texto.mostrarMensaje(batch,"Puntos: "+puntos,2*ANCHO/3,ALTO-texturaMazo.getHeight()/2);
+        //texto.mostrarMensaje(batch,"Puntos: "+puntos,2*ANCHO/3,ALTO-texturaMazo.getHeight()/2);
+        textoTiempo.mostrarMensaje(batch,"Aguanta: " + (tiempo/6000) + ":" + (tiempo%6000),2*ANCHO/3,ALTO-texturaMazo.getHeight()/2);
         // Botón pausa
         btnPausa.dibujar(batch);
         // Dibuja marcador mayor
-        texto.mostrarMensaje(batch,"Marcador mayor: "+marcadorMayor+" "+nombreMarcadorMayor,0.2f*ANCHO,0.07f*ALTO);
+        //texto.mostrarMensaje(batch,"Marcador mayor: "+marcadorMayor+" "+nombreMarcadorMayor,0.2f*ANCHO,0.07f*ALTO);
+
     }
 
     // Actualiza la posición de los objetos en pantalla
@@ -249,9 +275,9 @@ public class PantallaWhackAMole extends Pantalla
     public void dispose() {
         arrHoyos.clear();
         arrTopos.clear();
-        manager.unload("whackamole/fondoPasto.jpg");
-        manager.unload("whackamole/hoyo.png");
-        manager.unload("whackamole/mole.png");
+        manager.unload("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/fondoSopa.png");
+        manager.unload("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/holeTest.png");
+        manager.unload("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/mole.png");
         manager.unload("whackamole/btnReintentar.png");
         manager.unload("whackamole/btnSalir.png");
         manager.unload("whackamole/btnContinuar.png");
@@ -366,7 +392,7 @@ public class PantallaWhackAMole extends Pantalla
             pixmap.dispose();
             this.addActor(new Image(texturaCirculo));
 
-            // Agregar botón salir
+            /* Agregar botón salir
             Texture texturabtnSalir = manager.get("whackamole/btnSalir.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturabtnSalir));
@@ -380,7 +406,7 @@ public class PantallaWhackAMole extends Pantalla
                     //juego.setScreen(new mainMenu(juego,Pantallas.MENU));
                 }
             });
-            this.addActor(btnSalir);
+            this.addActor(btnSalir);*/
 
             // Reintentar
             // Agregar botón reintentar
@@ -397,7 +423,7 @@ public class PantallaWhackAMole extends Pantalla
                     mazos = 5;
                     estado = EstadoJuego.JUGANDO;
                     reiniciarObjetos();
-                    cargarMarcadorMayor();
+                    //cargarMarcadorMayor();
                     // Regresa el control a la pantalla
                     Gdx.input.setInputProcessor(procesadorEntrada);
                 }
@@ -421,7 +447,7 @@ public class PantallaWhackAMole extends Pantalla
                     public void canceled() {
                     }
                 };
-                Gdx.input.getTextInput(listener, "Nuevo record, nombre:", nombreMarcadorMayor, "");
+                //Gdx.input.getTextInput(listener, "Nuevo record, nombre:", nombreMarcadorMayor, "");
             }
         }
     }
