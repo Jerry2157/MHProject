@@ -5,19 +5,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Created by Usuario on 20-Oct-17.
+ * Created by gerardomagdaleno on 21/10/17.
  */
-//Clase que representa un objeto de tipo fondo
 
 public class Fondo {
+
     private Sprite sprite;
 
     public Fondo(Texture textura){
-        sprite=new Sprite(textura);
+
+        sprite = new Sprite(textura);
+
     }
 
-    //Metodo automatico maneja un batch
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch){ //Se ejecuta automaticamente..
 
         sprite.draw(batch);
     }
@@ -30,14 +31,16 @@ public class Fondo {
         return sprite.getHeight();
     }
 
-    public void setPosition(float x, float y) {
+    public void setPosicion(float x, float y) {
         sprite.setPosition(x, y);
+        //rectColision.setPosition(x,y);
     }
 
 
 
 
-    public void setSize(float ancho,float alto){
+    public void setTamanio(float ancho,float alto){
+
         sprite.setSize(ancho, alto);
     }
 
@@ -45,9 +48,13 @@ public class Fondo {
         sprite.setTexture(textura);
     }
 
+    //GetSprite
     public Sprite getSprite() {
         return sprite;
     }
 
 
+
 }
+
+
