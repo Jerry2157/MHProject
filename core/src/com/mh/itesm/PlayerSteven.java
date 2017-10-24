@@ -22,7 +22,7 @@ public class PlayerSteven extends Objeto{
     private final float VELOCIDAD_X = 2;      // Velocidad horizontal
 
     private Animation spriteAnimadoCam;         // Animación caminando
-    private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
+    private float timerAnimacion;               // Tiempo para cambiar frames de la animación
 
     protected EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
 

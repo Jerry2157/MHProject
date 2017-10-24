@@ -108,6 +108,7 @@ public class ScreenOne extends Pantalla {
         createGround();
         createPlayer();
         controller = new Controller();
+
         texto = new Texto();
 
 
@@ -164,7 +165,7 @@ public class ScreenOne extends Pantalla {
 
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenOne/Fondo.png");
+        BackgroundLayerOne = new Texture("ScreenOne/fondo.png");
         //Textura personajes estaticos
         esposaParada = new Texture("Characters/EsposaNORMAL.png");
         esposaParadaPar=new Texture("Characters/EsposaParpadeo.png");
