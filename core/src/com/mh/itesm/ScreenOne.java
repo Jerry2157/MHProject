@@ -76,7 +76,7 @@ public class ScreenOne extends Pantalla {
     //Variable para llevar un cronometro para manejar texturas
     private float tiempo;
     private float tiempoParpadeo;
-    private final float TIEMPO_PASO = 0.5f; //la usaremos para el parpadeo
+    private final float TIEMPO_PASO = 1.0f; //la usaremos para el parpadeo
 
     //Transparencia por int para ir reduciendo
     private float textoTransparencia;

@@ -51,7 +51,7 @@ public class mainMenu extends Pantalla{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Gdx.app.log("clicked" , "***** TOUCH!!!!");
-                juego.setScreen(new ScreenOne(juego)); //Primer Nivel!!!!
+                juego.setScreen(new PantallaCargando(juego,Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
             }
         });
         //boton
