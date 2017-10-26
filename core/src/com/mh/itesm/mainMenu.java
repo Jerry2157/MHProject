@@ -2,6 +2,8 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,6 +28,11 @@ public class mainMenu extends Pantalla{
     private Texture texturaBackground;
     private Texture texturaBtnAjustes;
 
+    private Texture backTexAnim;
+    private Animation spriteAnimadoBNG;         // Animación caminando
+    private float timerAnimacionBNG;               // Tiempo para cambiar frames de la animación
+    protected Sprite sprite;    // Imagen
+
 
     public mainMenu(MHMain juego) {
         this.juego = juego;
@@ -44,7 +51,7 @@ public class mainMenu extends Pantalla{
         //boton jugar
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
         ImageButton btnPlay = new ImageButton(trdPlay);
-        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.7f*ALTO);
+        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.55f*ALTO);
         escenaMenu.addActor(btnPlay);
         btnPlay.addListener(new ClickListener(){
             @Override
@@ -108,18 +115,32 @@ public class mainMenu extends Pantalla{
         texturaBtnAyuda = new Texture("fondoNew.png");
         texturaBtnCredits = new Texture("CREDITOS.png");
         texturaBackground = new Texture("Menu/MenuBNG1920.png");
+        backTexAnim = new Texture("FondoMenu.png");
+        TextureRegion texturaCompleta = new TextureRegion(backTexAnim);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(1280,720);
+        spriteAnimadoBNG = new Animation(0.1f
+                , texturaPersonaje[0][0], texturaPersonaje[0][1], texturaPersonaje[0][2]
+                , texturaPersonaje[1][0], texturaPersonaje[1][1], texturaPersonaje[1][2]
+                , texturaPersonaje[2][0], texturaPersonaje[2][1]);
+        spriteAnimadoBNG.setPlayMode(Animation.PlayMode.LOOP);
+        timerAnimacionBNG = 0;
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite.setPosition(ANCHO/2,ALTO/2);    // Posición inicial
     }
 
 
     @Override
     public void render(float delta) {
+        timerAnimacionBNG += Gdx.graphics.getDeltaTime();
+        TextureRegion region = spriteAnimadoBNG.getKeyFrame(timerAnimacionBNG);
         borrarPantalla(0.8f,0.45f,0.2f);
         batch.setProjectionMatrix(camara.combined);
 
         escenaMenu.draw();
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
-        batch.draw(texturaBackground, Pantalla.ANCHO/2 -texturaBackground.getWidth()/2,Pantalla.ALTO/2-texturaBackground.getHeight()/2);
+        batch.draw(region,0,0);
+        //batch.draw(texturaBackground, Pantalla.ANCHO/2 -texturaBackground.getWidth()/2,Pantalla.ALTO/2-texturaBackground.getHeight()/2);
         batch.end();
         escenaMenu.draw();
 
