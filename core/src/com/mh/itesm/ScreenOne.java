@@ -3,6 +3,7 @@ package com.mh.itesm;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -81,7 +82,6 @@ public class ScreenOne extends Pantalla {
     //Transparencia por int para ir reduciendo
     private float textoTransparencia;
     //Esta condicion le otorga el procesor a quien lo necesite.
-    private boolean condicionProcesor=false;
 
     // Procesador de eventos
     // Procesador de eventos
@@ -89,11 +89,18 @@ public class ScreenOne extends Pantalla {
     //Para el fondo de pausa
     private Texture texturaCuadro;
     private Texture stevenParado;
+    //Steven
+    private PlayerSteven Steven;
+    private int tamMundoWidth = 3840;
+
 
 
     public ScreenOne(MHMain juego) {
         //Talvez incesesario
         //Gdx.input.setInputProcessor(escenaMenu);
+        Steven = new PlayerSteven(10,64,tamMundoWidth);
+        Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.INICIANDO);
+
         this.juego = juego;
         world = new World(new Vector2(0, -9.81f), true);
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
@@ -121,29 +128,39 @@ public class ScreenOne extends Pantalla {
         else if (controller.isLeftPressed())
             //estado=EstadoJuego.JUGANDO;
             player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
+
         else
             //estado=EstadoJuego.JUGANDO;
             player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
 
         if (controller.isUpPressed() && player.getLinearVelocity().y == 0)
             player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
+    }
 
-        //Si no esta siendo utilizado pasa el control el boton pausa y el lienzo
-        //condicionProcesor=false;
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            // Se pausa el juego
+            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO;
+        }
+        if (estadoJuego==EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            //Evita que cree la escena varias veces
+            controller.pausePresed=false;
+        }
+
     }
 
     @Override
     public void show() {
         cargarTexturas();
         crearObjetos();
-
         // Definir quién atiende los eventos de touch
-        Gdx.input.setInputProcessor(procesadorEntrada);
-        //Proceso entrada para mover a steven
-        condicionProcesor=false;
-        if(condicionProcesor==true){
-            Gdx.input.setInputProcessor(controller.getStage());
-        }
+        //Proceso entrada para mover a steven y pausa
+        Gdx.input.setInputProcessor(controller.getStage());
         tiempo = 0;
         tiempoParpadeo=0;
         //textoTransparencia=1;
@@ -214,6 +231,7 @@ public class ScreenOne extends Pantalla {
 
     @Override
     public void render(float delta) {
+        Steven.actualizar();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f, 0.45f, 0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -231,8 +249,6 @@ public class ScreenOne extends Pantalla {
             batch.draw(esposaParadaPar,750,60);
             batch.draw(hijaSentadaPar, 957, 110);
         }
-
-
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
@@ -240,7 +256,6 @@ public class ScreenOne extends Pantalla {
         if (nImage > 0 && nImage < 16 ) {
             batch.draw(pinturas[nImage - 1], 50, 100);
         }
-
         //Mostrando texto al inicio del nivel
         //buscar alfa para ir desapareciendo el texto
 
@@ -249,36 +264,38 @@ public class ScreenOne extends Pantalla {
             texto.setColor(0, 0, 0, 1);
             //manejo de alfa
         }
+        Steven.dibujar(batch);
 
-        //batch.draw(puzzlePintura(),50,100);
         dibujarEstado(batch);
         batch.end();
         tiempo += Gdx.graphics.getDeltaTime();
         //Tiempo parpadeo
         tiempoParpadeo +=Gdx.graphics.getDeltaTime();
-        if (estadoJuego == EstadoJuego.PAUSADO) {
+
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
             escenaPausa.draw();
         }
 
 
         b2dr.render(world, camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if (Gdx.app.getType() == Application.ApplicationType.Android)
+        //if (Gdx.app.getType() == Application.ApplicationType.Android) este incluye a pausa entonces manejar condicion para android en controller
             controller.draw();
 
 
     }
 
     private void dibujarEstado(SpriteBatch batch) {
-        //Cuadrado?? pausa
         //batch.draw(texturaCuadro,0,ALTO-texturaCuadro.getHeight());
         //dibujamos el boton pausa
         btnPausa.dibujar(batch);
         lienzo.dibujar(batch);
     }
 
+    //Procesador entrada para minujuego pinturas o crear nueca escena (no creo)
     class ProcesadorEntrada implements InputProcessor {
         private Vector3 v = new Vector3();
+
         @Override
         public boolean keyDown(int keycode) {
             return false;
@@ -311,20 +328,6 @@ public class ScreenOne extends Pantalla {
                 nImage++;
             }
             estadoPintura=false;
-            //Gdx.input.setInputProcessor(escenaPausa);
-
-            // Prueba botón pausa
-            if (btnPausa.contiene(v)) {
-                // Se pausa el juego
-                estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO;
-                if (estadoJuego==EstadoJuego.PAUSADO) {
-                    // Activar escenaPausa y pasarle el control
-                    if (escenaPausa==null) {
-                        escenaPausa = new EscenaPausa(vista, batch);
-                    }
-                    Gdx.input.setInputProcessor(escenaPausa);
-                }
-            }
             return true;
         }
 
@@ -353,7 +356,6 @@ public class ScreenOne extends Pantalla {
 
     @Override
     public void pause() {
-
     }
 
     @Override
@@ -390,6 +392,13 @@ public class ScreenOne extends Pantalla {
 
 
     }
+    public EstadoJuego getEstadoJuego(){
+       return estadoJuego;
+    }
+
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
+    }
 
     //aqui descargamos todo lo utilizado para ahorrar memoria
 
@@ -398,17 +407,12 @@ public class ScreenOne extends Pantalla {
 
     }
 
-    public void HandleInput() {
-
-    }
-
     public void update(float dt) {
         handleInput();
+        pausaInput();
         world.step(1 / 60f, 6, 2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
         batch.setProjectionMatrix(camara.combined);
-        //camara.update();
-
         camara.update();
 
     }
@@ -454,13 +458,19 @@ public class ScreenOne extends Pantalla {
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
                     estadoJuego = EstadoJuego.JUGANDO;
-                    Gdx.input.setInputProcessor(procesadorEntrada); // No debería crear uno nuevo
+                    Gdx.input.setInputProcessor(controller.getStage()); // No debería crear uno nuevo
                 }
             });
             this.addActor(btnReintentar);
         }
     }
 
+    public Pantalla getScreenOne(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
 }
 
 

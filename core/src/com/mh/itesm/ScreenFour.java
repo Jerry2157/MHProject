@@ -41,12 +41,7 @@ public class ScreenFour extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
+
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
@@ -57,17 +52,11 @@ public class ScreenFour extends Pantalla {
         Steven = new PlayerSteven(10,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
 
-
-
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
         //world = new World(new Vector2(0,-9.81f),true);
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
         b2dr = new Box2DDebugRenderer();
-
-        //Inicializamos variables
-        pinturas=new Texture[16];
-        nImage=0;
 
         //createGround();
         //createPlayer();
@@ -107,39 +96,6 @@ public class ScreenFour extends Pantalla {
         BackgroundLayerOne = new Texture("ScreenFour/SceneFourBNG.png");
         fondo = new Fondo(BackgroundLayerOne);
         fondo.setPosicion(0,0);
-        //Imagenes de la pinturas
-        paint1 =new Texture("Puzzle1/P1.png");
-        pinturas[0]=paint1;
-        paint2 =new Texture("Puzzle1/P2.png");
-        pinturas[1]=paint2;
-        paint3=new Texture("Puzzle1/P3.png");
-        pinturas[2]=paint3;
-        paint4 =new Texture("Puzzle1/P4.png");
-        pinturas[3]=paint4;
-        paint5 =new Texture("Puzzle1/P5.png");
-        pinturas[4]=paint5;
-        paint6 =new Texture("Puzzle1/P6.png");
-        pinturas[5]=paint6;
-        paint7 =new Texture("Puzzle1/P7.png");
-        pinturas[6]=paint7;
-        paint8 =new Texture("Puzzle1/P8.png");
-        pinturas[7]=paint8;
-        paint9 =new Texture("Puzzle1/P9.png");
-        pinturas[8]=paint9;
-        paint10 =new Texture("Puzzle1/P10.png");
-        pinturas[9]=paint10;
-        paint11 =new Texture("Puzzle1/P11.png");
-        pinturas[10]=paint11;
-        paint12 =new Texture("Puzzle1/P12.png");
-        pinturas[11]=paint12;
-        paint13 =new Texture("Puzzle1/P13.png");
-        pinturas[12]=paint13;
-        paint14 =new Texture("Puzzle1/P14.png");
-        pinturas[13]=paint14;
-        paint15 =new Texture("Puzzle1/P15.png");
-        pinturas[14]=paint15;
-        paint16 =new Texture("Puzzle1/P16.png");
-        pinturas[15]=paint16;
 
     }
 
@@ -157,13 +113,7 @@ public class ScreenFour extends Pantalla {
         fondo.setPosicion(0,0);
         //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         Steven.dibujar(batch);
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
 
-        //batch.draw(puzzlePintura(),50,100);
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);

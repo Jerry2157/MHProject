@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,7 +23,7 @@ import javax.swing.OverlayLayout;
 public class Controller extends Pantalla{
     Viewport viewport;
     Stage stage;
-    boolean upPressed, downPressed, leftPressed, rightPressed;
+    boolean upPressed, downPressed, leftPressed, rightPressed,pausePresed;
     OrthographicCamera cam;
 
     public Controller(){
@@ -80,9 +81,13 @@ public class Controller extends Pantalla{
         upImg.setSize(50, 50);
         upImg.addListener(new InputListener() {
 
+            //vector para manejar objetos
+            private Vector3 v = new Vector3();
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 upPressed = true;
+                camara.unproject(v);
+
                 return true;
             }
 
@@ -105,6 +110,23 @@ public class Controller extends Pantalla{
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 downPressed = false;
+            }
+        });
+        Texture tex=new Texture("comun/btnPausa.png");
+        Image pausa= new Image(tex);
+        pausa.setSize(60,60);
+        pausa.setPosition(ANCHO/2,ALTO/2);
+                //ANCHO-3*(new Texture("comun/btnPausa.png").getWidth()/2)+35,ALTO-(new Texture("comun/btnPausa.png")).getHeight()-10);
+        pausa.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                pausePresed = true;
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                pausePresed = false;
             }
         });
 
@@ -152,7 +174,9 @@ public class Controller extends Pantalla{
         table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
         table.add();
 
+
         stage.addActor(table);
+        stage.addActor(pausa);
     }
 
     public void draw(){
@@ -174,6 +198,8 @@ public class Controller extends Pantalla{
     public boolean isRightPressed() {
         return rightPressed;
     }
+
+    public boolean isPausePressed(){return pausePresed;}
 
     @Override
     public void show() {
