@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sun.corba.se.impl.oa.poa.POAPolicyMediator;
 
@@ -69,7 +70,7 @@ public class ScreenOne extends Pantalla {
     private Texto texto;
     //Pinturas interactuables
     //Imagen(Pintura) interactuable
-    private Texture paint1, paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
+    private Texture paint1, paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16,paint17;
     private Texture[] pinturas;
     private Texture texturaBtnTocaA;
     //Texturas dialogos
@@ -121,6 +122,9 @@ public class ScreenOne extends Pantalla {
     private boolean quitarTextLien=false;
     //textura que suplantara al object
     private Texture lienzoPuzzle;
+    //variable que inicia el conteo
+    private boolean tiempoCondicionPuzzle;
+    private float tiempoPuzzle;
 
 
     public ScreenOne(MHMain juego) {
@@ -155,8 +159,8 @@ public class ScreenOne extends Pantalla {
         else if (controller.isLeftPressed()) {
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
         }
-        //QUE PASA CUANDO ESTAMOS EN CELULAR FALTA REGRESAR CONTROL A INPUT PROCESOR, AGREGAR TIEMPO, Y MENSAJE DE FELICIDADES
-        else if(controller.isSpacePressed() && Steven.getX()>=900){
+        //AGREGAR TIEMPO, Y MENSAJE DE FELICIDADES
+        else if((controller.isSpacePressed() || controller.isButtonPressed())&& Steven.getX()>=900){
             //parte del codigo que con booleando para dibujar dialogo.
             pressEspaciadora=true;
         }
@@ -314,6 +318,8 @@ public class ScreenOne extends Pantalla {
         pinturas[14] = paint15;
         paint16 = new Texture("Puzzle1/P16.png");
         pinturas[15] = paint16;
+
+        paint17=new Texture("Puzzle1/Pfinal.png");
     }
 
     @Override
@@ -340,10 +346,16 @@ public class ScreenOne extends Pantalla {
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
         //draw de las pintruas
         if (nImage > 0 && nImage < 16 ) {
+            tiempoCondicionPuzzle=true;
+
+            //mostrampos tiempo hecho
+            texto.mostrarMensaje(batch, "Tiempo: "+(tiempoPuzzle), (ANCHO / 4)+10, (ALTO / 1)-5);
+            texto.setColor(0, 0, 0, 1);
+
             //lo sacamos de la pantalla eliminar
             lienzo.setPosition(1280,800);
             batch.draw(lienzoPuzzle,450,60);
-            batch.draw(pinturas[nImage - 1], 260, 200);
+            batch.draw(pinturas[nImage - 1], 260, 180);
             if(tocoBtn==true){
                 btnTocaAqui.setPosition(cordeX,cordeY);
                 tocoBtn=false;
@@ -353,6 +365,27 @@ public class ScreenOne extends Pantalla {
         if(nImage==16){
             condicionTerminoPintura=true;
             condicionTocaAqui=false;
+            tiempoCondicionPuzzle=false;
+            float tempTiempo=tiempoPuzzle;
+            //mostrar pintura terminada tamanio mas grande y mensaje
+            texto.mostrarMensaje(batch, "FELICIDADES, TERMINASTE EL PRIMER NIVEL \n Tu tiempo fue: "+tempTiempo, (ANCHO / 2), (ALTO/2));
+            texto.setColor(0, 0, 0, 1);
+            //Se espera un segundo
+            float delay = 4; // seconds
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    //played = true;
+                    juego.setScreen(new ScreenTwo(juego));
+                }
+            }, delay);
+            //SI QUEREMOS MOSTRAR EL RETRATO FINAL
+            //batch.draw(paint17, ANCHO/2, ALTO/2);
+            //CARGA NUEVA ESCENA FIJARNOS EN EL DELAY
+
+
+
         }
         if(beginPaint==true && condicionTerminoPintura==false){
             //activar mini uzzle pintura
@@ -371,14 +404,14 @@ public class ScreenOne extends Pantalla {
         }
         //Agregar booleano para que desaparezca este texto
         if(nDialog>=9 && quitarTextLien==false){
-            texto.mostrarMensaje(batch, "Ahora toca el lienzo", (ANCHO / 4)-110, (ALTO / 1)-5);
+            texto.mostrarMensaje(batch, "Ahora toca el lienzo", (ANCHO / 4)-150, (ALTO / 1)-5);
             texto.setColor(1, 1, 1, 1);
             //le damos el control al input de procesador entrada
             Gdx.input.setInputProcessor(procesadorEntrada);
         }
         //Desplegar controlador de dialogos al llegar a la coordenada de su esposa
         if(Steven.getX()>=900 && condicionTemp==true){
-            texto.mostrarMensaje(batch, "Pulsa la barra espaciadora para el dialogo", (ANCHO / 4)+80, (ALTO / 1)-5);
+            texto.mostrarMensaje(batch, "Pulsa el boton para el dialogo", (ANCHO / 4)+80, (ALTO / 1)-5);
             texto.setColor(1, 1, 1, 1);
         }
 
@@ -393,11 +426,11 @@ public class ScreenOne extends Pantalla {
         if( Steven.getX()>=900  && pressEspaciadora==true){
             //No dejar que steven se mueva?
             if(estadoJuego==EstadoJuego.JUGANDO) {
-                if (nDialog == 0 || nDialog == 2 || nDialog == 4 || nDialog == 5 || nDialog == 8) {
+                if (nDialog == 0 || nDialog == 2 || nDialog == 4 /*|| nDialog == 5 || nDialog == 8*/) {
                     condicionTemp = false;
                     batch.draw(dialogos[nDialog], 620, 275);
                 }
-                if (nDialog == 1 || nDialog == 3 || nDialog == 6 || nDialog == 7) {
+                if (nDialog == 1 || nDialog == 3 || nDialog == 6 /*|| nDialog == 7*/) {
                     batch.draw(dialogos[nDialog], 820, 255);
                 }
                 if (nDialog == 9) {
@@ -417,6 +450,10 @@ public class ScreenOne extends Pantalla {
         tiempo += Gdx.graphics.getDeltaTime();
         //Tiempo parpadeo
         tiempoParpadeo +=Gdx.graphics.getDeltaTime();
+        //Timepo puzzle
+        if(tiempoCondicionPuzzle){
+            tiempoPuzzle += Gdx.graphics.getDeltaTime();
+        }
 
 
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {

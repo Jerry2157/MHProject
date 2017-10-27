@@ -58,6 +58,7 @@ class PantallaCargando extends Pantalla
             case PRIMER_NIVEL:
                 cargarRecursosPrimerNivel();
                 break;
+
         }
     }
 
