@@ -126,8 +126,10 @@ public class ScreenOne extends Pantalla {
     private boolean tiempoCondicionPuzzle;
     private float tiempoPuzzle;
 
+    private boolean played; //bandera se cambio de nivel
 
     public ScreenOne(MHMain juego) {
+        played = false;
         Steven = new PlayerSteven(10,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.INICIANDO);
 
@@ -149,6 +151,21 @@ public class ScreenOne extends Pantalla {
         controller = new Controller();
         texto = new Texto();
 
+        float delay = 4000.0f; // seconds
+
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                //LLAMA AL DIALOGO BETO
+                //
+                test();
+            }
+        }, delay);
+
+    }
+    public void test(){
+        juego.setScreen(new ScreenTwo(juego));
     }
 
     //Metodo para mover a steve
@@ -372,14 +389,17 @@ public class ScreenOne extends Pantalla {
             texto.setColor(0, 0, 0, 1);
             //Se espera un segundo
             float delay = 4; // seconds
-            Timer.schedule(new Timer.Task(){
-                @Override
-                public void run() {
-                    // Do your work
-                    //played = true;
-                    juego.setScreen(new ScreenTwo(juego));
-                }
-            }, delay);
+            if(played == false) {
+                played = true;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        // Do your work
+                        //played = true;
+                        juego.setScreen(new ScreenTwo(juego));
+                    }
+                }, delay);
+            }
             //SI QUEREMOS MOSTRAR EL RETRATO FINAL
             //batch.draw(paint17, ANCHO/2, ALTO/2);
             //CARGA NUEVA ESCENA FIJARNOS EN EL DELAY

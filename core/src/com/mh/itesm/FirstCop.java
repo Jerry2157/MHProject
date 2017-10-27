@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+
 /**
  * Created by jerry2157 on 11/09/17.
  */
@@ -17,6 +18,8 @@ public class FirstCop extends Objeto{
     //Atlases
     private Texture firstCopRunning;
     private Texture firstCopIdle;
+    private Texture sightTex;
+    private Sprite sightSprite;
 
     private int SceneTam = 0;
     public float VELOCIDAD_X = 2;      // Velocidad horizontal
@@ -33,6 +36,7 @@ public class FirstCop extends Objeto{
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public FirstCop(float x, float y, int SceneWidth) {
+        sightTex = new Texture("Characters/PoliciaESTATICO.png");
         firstCopRunning = new Texture("Characters/FirstCop/PoliciaCorriendoScaled.png");
 
         SceneTam = SceneWidth;
@@ -54,7 +58,7 @@ public class FirstCop extends Objeto{
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite con el personaje quieto (idle)
-        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite = new Sprite(sightTex);    // QUIETO
         sprite.setPosition(x,y);    // Posición inicial
 
         // Salto

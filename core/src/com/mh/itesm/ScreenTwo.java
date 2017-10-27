@@ -136,8 +136,10 @@ public class ScreenTwo extends Pantalla {
         batch.end();
         b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        if(Gdx.app.getType() == Application.ApplicationType.Android){
+            //controller.draw();
+        }
+
 
 
     }

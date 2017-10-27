@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -31,13 +32,15 @@ public class ScreenThree extends Pantalla {
     //Steven
     private PlayerSteven Steven;
 
-
+    //Cop
+    private FirstCop cop;
     private int TamEscena = 0;
     private MHMain juego;
 
     //Mom and daughter
     private Texture mom;
-    private Texture daughter;
+    private Sprite momNdaughter;
+
 
     //World world;
     //private Box2DDebugRenderer b2dr;
@@ -60,6 +63,16 @@ public class ScreenThree extends Pantalla {
         Steven = new PlayerSteven(10,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
 
+        //crear al policia
+        cop = new FirstCop(1281,64,tamMundoWidth);
+        cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
+
+        //mama e hija
+        mom = new Texture("Characters/EsposaHija.png");
+        momNdaughter = new Sprite(mom);
+        momNdaughter.setX(750);
+        momNdaughter.setY(-2);
+
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
         //world = new World(new Vector2(0,-9.81f),true);
@@ -76,21 +89,21 @@ public class ScreenThree extends Pantalla {
     }
 
     public void handleInput(){
-        if(controller.isRightPressed()) {
-            //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
-        }
-        else if (controller.isLeftPressed() || played == true) {
-            //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
-        }
-        else {
-            //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
-        }
-        if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
-            //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+        if(played == false) {
+            if (controller.isRightPressed()) {
+                //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
+            } else if (controller.isLeftPressed() || played == true) {
+                //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
+            } else {
+                //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            }
+            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+                //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            }
         }
     }
 
@@ -146,6 +159,7 @@ public class ScreenThree extends Pantalla {
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
+        cop.actualizar();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -153,7 +167,9 @@ public class ScreenThree extends Pantalla {
         batch.begin();
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
         Steven.dibujar(batch);
+        cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
@@ -227,7 +243,7 @@ public class ScreenThree extends Pantalla {
 
     }
     public void cambiarEscena(){
-        if(1100 == Steven.getX() &&  64 <= Steven.getY()){ //258  y 512 es la posicion del templo, lo identifique con el system.out.println
+        if(Steven.getX()>=560 && played == false){ //258  y 512 es la posicion del templo, lo identifique con el system.out.println
             // Para verificar si el usuario ya tomo los 3 pergaminos y liberar el boton de galeria de arte...
             /*liberarArte();
             this.efectoPuertaTemplo.play(PantallaMenu.volumen);
@@ -236,13 +252,18 @@ public class ScreenThree extends Pantalla {
             //juego.setScreen(new ScreenOne(juego));//Debug
 
             //Se espera un segundo
-            float delay = 0.5f; // seconds
+            float delay = 1f; // seconds
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            played = true;
+            cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
+            cop.VELOCIDAD_X = 4.0f;
             System.out.println("paso uno");
             Timer.schedule(new Timer.Task(){
                 @Override
                 public void run() {
                     // Do your work
                     System.out.println("paso 2");
+                    cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
                     showPolice();
                 }
             }, delay);
@@ -257,13 +278,15 @@ public class ScreenThree extends Pantalla {
 
     private void showPolice() {
         //Se espera un segundo
-        float delay = 0.5f; // seconds
+        float delay = 2.0f; // seconds
 
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
                 // Do your work
-                played = true;
+                cop.VELOCIDAD_X = 2.0f;
+                cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
+
                 System.out.println("paso 3");
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
             }
