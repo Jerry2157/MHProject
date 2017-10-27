@@ -171,7 +171,7 @@ public class ScreenFour extends Pantalla {
                     // Do your work
 
                     cop.setX(Steven.getX()-1000);
-                    //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
+                    //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.Cutting);
                     juego.setScreen(new ScreenFive(juego)); //Primer Nivel!!!!
                 }
             }, delay);
@@ -193,7 +193,7 @@ public class ScreenFour extends Pantalla {
                     // Do your work
 
                     cop.setX(Steven.getX()-1000);
-                    //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
+                    //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.Cutting);
                 }
             }, delay);
         }

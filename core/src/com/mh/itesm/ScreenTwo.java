@@ -2,33 +2,29 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Timer;
 
 /**
  * Created by jerry2157 on 10/09/17.
  */
 
 public class ScreenTwo extends Pantalla {
+    private int tamMundoWidth = 1280;
+    private boolean played = false;
 
+    //ScreenTwoBNG
+    private ScreenTwoAnim ScreenTwoBNG;
+
+
+    private int TamEscena = 0;
     private MHMain juego;
 
-    World world;
-    private Box2DDebugRenderer b2dr;
+    //World world;
+    //private Box2DDebugRenderer b2dr;
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
@@ -44,36 +40,79 @@ public class ScreenTwo extends Pantalla {
 
 
     public ScreenTwo(MHMain juego) {
+        //Crear a ScreenTwoBNG
+        ScreenTwoBNG = new ScreenTwoAnim(0,0,tamMundoWidth);
+        ScreenTwoBNG.setEstadoMovimiento(ScreenTwoAnim.EstadoMovimiento.Cutting);
+
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
-        world = new World(new Vector2(0,-9.81f),true);
+        //world = new World(new Vector2(0,-9.81f),true);
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
-        b2dr = new Box2DDebugRenderer();
+        //b2dr = new Box2DDebugRenderer();
 
         //Inicializamos variables
         pinturas=new Texture[16];
         nImage=0;
 
-        createGround();
-        createPlayer();
+        //createGround();
+        //createPlayer();
         controller = new Controller();
+        float delay = 4.0f; // seconds
+
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                //LLAMA AL DIALOGO BETO
+                //
+                animStart();
+            }
+        }, delay);
     }
 
+    public void animStart(){
+        float delay = 0.5f; // seconds
+
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your worK
+                ScreenTwoBNG.setEstadoMovimiento(ScreenTwoAnim.EstadoMovimiento.QUIETO);
+                float delay = 1.0f; // seconds
+
+                Timer.schedule(new Timer.Task(){
+                    @Override
+                    public void run() {
+                        // Do your work
+                        juego.setScreen(new ScreenThree(juego));
+                    }
+                }, delay);
+            }
+        }, delay);
+    }
     public void handleInput(){
-        if(controller.isRightPressed())
-            player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
-        else if (controller.isLeftPressed())
-            player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
-        else
-            player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
-        if (controller.isUpPressed() && player.getLinearVelocity().y == 0)
-            player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
+        if (0==1) {//USELESSSSSSSSSSS
+            if (controller.isRightPressed()) {
+                //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
+                ScreenTwoBNG.setEstadoMovimiento(ScreenTwoAnim.EstadoMovimiento.MOV_DERECHA);
+            } else if (controller.isLeftPressed() || played == true) {
+                //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
+                ScreenTwoBNG.setEstadoMovimiento(ScreenTwoAnim.EstadoMovimiento.QUIETO);
+            } else {
+                //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
+                ScreenTwoBNG.setEstadoMovimiento(ScreenTwoAnim.EstadoMovimiento.QUIETO);
+            }
+            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+                //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
+                ScreenTwoBNG.setEstadoMovimiento(ScreenTwoAnim.EstadoMovimiento.QUIETO);
+            }
+        }
     }
 
     @Override
     public void show() {
         cargarTexturas();
-        Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        //Gdx.input.setInputProcessor(new ProcesadorEntrada());
 
     }
 
@@ -81,7 +120,7 @@ public class ScreenTwo extends Pantalla {
 
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenOne/fondo.png");
+        BackgroundLayerOne = new Texture("ScreenThree/ScreenThreeBNG.png");
         //Imagenes de la pinturas
         paint1 =new Texture("Puzzle1/P1.png");
         pinturas[0]=paint1;
@@ -120,12 +159,16 @@ public class ScreenTwo extends Pantalla {
 
     @Override
     public void render(float delta) {
+        cambiarEscena();
+        ScreenTwoBNG.actualizar();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        ScreenTwoBNG.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
@@ -134,7 +177,7 @@ public class ScreenTwo extends Pantalla {
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
-        b2dr.render(world,camara.combined);
+        //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
@@ -142,55 +185,7 @@ public class ScreenTwo extends Pantalla {
 
     }
 
-    class ProcesadorEntrada implements InputProcessor {
 
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        //coordenadas pintura
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            if(screenX>=Pantalla.ANCHO/2 && screenY>=Pantalla.ALTO/2){
-                System.out.println("Toco en : "+screenX);
-                nImage++;
-                return  true;
-            }
-            return false;
-
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
-    }
 
 
 
@@ -203,7 +198,7 @@ public class ScreenTwo extends Pantalla {
     public void resume() {
 
     }
-    public void createGround(){
+    /*public void createGround(){
         BodyDef bdef = new BodyDef();
         bdef.position.set(vista.getWorldWidth()/2,0);
         bdef.type = BodyDef.BodyType.StaticBody;
@@ -228,24 +223,65 @@ public class ScreenTwo extends Pantalla {
 
         fdef.shape = shape;
         player.createFixture(fdef);
-    }
+    }*/
 
 
     @Override
     public void dispose() {
 
     }
-    public void HandleInput(){
 
-    }
     public void update(float dt){
         handleInput();
-        world.step(1/60f,6,2);
+        //world.step(1/60f,6,2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
 
         //camara.update();
 
         camara.update();
 
+    }
+    public void cambiarEscena(){
+        if(1100 == ScreenTwoBNG.getX() &&  64 <= ScreenTwoBNG.getY()){ //258  y 512 es la posicion del templo, lo identifique con el system.out.println
+            // Para verificar si el usuario ya tomo los 3 pergaminos y liberar el boton de galeria de arte...
+            /*liberarArte();
+            this.efectoPuertaTemplo.play(PantallaMenu.volumen);
+            PantallaCargando.partidaGuardada.putBoolean("nivelAgua", true); //se guarda el progreso y se desbloquea el nivel de agua...
+            PantallaCargando.partidaGuardada.flush(); //se guardan los cambios*/
+            //juego.setScreen(new ScreenOne(juego));//Debug
+
+            //Se espera un segundo
+            float delay = 0.5f; // seconds
+            System.out.println("paso uno");
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    System.out.println("paso 2");
+                    showPolice();
+                }
+            }, delay);
+        }
+        else if (64 == ScreenTwoBNG.getX() &&  64 <= ScreenTwoBNG.getY() && played == true){
+            juego.setScreen(new ScreenFour(juego));
+        }
+        else{
+
+        }
+    }
+
+    private void showPolice() {
+        //Se espera un segundo
+        float delay = 0.5f; // seconds
+
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                played = true;
+                System.out.println("paso 3");
+                ScreenTwoBNG.setEstadoMovimiento(ScreenTwoAnim.EstadoMovimiento.QUIETO);
+            }
+        }, delay);
     }
 }

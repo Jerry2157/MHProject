@@ -35,6 +35,10 @@ public class ScreenThree extends Pantalla {
     private int TamEscena = 0;
     private MHMain juego;
 
+    //Mom and daughter
+    private Texture mom;
+    private Texture daughter;
+
     //World world;
     //private Box2DDebugRenderer b2dr;
     Body player;
