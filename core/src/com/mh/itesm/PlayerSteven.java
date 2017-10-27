@@ -241,4 +241,8 @@ public class PlayerSteven extends Objeto{
     public float getY() {
         return sprite.getY();
     }
+
+    public void delete(){
+        this.delete();
+    }
 }

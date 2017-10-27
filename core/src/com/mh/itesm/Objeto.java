@@ -33,4 +33,7 @@ public class Objeto
     public void dibujar(SpriteBatch batch) {
         sprite.draw(batch);
     }
+    public void setPosition(float x,float y){
+        sprite.setPosition(x,y);
+    }
 }

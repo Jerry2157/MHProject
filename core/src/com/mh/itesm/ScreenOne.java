@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -27,8 +28,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sun.corba.se.impl.oa.poa.POAPolicyMediator;
 
+import java.util.Random;
+
 /**
- * Created by jerry2157 on 10/09/17.
+ * Autor Principal: Jesús Heriberto Vásquez Sánchez A01377358
  */
 
 public class ScreenOne extends Pantalla {
@@ -38,9 +41,8 @@ public class ScreenOne extends Pantalla {
 
     World world;
     private Box2DDebugRenderer b2dr;
-    Body player;
     Controller controller;
-    private Texture BackgroundLayerOne;   // Imagen que se muestra
+    private Texture BackgroundLayerOne;   // Imagen fondo
     //Peronajes no tan interactuables
     private Texture esposaParada;
     private Texture esposaParadaPar;
@@ -69,35 +71,50 @@ public class ScreenOne extends Pantalla {
     //Imagen(Pintura) interactuable
     private Texture paint1, paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
     private Texture[] pinturas;
+    private Texture texturaBtnTocaA;
+    //Texturas dialogos
+    private Texture line1,line2,line3,line4,line5,line6,line7,line8,line9;
+    private Texture[] dialogos;
+    private int nDialog;
+
     //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
     private int nImage;
     // Contenedor de los botones
     private Stage escenaMenu;
-    private Texture texturaBtnPintura;
+
+    //private Texture texturaBtnPintura;
     //Variable para llevar un cronometro para manejar texturas
+
     private float tiempo;
     private float tiempoParpadeo;
     private final float TIEMPO_PASO = 1.0f; //la usaremos para el parpadeo
-
-    //Transparencia por int para ir reduciendo
-    private float textoTransparencia;
-    //Esta condicion le otorga el procesor a quien lo necesite.
-
-    // Procesador de eventos
-    // Procesador de eventos
+    private final float TIEMPO_DIALO=0.2f;
+    // Procesador de eventos pinturas
     private final ProcesadorEntrada procesadorEntrada = new ProcesadorEntrada();
+
     //Para el fondo de pausa
     private Texture texturaCuadro;
-    private Texture stevenParado;
     //Steven
     private PlayerSteven Steven;
     private int tamMundoWidth = 3840;
+    //Puzzle pintura
+    private Objeto btnTocaAqui;
+    private boolean condicionTerminoPintura=false;
+    private boolean condicionTocaAqui=false;
+    //condicion que permite que solo una vez le demos el control a controller cuando hablamos de el puzzle pintura
+    private boolean condicionUnaVez=true;
+    //Coordenadas para boton toca aquí
+    private int cordeX;
+    private int cordeY;
+    //estado para saber si toco boton toca aqui
+    private boolean tocoBtn;
 
+    private Fondo fondo;
+    //condicion para empezar con los dialogos
+    private boolean pressEspaciadora=false;
 
 
     public ScreenOne(MHMain juego) {
-        //Talvez incesesario
-        //Gdx.input.setInputProcessor(escenaMenu);
         Steven = new PlayerSteven(10,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.INICIANDO);
 
@@ -105,37 +122,49 @@ public class ScreenOne extends Pantalla {
         world = new World(new Vector2(0, -9.81f), true);
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
         b2dr = new Box2DDebugRenderer();
-
         //Inicializamos variables
         pinturas = new Texture[16];
+        dialogos=new Texture[9];
         //Contador para que pintura se colocara
         nImage = 0;
+        nDialog=-1;
+        cordeX=0;
+        cordeY=0;
 
         manager = juego.getAssetManager(); //manager
-        createGround();
-        createPlayer();
         controller = new Controller();
-
         texto = new Texto();
-
 
     }
 
+    //Metodo para mover a steve
     public void handleInput() {
-        if (controller.isRightPressed())
-            //estado=EstadoJuego.JUGANDO;
-            player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
-            //estado=EstadoJuego.JUGANDO;
-        else if (controller.isLeftPressed())
-            //estado=EstadoJuego.JUGANDO;
-            player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
+        if (controller.isRightPressed()) {
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
+        }
+        else if (controller.isLeftPressed()) {
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
+        }
+        else if(controller.isSpacePressed() && Steven.getX()>=400){
+            //parte del codigo que con booleando para dibujar dialogo.
+            pressEspaciadora=true;
+        }
+        //si se pasa de la izquierda
+        else {
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+        }
+        if (controller.isUpPressed()) {
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+        }
+        if(condicionTocaAqui==true ){
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+        }
+        //evitar que se salga del nivel.
+        if(Steven.getX()>=1150){
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
+        }
+        //Debemos limitar que no se mueva por si solo ya que se mueve por si solo perdemos el control al regresar
 
-        else
-            //estado=EstadoJuego.JUGANDO;
-            player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
-
-        if (controller.isUpPressed() && player.getLinearVelocity().y == 0)
-            player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
     }
 
     public void pausaInput(){
@@ -150,39 +179,57 @@ public class ScreenOne extends Pantalla {
             }
             Gdx.input.setInputProcessor(escenaPausa);
             //Evita que cree la escena varias veces
-            controller.pausePresed=false;
+            controller.pausePressed=false;
         }
 
     }
 
     @Override
     public void show() {
+        generarNumRandom();
         cargarTexturas();
         crearObjetos();
-        // Definir quién atiende los eventos de touch
+        // Definir quién atiende los eventos de touch * CORROBORAR CARGANDO EN CELULAR
         //Proceso entrada para mover a steven y pausa
         Gdx.input.setInputProcessor(controller.getStage());
         tiempo = 0;
         tiempoParpadeo=0;
-        //textoTransparencia=1;
-        //Gdx.input.setInputProcessor(new ProcesadorEntrada());
+
 
     }
+
+    private void generarNumRandom() {
+        //manejo numeros random
+        Random tempRand1 = new Random();
+        Random tempRand2=new Random();
+        int i=0;
+        int k=0;
+        Random randomCordeX = new Random();
+        Random randomCordeY=new Random();
+
+        i=tempRand1.nextInt(900);
+        k=tempRand2.nextInt(500);
+        if(i>200){
+            cordeX=i;
+        }
+        if(k>200){
+            cordeY=k;
+        }
+    }
+
 
     private void crearObjetos() {
-        // Botón pausa
-        // ACOMODARLO MEJOR :)
+        // Botón pausa CMBIAR TEXTURA MOVIENDO PANTALLA CARGA Y CARGANDOLE EN CARGAR TEXTURAS
         btnPausa =new Objeto(texturaBtnPausa,(ANCHO-3*texturaBtnPausa.getWidth()/2)+35,ALTO-texturaBtnPausa.getHeight()-10);
+        btnTocaAqui=new Objeto(texturaBtnTocaA,cordeX,cordeY);
         lienzo=new Objeto(texturaLienzo,450,60 );
     }
-
-
-
     //es importante que se indique que parte debe tocar e ir pintando restringuiendo que parte toco, si es posible
-
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenOne/fondo.png");
+        fondo = new Fondo(BackgroundLayerOne);
+        fondo.setPosicion(0,0);
         //Textura personajes estaticos
         esposaParada = new Texture("Characters/EsposaNORMAL.png");
         esposaParadaPar=new Texture("Characters/EsposaParpadeo.png");
@@ -191,8 +238,31 @@ public class ScreenOne extends Pantalla {
         texturaLienzo = manager.get("Lienzo.png");
         //pausa con el manager ponerlo en otro metodo si uso manager???
         texturaBtnPausa = manager.get("comun/btnPausa.png");
-        //Steven
-        stevenParado=new Texture("Characters/StevenPie.png");
+        //para el texture toca aquí
+        texturaBtnTocaA=manager.get("ScreenOne/fondotest.png");
+
+        //Texturas dialogo
+
+        line1=new Texture("Dialogos/Nivel1/Esposa/line1.png");
+        dialogos[0]=line1;
+        line2=new Texture("Dialogos/Nivel1/Hija/line2.png");
+        dialogos[1]=line2;
+        line3=new Texture("Dialogos/Nivel1/Esposa/line3.png");
+        dialogos[2]=line3;
+        line4=new Texture("Dialogos/Nivel1/Hija/line4.png");
+        dialogos[3]=line4;
+        line5=new Texture("Dialogos/Nivel1/Esposa/line5.png");
+        dialogos[4]=line5;
+        line6=new Texture("Dialogos/Nivel1/Esposa/line6.png");
+        dialogos[5]=line6;
+        line7=new Texture("Dialogos/Nivel1/Hija/line7.png");
+        dialogos[6]=line7;
+        line8=new Texture("Dialogos/Nivel1/Hija/line8.png");
+        dialogos[7]=line9;
+        line9=new Texture("Dialogos/Nivel1/Esposa/line9.png");
+        dialogos[8]=line9;
+
+
 
         //Imagenes de la pinturas
         paint1 = new Texture("Puzzle1/P1.png");
@@ -227,7 +297,6 @@ public class ScreenOne extends Pantalla {
         pinturas[14] = paint15;
         paint16 = new Texture("Puzzle1/P16.png");
         pinturas[15] = paint16;
-
     }
 
     @Override
@@ -238,45 +307,84 @@ public class ScreenOne extends Pantalla {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO / 2 - BackgroundLayerOne.getWidth() / 2, Pantalla.ALTO / 2 - BackgroundLayerOne.getHeight() / 2);
-        //dibujando personajes y elementosIMPLEMENTAR PARPADEO
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO / 2 - BackgroundLayerOne.getWidth() / 2, Pantalla.ALTO / 2 - BackgroundLayerOne.getHeight() / 2);
+        fondo.render(batch);
+        fondo.setPosicion(0,0);
 
+        //dibujando personajes y elementosIMPLEMENTAR PARPADEO
         batch.draw(esposaParada, 750, 60);
         batch.draw(hijaSentada, 957, 110);
-        batch.draw(stevenParado,player.getPosition().x,player.getPosition().y);
-        //Manejo del parpadeo esposa
+        //Manejo del parpadeo esposa E HIJA PROVISIONAL
         if (tiempoParpadeo>=TIEMPO_PASO) {
             tiempoParpadeo = 0;
             batch.draw(esposaParadaPar,750,60);
             batch.draw(hijaSentadaPar, 957, 110);
         }
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
-        //Para dejar de pintar debe presionar tal boton que agregaremos en la condicion
+        //draw de las pintruas
         if (nImage > 0 && nImage < 16 ) {
             batch.draw(pinturas[nImage - 1], 50, 100);
+            if(tocoBtn==true){
+                btnTocaAqui.setPosition(cordeX,cordeY);
+                tocoBtn=false;
+            }
         }
-        //Mostrando texto al inicio del nivel
-        //buscar alfa para ir desapareciendo el texto
+        //Comprueba si ternimo la pintura para mandar el true PENDIENTE
+        if(nImage==16){
+            condicionTerminoPintura=true;
+            condicionTocaAqui=false;
+        }
+        if(Steven.getX()>400 && condicionTerminoPintura==false){
+            //activar mini uzzle pintura
+            //condicionTocaAqui=true;
+        }
 
+        //Mostrando texto al inicio del nivel
         if (tiempo <= 2) {
             texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque", (ANCHO / 4)+10, (ALTO / 1)-5);
             texto.setColor(0, 0, 0, 1);
-            //manejo de alfa
         }
+        //Desplegar controlador de dialogos al llegar a la coordenada de su esposa
+        if(Steven.getX()>=750){
+            texto.mostrarMensaje(batch, "Pulsa la barra espaciadora para el dialogo", (ANCHO / 4)+65, (ALTO / 1)-5);
+            texto.setColor(0, 0, 0, 1);
+        }
+
+        //Manejo de tiempo para los dialogos
+        if (tiempoParpadeo>=TIEMPO_DIALO && Steven.getX()>=750  && pressEspaciadora==true) {
+            tiempoParpadeo = 0;
+            nDialog++;
+
+        }
+
+        //empezamos con los dialogos
+        if( Steven.getX()>=750  && pressEspaciadora==true){
+            //No dejar que steven se mueva?
+            if( nDialog==0 || nDialog==3 || nDialog==5 || nDialog==6 || nDialog==9){
+                batch.draw(dialogos[nDialog],620,275);
+            }
+            if(nDialog==2 || nDialog==4 || nDialog==7 || nDialog==8){
+                batch.draw(dialogos[nDialog],790,275);
+            }
+            if(nDialog==9){
+                pressEspaciadora=false;
+            }
+
+        }
+
         Steven.dibujar(batch);
 
-        dibujarEstado(batch);
+        dibujarElementos(batch);
         batch.end();
+        manejoInputPintura();
         tiempo += Gdx.graphics.getDeltaTime();
         //Tiempo parpadeo
         tiempoParpadeo +=Gdx.graphics.getDeltaTime();
 
+
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
             escenaPausa.draw();
         }
-
 
         b2dr.render(world, camara.combined);
         //batch.setProjectionMatrix(camara.combined);
@@ -285,16 +393,42 @@ public class ScreenOne extends Pantalla {
 
 
     }
-
-    private void dibujarEstado(SpriteBatch batch) {
-        //batch.draw(texturaCuadro,0,ALTO-texturaCuadro.getHeight());
-        //dibujamos el boton pausa
-        btnPausa.dibujar(batch);
+    //tambien corrobora si debe pasar el input procesor a el puzzle o no
+    private void dibujarElementos(SpriteBatch batch) {
         lienzo.dibujar(batch);
+        if(condicionTocaAqui==true && condicionTerminoPintura==false ){
+            btnTocaAqui.dibujar(batch);
+            //corroborar el manejo de la escena pausa
+        }
     }
 
-    //Procesador entrada para minujuego pinturas o crear nueca escena (no creo)
+
+
+    private void manejoInputPintura(){
+        if(condicionTocaAqui){
+            Gdx.input.setInputProcessor(procesadorEntrada);
+        }
+        if(condicionTocaAqui==false && condicionUnaVez==true){
+            //Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.INICIANDO);
+            //guardamos un temp
+            //y volvemos a crear
+            //Se pierde la referencia guardar estado pasado y crear uno nuevo, esto debido al cambio de inputs
+            System.out.println("Llegamos aquí: "+Steven.getEstadoMovimiento());
+
+            //Gdx.input.setInputProcessor(controller.getStage());
+
+            condicionUnaVez=false;
+        }
+        //PORQUE NO FUNCIONA?
+        /*if(condicionTerminoPintura){
+            Gdx.input.setInputProcessor(controller.getStage());
+        }*/
+    }
+
+    //Procesador entrada para minujuego pinturas
     class ProcesadorEntrada implements InputProcessor {
+        //Objeto tipo vector para hacer match con objetos por coordenadas
         private Vector3 v = new Vector3();
 
         @Override
@@ -313,19 +447,19 @@ public class ScreenOne extends Pantalla {
         }
 
         @Override
-        //coordenadas pintura con testeo podemos saber exactamente donde toca
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             v.set(screenX, screenY, 0);
             camara.unproject(v);
             //DEBUGEO SI TODCA LA PINTURA PASA EL CONTROL AL OTRO ASSET
             //chcear porque no me permite mas de una pintura y si va a ser de pantalla completa
-            if(lienzo.contiene(v)){
+            if(btnTocaAqui.contiene(v)){
+                tocoBtn=true;
                 estadoPintura=true;
-                Gdx.input.setInputProcessor(procesadorEntrada);
-            }
 
+                //Gdx.input.setInputProcessor(procesadorEntrada);
+            }
             if(estadoPintura==true) {
-                System.out.println("TOCO en X: " + screenX + " y: " + screenY);
+                //System.out.println("TOCO en X: " + screenX + " y: " + screenY);
                 nImage++;
             }
             estadoPintura=false;
@@ -364,35 +498,6 @@ public class ScreenOne extends Pantalla {
 
     }
 
-    public void createGround() {
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(vista.getWorldWidth() / 2, 0);
-        bdef.type = BodyDef.BodyType.StaticBody;
-        Body b2body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(vista.getWorldWidth() / 2, 20);
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef);
-    }
-
-    public void createPlayer() {
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(vista.getWorldWidth() / 4, 60);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        player = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(40, 40);
-
-        fdef.shape = shape;
-        player.createFixture(fdef);
-
-
-    }
     public EstadoJuego getEstadoJuego(){
        return estadoJuego;
     }
@@ -411,6 +516,9 @@ public class ScreenOne extends Pantalla {
     public void update(float dt) {
         handleInput();
         pausaInput();
+        generarNumRandom();
+
+
         world.step(1 / 60f, 6, 2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
         batch.setProjectionMatrix(camara.combined);
@@ -463,6 +571,7 @@ public class ScreenOne extends Pantalla {
                 }
             });
             this.addActor(btnReintentar);
+
         }
     }
 
