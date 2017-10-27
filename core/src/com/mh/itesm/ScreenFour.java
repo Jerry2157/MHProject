@@ -47,6 +47,8 @@ public class ScreenFour extends Pantalla {
     //se ha dado la vuelta y lo persigue?
     private  boolean flippedrunning;
 
+    private boolean SceneActive;
+
     private int TamEscena = 0;
     private MHMain juego;
 
@@ -67,6 +69,7 @@ public class ScreenFour extends Pantalla {
 
 
     public ScreenFour(MHMain juego) {
+        SceneActive = false;
         kicked = false;
         fliped = false;
         flippedrunning = false;
@@ -172,7 +175,10 @@ public class ScreenFour extends Pantalla {
 
                     cop.setX(Steven.getX()-1000);
                     //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.Cutting);
-                    juego.setScreen(new ScreenFive(juego)); //Primer Nivel!!!!
+                    if(SceneActive == false) {
+                        SceneActive = false;
+                        juego.setScreen(new ScreenFive(juego)); //Primer Nivel!!!!
+                    }
                 }
             }, delay);
         }

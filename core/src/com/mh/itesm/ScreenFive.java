@@ -54,7 +54,7 @@ public class ScreenFive extends Pantalla {
     public ScreenFive(MHMain juego) {
         //Crear a Steven
         Steven = new PlayerSteven(10,64,tamMundoWidth);
-        Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
+        Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
 
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
@@ -66,8 +66,8 @@ public class ScreenFive extends Pantalla {
         pinturas=new Texture[16];
         nImage=0;
 
-        createGround();
-        createPlayer();
+        /*createGround();
+        createPlayer();*/
         controller = new Controller();
     }
 
@@ -103,38 +103,7 @@ public class ScreenFive extends Pantalla {
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
         //Imagenes de la pinturas
-        paint1 =new Texture("Puzzle1/P1.png");
-        pinturas[0]=paint1;
-        paint2 =new Texture("Puzzle1/P2.png");
-        pinturas[1]=paint2;
-        paint3=new Texture("Puzzle1/P3.png");
-        pinturas[2]=paint3;
-        paint4 =new Texture("Puzzle1/P4.png");
-        pinturas[3]=paint4;
-        paint5 =new Texture("Puzzle1/P5.png");
-        pinturas[4]=paint5;
-        paint6 =new Texture("Puzzle1/P6.png");
-        pinturas[5]=paint6;
-        paint7 =new Texture("Puzzle1/P7.png");
-        pinturas[6]=paint7;
-        paint8 =new Texture("Puzzle1/P8.png");
-        pinturas[7]=paint8;
-        paint9 =new Texture("Puzzle1/P9.png");
-        pinturas[8]=paint9;
-        paint10 =new Texture("Puzzle1/P10.png");
-        pinturas[9]=paint10;
-        paint11 =new Texture("Puzzle1/P11.png");
-        pinturas[10]=paint11;
-        paint12 =new Texture("Puzzle1/P12.png");
-        pinturas[11]=paint12;
-        paint13 =new Texture("Puzzle1/P13.png");
-        pinturas[12]=paint13;
-        paint14 =new Texture("Puzzle1/P14.png");
-        pinturas[13]=paint14;
-        paint15 =new Texture("Puzzle1/P15.png");
-        pinturas[14]=paint15;
-        paint16 =new Texture("Puzzle1/P16.png");
-        pinturas[15]=paint16;
+
 
     }
 
@@ -142,7 +111,7 @@ public class ScreenFive extends Pantalla {
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
-        update(Gdx.graphics.getDeltaTime());
+        //update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -158,7 +127,7 @@ public class ScreenFive extends Pantalla {
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
-        b2dr.render(world,camara.combined);
+        //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
@@ -179,7 +148,7 @@ public class ScreenFive extends Pantalla {
     public void resume() {
 
     }
-    public void createGround(){
+    /*public void createGround(){
         BodyDef bdef = new BodyDef();
         bdef.position.set(vista.getWorldWidth()/2,0);
         bdef.type = BodyDef.BodyType.StaticBody;
@@ -204,7 +173,7 @@ public class ScreenFive extends Pantalla {
 
         fdef.shape = shape;
         player.createFixture(fdef);
-    }
+    }*/
 
 
     @Override
