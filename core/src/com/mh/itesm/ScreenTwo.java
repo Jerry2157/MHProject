@@ -163,7 +163,7 @@ public class ScreenTwo extends Pantalla {
         //coordenadas pintura
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             if(screenX>=Pantalla.ANCHO/2 && screenY>=Pantalla.ALTO/2){
-                System.out.println("Toco en : "+screenX);
+                //System.out.println("Toco en : "+screenX);
                 nImage++;
                 return  true;
             }

@@ -24,7 +24,7 @@ import com.badlogic.gdx.utils.Timer;
  * Created by jerry2157 on 10/09/17.
  */
 
-public class ScreenThree extends Pantalla {
+public class ScreenFive extends Pantalla {
     private int tamMundoWidth = 1280;
     private boolean played = false;
 
@@ -35,12 +35,8 @@ public class ScreenThree extends Pantalla {
     private int TamEscena = 0;
     private MHMain juego;
 
-    //Mom and daughter
-    private Texture mom;
-    private Texture daughter;
-
-    //World world;
-    //private Box2DDebugRenderer b2dr;
+    World world;
+    private Box2DDebugRenderer b2dr;
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
@@ -55,41 +51,41 @@ public class ScreenThree extends Pantalla {
     private Texture texturaBtnPintura;
 
 
-    public ScreenThree(MHMain juego) {
+    public ScreenFive(MHMain juego) {
         //Crear a Steven
         Steven = new PlayerSteven(10,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
 
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
-        //world = new World(new Vector2(0,-9.81f),true);
+        world = new World(new Vector2(0,-9.81f),true);
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
-        //b2dr = new Box2DDebugRenderer();
+        b2dr = new Box2DDebugRenderer();
 
         //Inicializamos variables
         pinturas=new Texture[16];
         nImage=0;
 
-        //createGround();
-        //createPlayer();
+        createGround();
+        createPlayer();
         controller = new Controller();
     }
 
     public void handleInput(){
         if(controller.isRightPressed()) {
-            //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
+            player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
         }
         else if (controller.isLeftPressed() || played == true) {
-            //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
+            player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
         }
         else {
-            //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
+            player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
         }
         if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
-            //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
+            player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
         }
     }
@@ -105,7 +101,7 @@ public class ScreenThree extends Pantalla {
 
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenThree/ScreenThreeBNG.png");
+        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
         //Imagenes de la pinturas
         paint1 =new Texture("Puzzle1/P1.png");
         pinturas[0]=paint1;
@@ -162,7 +158,7 @@ public class ScreenThree extends Pantalla {
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
-        //b2dr.render(world,camara.combined);
+        b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
@@ -183,7 +179,7 @@ public class ScreenThree extends Pantalla {
     public void resume() {
 
     }
-    /*public void createGround(){
+    public void createGround(){
         BodyDef bdef = new BodyDef();
         bdef.position.set(vista.getWorldWidth()/2,0);
         bdef.type = BodyDef.BodyType.StaticBody;
@@ -208,17 +204,19 @@ public class ScreenThree extends Pantalla {
 
         fdef.shape = shape;
         player.createFixture(fdef);
-    }*/
+    }
 
 
     @Override
     public void dispose() {
 
     }
+    public void HandleInput(){
 
+    }
     public void update(float dt){
         handleInput();
-        //world.step(1/60f,6,2);
+        world.step(1/60f,6,2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
 
         //camara.update();

@@ -1,5 +1,6 @@
 package com.mh.itesm;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,7 +25,7 @@ import javax.swing.OverlayLayout;
 public class Controller extends Pantalla{
     Viewport viewport;
     Stage stage;
-    boolean upPressed, downPressed, leftPressed, rightPressed,pausePressed, spacePressed;
+    boolean upPressed, downPressed, leftPressed, rightPressed,pausePressed, spacePressed,buttonPressed;
     OrthographicCamera cam;
 
     public Controller(){
@@ -120,6 +121,7 @@ public class Controller extends Pantalla{
             }
         });
         Texture tex=new Texture("comun/btnPausa.png");
+        //Texture tex=new Texture("Botones/pausa.png");
         Image pausa= new Image(tex);
         pausa.setSize(60,60);
         pausa.setPosition(ANCHO/2+100,ALTO/2+60);
@@ -169,6 +171,23 @@ public class Controller extends Pantalla{
             }
         });
 
+        Image botonI=new Image(new Texture("Botones/boton.png"));
+        botonI.setSize(50,50);
+        botonI.setPosition(ANCHO/2+100,ALTO/2-350);
+        botonI.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                buttonPressed= true;
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                buttonPressed = false;
+            }
+        });
+
+
         table.add();
         table.add(upImg).size(upImg.getWidth(), upImg.getHeight());
         table.add();
@@ -181,8 +200,11 @@ public class Controller extends Pantalla{
         table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
         table.add();
 
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            stage.addActor(table);
+            stage.addActor(botonI);
+        }
 
-        stage.addActor(table);
         stage.addActor(pausa);
     }
 
@@ -211,6 +233,11 @@ public class Controller extends Pantalla{
     public boolean isSpacePressed(){
         return spacePressed;
     }
+
+    public boolean isButtonPressed(){
+        return buttonPressed;
+    }
+
 
     @Override
     public void show() {
