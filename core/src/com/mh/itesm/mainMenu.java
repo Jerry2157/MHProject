@@ -74,7 +74,7 @@ public class mainMenu extends Pantalla{
                 //BUEEEEEENAAAAAAAAAAAAASSSSS
                 //juego.setScreen(new PantallaCargando(juego,Pantallas.NIVEL_WHACK_A_MOLE)); //Primer Nivel!!!!
                 //BUUUUUEEEEENNNNNNNAAAAAAAASSS
-                juego.setScreen(new ScreenThree(juego));
+                juego.setScreen(new ScreenTwo(juego));
             }
         });
         //botonCreditos
