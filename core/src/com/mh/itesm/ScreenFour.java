@@ -20,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by jerry2157 on 10/09/17.
  */
@@ -32,6 +34,18 @@ public class ScreenFour extends Pantalla {
     //Steven
     private PlayerSteven Steven;
 
+    //FirstCop
+    private  FirstCop cop;
+
+    //ContadorTiempo
+    private float countTime;
+
+    //ha sido golpeado Steven?
+    private boolean kicked;
+    //se ha dado la vuelta el policia?
+    private boolean fliped;
+    //se ha dado la vuelta y lo persigue?
+    private  boolean flippedrunning;
 
     private int TamEscena = 0;
     private MHMain juego;
@@ -41,16 +55,30 @@ public class ScreenFour extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-
+    //Pinturas interactuables
+    //Imagen(Pintura) interactuable
+    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
+    private Texture[] pinturas;
+    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
+    private int nImage;
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
 
 
     public ScreenFour(MHMain juego) {
+        kicked = false;
+        fliped = false;
+        flippedrunning = false;
+        countTime = 0;
+
+
         //Crear a Steven
-        Steven = new PlayerSteven(10,64,tamMundoWidth);
+        Steven = new PlayerSteven(3500,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
+        //Crear a Cop
+        cop = new FirstCop(3950,64,tamMundoWidth);
+        cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
 
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
@@ -58,50 +86,56 @@ public class ScreenFour extends Pantalla {
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
         b2dr = new Box2DDebugRenderer();
 
+        //Inicializamos variables
+        pinturas=new Texture[16];
+        nImage=0;
+
         //createGround();
         //createPlayer();
         controller = new Controller();
+
+        //proceduralActions
+        runCop();
     }
 
     public void handleInput(){
-        if(controller.isRightPressed()) {
-            //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
-        }
-        else if (controller.isLeftPressed()) {
-            //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
-        }
-        else {
-            //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
-        }
-        if (controller.isUpPressed()) {
-            //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+        if(kicked == false) {
+            if (controller.isRightPressed()) {
+                //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
+            } else if (controller.isLeftPressed()) {
+                //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
+            } else {
+                //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            }
+            if (controller.isUpPressed()) {
+                //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            }
+        }else{
+
         }
     }
-
     @Override
     public void show() {
         cargarTexturas();
         //Gdx.input.setInputProcessor(new ProcesadorEntrada());
-
     }
-
     //es importante que se indique que parte debe tocar e ir pintando restringuiendo que parte toco, si es posible
-
-
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenFour/SceneFourBNG.png");
         fondo = new Fondo(BackgroundLayerOne);
         fondo.setPosicion(0,0);
-
     }
 
     @Override
     public void render(float delta) {
+
+
         Steven.actualizar();
+        cop.actualizar();
         actualizarCamara();
         update();
         borrarPantalla(0.8f,0.45f,0.2f);
@@ -113,18 +147,58 @@ public class ScreenFour extends Pantalla {
         fondo.setPosicion(0,0);
         //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         Steven.dibujar(batch);
+        cop.dibujar(batch);
 
+
+
+        //batch.draw(puzzlePintura(),50,100);
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
 
+        //verifica si el policia alcanzo a steven
+        if(abs(cop.getX()-Steven.getX()) < 5){
+            kicked = true;
+            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO); //cambiar por modo herido
+            cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);//cambiar por modo golpe
+            //Se espera un segundo
+            float delay = 1; // seconds
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+
+                    cop.setX(Steven.getX()-1000);
+                    //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
+                    juego.setScreen(new ScreenFive(juego)); //Primer Nivel!!!!
+                }
+            }, delay);
+        }
+        //si han pasado 10 segundos el policia se va y lo encuentra del otro lado
+        countTime += Gdx.graphics.getDeltaTime();  // Acumula tiempo
+        System.out.println(countTime);
+        if (countTime>=5.0f && kicked == false && fliped == false) {
+            fliped = true;
+            cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_DERECHA);
+            System.out.println("se acabo tiempo");
+            cop.VELOCIDAD_X = 5.0f;
+
+            //Se espera un segundo
+            float delay = 1; // seconds
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+
+                    cop.setX(Steven.getX()-1000);
+                    //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
+                }
+            }, delay);
+        }
 
     }
-
-
-
 
 
     @Override
@@ -136,32 +210,6 @@ public class ScreenFour extends Pantalla {
     public void resume() {
 
     }
-    /*public void createGround(){
-        BodyDef bdef = new BodyDef();
-        //bdef.position.set(vista.getWorldWidth()/2,0);
-        bdef.type = BodyDef.BodyType.StaticBody;
-        Body b2body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(vista.getWorldWidth()/2,20);
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef);
-    }
-    public void createPlayer(){
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(vista.getWorldWidth()/2,80);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        player = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(40,40);
-
-        fdef.shape = shape;
-        player.createFixture(fdef);
-    }*/
 
 
     @Override
@@ -181,6 +229,20 @@ public class ScreenFour extends Pantalla {
         //camara.update();
 
     }
+
+    private void runCop(){
+        //Se espera un segundo
+        float delay = 1; // seconds
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                played = true;
+                cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.MOV_IZQUIERDA);
+            }
+        }, delay);
+    }
+
     public void cambiarEscena(){
         if(1100 == Steven.getX() &&  64 <= Steven.getY()){ //258  y 512 es la posicion del templo, lo identifique con el system.out.println
             // Para verificar si el usuario ya tomo los 3 pergaminos y liberar el boton de galeria de arte...
@@ -209,10 +271,11 @@ public class ScreenFour extends Pantalla {
         }
     }
 
+
+
     private void showPolice() {
         //Se espera un segundo
         float delay = 1; // seconds
-
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {

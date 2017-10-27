@@ -51,7 +51,7 @@ public class mainMenu extends Pantalla{
         //boton jugar
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
         ImageButton btnPlay = new ImageButton(trdPlay);
-        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.55f*ALTO);
+        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.5f*ALTO);
         escenaMenu.addActor(btnPlay);
         btnPlay.addListener(new ClickListener(){
             @Override
@@ -61,10 +61,10 @@ public class mainMenu extends Pantalla{
                 juego.setScreen(new PantallaCargando(juego,Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
             }
         });
-        //boton
+        //boton AYUDA
         TextureRegionDrawable trdAyuda = new TextureRegionDrawable(new TextureRegion(texturaBtnAyuda));
         ImageButton btnAyuda = new ImageButton(trdAyuda);
-        btnAyuda.setPosition(ANCHO/2 - btnAyuda.getWidth()/2, 0.5f*ALTO);
+        btnAyuda.setPosition(ANCHO/2 - btnAyuda.getWidth()/2, 0.2f*ALTO);
         escenaMenu.addActor(btnAyuda);
         btnAyuda.addListener(new ClickListener(){
             @Override
@@ -74,13 +74,13 @@ public class mainMenu extends Pantalla{
                 //BUEEEEEENAAAAAAAAAAAAASSSSS
                 //juego.setScreen(new PantallaCargando(juego,Pantallas.NIVEL_WHACK_A_MOLE)); //Primer Nivel!!!!
                 //BUUUUUEEEEENNNNNNNAAAAAAAASSS
-                juego.setScreen(new ScreenFour(juego));
+                juego.setScreen(new ScreenThree(juego));
             }
         });
         //botonCreditos
         TextureRegionDrawable trdCreditos = new TextureRegionDrawable(new TextureRegion(texturaBtnCredits));
         ImageButton btnCredits = new ImageButton(trdCreditos);
-        btnAyuda.setPosition(ANCHO/2 - btnCredits.getWidth()/2, 0.3f*ALTO);
+        btnAyuda.setPosition(ANCHO - btnCredits.getWidth(), 0.0f*ALTO);
         escenaMenu.addActor(btnCredits);
         btnCredits.addListener(new ClickListener(){
             @Override
