@@ -120,6 +120,7 @@ public class Controller extends Pantalla{
             }
         });
         Texture tex=new Texture("comun/btnPausa.png");
+        //Texture tex=new Texture("Botones/pausa.png");
         Image pausa= new Image(tex);
         pausa.setSize(60,60);
         pausa.setPosition(ANCHO/2+100,ALTO/2+60);

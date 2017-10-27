@@ -238,6 +238,7 @@ public class ScreenOne extends Pantalla {
         texturaLienzo = manager.get("Lienzo.png");
         //pausa con el manager ponerlo en otro metodo si uso manager???
         texturaBtnPausa = manager.get("comun/btnPausa.png");
+        //texturaBtnPausa= manager.get("Botones/pausa.png");
         //para el texture toca aquí
         texturaBtnTocaA=manager.get("ScreenOne/fondotest.png");
 
