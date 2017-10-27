@@ -488,7 +488,7 @@ public class ScreenOne extends Pantalla {
             //guardamos un temp
             //y volvemos a crear
             //Se pierde la referencia guardar estado pasado y crear uno nuevo, esto debido al cambio de inputs
-            System.out.println("Llegamos aquí: "+Steven.getEstadoMovimiento());
+            //System.out.println("Llegamos aquí: "+Steven.getEstadoMovimiento());
             //Si le regresas el control se cicla y se mueve solo
             //Gdx.input.setInputProcessor(controller.getStage());
 
