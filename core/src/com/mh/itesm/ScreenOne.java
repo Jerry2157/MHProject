@@ -88,7 +88,6 @@ public class ScreenOne extends Pantalla {
     private float tiempo;
     private float tiempoParpadeo;
     private final float TIEMPO_PASO = 1.0f; //la usaremos para el parpadeo
-    private final float TIEMPO_DIALO=0.2f;
     // Procesador de eventos pinturas
     private final ProcesadorEntrada procesadorEntrada = new ProcesadorEntrada();
 
@@ -112,6 +111,16 @@ public class ScreenOne extends Pantalla {
     private Fondo fondo;
     //condicion para empezar con los dialogos
     private boolean pressEspaciadora=false;
+    //condicion texto barra espaciadora
+    private boolean condicionTemp=true;
+    //variable que limita la pintura dialogo
+    private int delayDialog;
+    //boleano para empezar a pintar
+    private boolean beginPaint=false;
+    //booleano para dejar de dibujar text lienzo
+    private boolean quitarTextLien=false;
+    //textura que suplantara al object
+    private Texture lienzoPuzzle;
 
 
     public ScreenOne(MHMain juego) {
@@ -130,6 +139,7 @@ public class ScreenOne extends Pantalla {
         nDialog=-1;
         cordeX=0;
         cordeY=0;
+        delayDialog=0;
 
         manager = juego.getAssetManager(); //manager
         controller = new Controller();
@@ -145,7 +155,8 @@ public class ScreenOne extends Pantalla {
         else if (controller.isLeftPressed()) {
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
         }
-        else if(controller.isSpacePressed() && Steven.getX()>=400){
+        //QUE PASA CUANDO ESTAMOS EN CELULAR FALTA REGRESAR CONTROL A INPUT PROCESOR, AGREGAR TIEMPO, Y MENSAJE DE FELICIDADES
+        else if(controller.isSpacePressed() && Steven.getX()>=900){
             //parte del codigo que con booleando para dibujar dialogo.
             pressEspaciadora=true;
         }
@@ -204,16 +215,20 @@ public class ScreenOne extends Pantalla {
         Random tempRand2=new Random();
         int i=0;
         int k=0;
+
         Random randomCordeX = new Random();
         Random randomCordeY=new Random();
+        while(i<200 && k<200) {
+            i = tempRand1.nextInt(1000);
+            k = tempRand2.nextInt(600);
+            if (i > 200) {
+                cordeX = i;
+                if (k > 200) {
+                    cordeY = k;
+                    break;
+                }
+            }
 
-        i=tempRand1.nextInt(900);
-        k=tempRand2.nextInt(500);
-        if(i>200){
-            cordeX=i;
-        }
-        if(k>200){
-            cordeY=k;
         }
     }
 
@@ -234,6 +249,7 @@ public class ScreenOne extends Pantalla {
         esposaParada = new Texture("Characters/EsposaNORMAL.png");
         esposaParadaPar=new Texture("Characters/EsposaParpadeo.png");
         hijaSentada = new Texture("Characters/HijaNORMAL.png");
+        lienzoPuzzle=new Texture("Lienzo.png");
         hijaSentadaPar=new Texture("Characters/HijaParpadeo.png");
         texturaLienzo = manager.get("Lienzo.png");
         //pausa con el manager ponerlo en otro metodo si uso manager???
@@ -259,7 +275,7 @@ public class ScreenOne extends Pantalla {
         line7=new Texture("Dialogos/Nivel1/Hija/line7.png");
         dialogos[6]=line7;
         line8=new Texture("Dialogos/Nivel1/Hija/line8.png");
-        dialogos[7]=line9;
+        dialogos[7]=line8;
         line9=new Texture("Dialogos/Nivel1/Esposa/line9.png");
         dialogos[8]=line9;
 
@@ -324,7 +340,10 @@ public class ScreenOne extends Pantalla {
         //AGREGAR QUE SI COLISIONO APAREZCA EL LIENZO
         //draw de las pintruas
         if (nImage > 0 && nImage < 16 ) {
-            batch.draw(pinturas[nImage - 1], 50, 100);
+            //lo sacamos de la pantalla eliminar
+            lienzo.setPosition(1280,800);
+            batch.draw(lienzoPuzzle,450,60);
+            batch.draw(pinturas[nImage - 1], 260, 200);
             if(tocoBtn==true){
                 btnTocaAqui.setPosition(cordeX,cordeY);
                 tocoBtn=false;
@@ -335,9 +354,9 @@ public class ScreenOne extends Pantalla {
             condicionTerminoPintura=true;
             condicionTocaAqui=false;
         }
-        if(Steven.getX()>400 && condicionTerminoPintura==false){
+        if(beginPaint==true && condicionTerminoPintura==false){
             //activar mini uzzle pintura
-            //condicionTocaAqui=true;
+            condicionTocaAqui=true;
         }
 
         //Mostrando texto al inicio del nivel
@@ -345,30 +364,45 @@ public class ScreenOne extends Pantalla {
             texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque", (ANCHO / 4)+10, (ALTO / 1)-5);
             texto.setColor(0, 0, 0, 1);
         }
+        //Set de intrucciones
+        if(tiempo>2 && tiempo<=7){
+            texto.mostrarMensaje(batch, "Camina hasta tu hija", (ANCHO / 4)-110, (ALTO / 1)-5);
+            texto.setColor(1, 1, 1, 1);
+        }
+        //Agregar booleano para que desaparezca este texto
+        if(nDialog>=9 && quitarTextLien==false){
+            texto.mostrarMensaje(batch, "Ahora toca el lienzo", (ANCHO / 4)-110, (ALTO / 1)-5);
+            texto.setColor(1, 1, 1, 1);
+            //le damos el control al input de procesador entrada
+            Gdx.input.setInputProcessor(procesadorEntrada);
+        }
         //Desplegar controlador de dialogos al llegar a la coordenada de su esposa
-        if(Steven.getX()>=750){
-            texto.mostrarMensaje(batch, "Pulsa la barra espaciadora para el dialogo", (ANCHO / 4)+65, (ALTO / 1)-5);
-            texto.setColor(0, 0, 0, 1);
+        if(Steven.getX()>=900 && condicionTemp==true){
+            texto.mostrarMensaje(batch, "Pulsa la barra espaciadora para el dialogo", (ANCHO / 4)+80, (ALTO / 1)-5);
+            texto.setColor(1, 1, 1, 1);
         }
 
         //Manejo de tiempo para los dialogos
-        if (tiempoParpadeo>=TIEMPO_DIALO && Steven.getX()>=750  && pressEspaciadora==true) {
+        if ( delayDialog%160==0 && Steven.getX()>=900  && pressEspaciadora==true) {
             tiempoParpadeo = 0;
             nDialog++;
 
         }
 
         //empezamos con los dialogos
-        if( Steven.getX()>=750  && pressEspaciadora==true){
+        if( Steven.getX()>=900  && pressEspaciadora==true){
             //No dejar que steven se mueva?
-            if( nDialog==0 || nDialog==3 || nDialog==5 || nDialog==6 || nDialog==9){
-                batch.draw(dialogos[nDialog],620,275);
-            }
-            if(nDialog==2 || nDialog==4 || nDialog==7 || nDialog==8){
-                batch.draw(dialogos[nDialog],790,275);
-            }
-            if(nDialog==9){
-                pressEspaciadora=false;
+            if(estadoJuego==EstadoJuego.JUGANDO) {
+                if (nDialog == 0 || nDialog == 2 || nDialog == 4 || nDialog == 5 || nDialog == 8) {
+                    condicionTemp = false;
+                    batch.draw(dialogos[nDialog], 620, 275);
+                }
+                if (nDialog == 1 || nDialog == 3 || nDialog == 6 || nDialog == 7) {
+                    batch.draw(dialogos[nDialog], 820, 255);
+                }
+                if (nDialog == 9) {
+                    pressEspaciadora = false;
+                }
             }
 
         }
@@ -378,6 +412,8 @@ public class ScreenOne extends Pantalla {
         dibujarElementos(batch);
         batch.end();
         manejoInputPintura();
+        //Crear int que se actualize y ponder por modulo condicion para dialogo
+        delayDialog ++;
         tiempo += Gdx.graphics.getDeltaTime();
         //Tiempo parpadeo
         tiempoParpadeo +=Gdx.graphics.getDeltaTime();
@@ -389,8 +425,8 @@ public class ScreenOne extends Pantalla {
 
         b2dr.render(world, camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        //if (Gdx.app.getType() == Application.ApplicationType.Android) este incluye a pausa entonces manejar condicion para android en controller
-            controller.draw();
+        //if (Gdx.app.getType() == Application.ApplicationType.Android) //condicion manejada en controller
+        controller.draw();
 
 
     }
@@ -416,7 +452,7 @@ public class ScreenOne extends Pantalla {
             //y volvemos a crear
             //Se pierde la referencia guardar estado pasado y crear uno nuevo, esto debido al cambio de inputs
             System.out.println("Llegamos aquí: "+Steven.getEstadoMovimiento());
-
+            //Si le regresas el control se cicla y se mueve solo
             //Gdx.input.setInputProcessor(controller.getStage());
 
             condicionUnaVez=false;
@@ -453,6 +489,10 @@ public class ScreenOne extends Pantalla {
             camara.unproject(v);
             //DEBUGEO SI TODCA LA PINTURA PASA EL CONTROL AL OTRO ASSET
             //chcear porque no me permite mas de una pintura y si va a ser de pantalla completa
+            if(lienzo.contiene(v)){
+                beginPaint=true;
+                quitarTextLien=true;
+            }
             if(btnTocaAqui.contiene(v)){
                 tocoBtn=true;
                 estadoPintura=true;

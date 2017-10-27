@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
- * Created by roberto on 13/03/17.
+ * Autores: Jesús Heriberto Vásquez Sánchez A01377358
+ * Autores: Gerardo Ezequiel Magdaleno Hernández
  */
 
 class PantallaCargando extends Pantalla

@@ -1,5 +1,6 @@
 package com.mh.itesm;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -182,8 +183,10 @@ public class Controller extends Pantalla{
         table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
         table.add();
 
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            stage.addActor(table);
+        }
 
-        stage.addActor(table);
         stage.addActor(pausa);
     }
 
