@@ -17,13 +17,14 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import javax.swing.OverlayLayout;
 
 /**
- * Created by jerry2157 on 13/09/17.
+ * Autor: Jesús Heriberto Vásquez Sánchez A01377358
+ * Autor: Gerardo Ezequiel Magdaleno Hernández
  */
 
 public class Controller extends Pantalla{
     Viewport viewport;
     Stage stage;
-    boolean upPressed, downPressed, leftPressed, rightPressed,pausePresed;
+    boolean upPressed, downPressed, leftPressed, rightPressed,pausePressed, spacePressed;
     OrthographicCamera cam;
 
     public Controller(){
@@ -48,6 +49,9 @@ public class Controller extends Pantalla{
                     case Input.Keys.RIGHT:
                         rightPressed = true;
                         break;
+                    case Input.Keys.SPACE:
+                        spacePressed=true;
+                        break;
                 }
                 return true;
             }
@@ -66,6 +70,9 @@ public class Controller extends Pantalla{
                         break;
                     case Input.Keys.RIGHT:
                         rightPressed = false;
+                        break;
+                    case Input.Keys.SPACE:
+                        spacePressed = false;
                         break;
                 }
                 return true;
@@ -115,18 +122,18 @@ public class Controller extends Pantalla{
         Texture tex=new Texture("comun/btnPausa.png");
         Image pausa= new Image(tex);
         pausa.setSize(60,60);
-        pausa.setPosition(ANCHO/2,ALTO/2);
+        pausa.setPosition(ANCHO/2+100,ALTO/2+60);
                 //ANCHO-3*(new Texture("comun/btnPausa.png").getWidth()/2)+35,ALTO-(new Texture("comun/btnPausa.png")).getHeight()-10);
         pausa.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                pausePresed = true;
+                pausePressed = true;
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                pausePresed = false;
+                pausePressed = false;
             }
         });
 
@@ -199,7 +206,11 @@ public class Controller extends Pantalla{
         return rightPressed;
     }
 
-    public boolean isPausePressed(){return pausePresed;}
+    public boolean isPausePressed(){return pausePressed;}
+
+    public boolean isSpacePressed(){
+        return spacePressed;
+    }
 
     @Override
     public void show() {
@@ -227,10 +238,11 @@ public class Controller extends Pantalla{
 
     @Override
     public void dispose() {
-
+        this.dispose();
     }
 
     public Stage getStage(){
         return stage;
     }
+
 }
