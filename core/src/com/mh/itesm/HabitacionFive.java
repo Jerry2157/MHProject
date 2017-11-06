@@ -2,32 +2,21 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 
 /**
  * Created by jerry2157 on 03/10/17.
  */
 
-public class ScreenFive extends Pantalla {
+public class HabitacionFive extends Pantalla { //cocina
     private int tamMundoWidth = 1280;
+    private boolean passed = false;
     private boolean played = false;
 
     //Steven
@@ -42,9 +31,6 @@ public class ScreenFive extends Pantalla {
     private Texture mom;
     private Sprite momNdaughter;
 
-    //badpeople
-    private Texture evilTex;
-    private Sprite evil;
 
     //World world;
     //private Box2DDebugRenderer b2dr;
@@ -59,13 +45,11 @@ public class ScreenFive extends Pantalla {
     private int nImage;
     // Contenedor de los botones
     private Stage escenaMenu;
-    private Texture texturaBtnPintura;
-    private Preferences prefs;
+    private Texture texturaB4tnPintura;
+    Preferences prefs;
 
-    public ScreenFive(MHMain juego,int xS,int yS) {
+    public HabitacionFive(MHMain juego,int xS,int yS) {
         prefs = Gdx.app.getPreferences("My Preferences");
-
-        evilTex = new Texture("evilanim");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
@@ -74,27 +58,15 @@ public class ScreenFive extends Pantalla {
         this.juego = juego;
 
         controller = new Controller();
-
-        // evil
-        if(prefs.getBoolean("finalunlocked")==true){
-            evilTex = new Texture("evil.png");
-            evil = new Sprite(evilTex);
-        }
-    }
-    public void Confrontation(){
-        if(played == false){
-            played = true;
-            //inicia animacion de confrontacion
-            prefs.putBoolean("finalscape",true);
-        }
+        cargarTexturas();
     }
 
     public void handleInput(){
-        if(played == false) {
+        if(passed == false) {
             if (controller.isRightPressed()) {
                 //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
-            } else if (controller.isLeftPressed() || played == true) {
+            } else if (controller.isLeftPressed() || passed == true) {
                 //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
             } else {
@@ -117,13 +89,12 @@ public class ScreenFive extends Pantalla {
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
-
-
     }
 
     @Override
     public void render(float delta) {
         cambiarEscena();
+        reaction();
         Steven.actualizar();
         cop.actualizar();
         update(Gdx.graphics.getDeltaTime());
@@ -148,16 +119,22 @@ public class ScreenFive extends Pantalla {
         //batch.setProjectionMatrix(camara.combined);
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
+
+
     }
 
 
     @Override
     public void pause() {
+
     }
 
     @Override
     public void resume() {
+
     }
+
+
 
     @Override
     public void dispose() {
@@ -172,22 +149,56 @@ public class ScreenFive extends Pantalla {
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=1200 && played == false) {
-            played= true;
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+        if(Steven.getX()>=1270 && passed == false) {//derecha
+            passed = true;
+            trabar();
             nextScreenRight();
+
+        }
+        if(Steven.getX()<=10 && passed == false) {//izquierda
+            passed = true;
+            trabar();
+            nextScreenLeft();
         }
     }
+    public void reaction(){//interaccion con la comida
+        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && prefs.getBoolean("cuartosPassed") == false) {
+            played = true;
+            //launchDiaologue(dialogue.speech(6));
+        }
+    }
+    public void trabar(){//bloquea a steven
+        passed = true;
+        Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+    }
 
-    private void nextScreenRight() {
+    public void launchDiaologue(boolean proceed){ //acciona el diaologo y regresa el control al final de este
+        passed = false;
+        Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+    }
+
+
+    private void nextScreenLeft() {//izquiera
         //Se espera un segundo
-        float delay = 0.5f; // seconds
+        float delay = 0.1f; // seconds
 
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenSix(juego,20,64));
+                juego.setScreen(new ScreenFourteen(juego,10,64));
+            }
+        }, delay);
+    }
+    private void nextScreenRight() {//derecha
+        //Se espera un segundo
+        float delay = 0.1f; // seconds
+
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                juego.setScreen(new ScreenFourteen(juego,10,64));
             }
         }, delay);
     }
