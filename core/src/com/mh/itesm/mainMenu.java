@@ -1,6 +1,7 @@
 package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,7 +32,9 @@ public class mainMenu extends Pantalla{
     private Texture backTexAnim;
     private Animation spriteAnimadoBNG;         // Animación caminando
     private float timerAnimacionBNG;               // Tiempo para cambiar frames de la animación
-    protected Sprite sprite;    // Imagen
+    protected Sprite sprite;    //
+
+    private Music tonadaMenu;
 
 
     public mainMenu(MHMain juego) {
@@ -58,6 +61,8 @@ public class mainMenu extends Pantalla{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Gdx.app.log("clicked" , "***** TOUCH!!!!");
+                //paramos la musica
+                tonadaMenu.stop();
                 juego.setScreen(new PantallaCargando(juego,Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
             }
         });
@@ -116,6 +121,10 @@ public class mainMenu extends Pantalla{
         texturaBtnCredits = new Texture("CREDITOS.png");
         texturaBackground = new Texture("Menu/MenuBNG1920.png");
         backTexAnim = new Texture("FondoMenu.png");
+        //Sonido
+        tonadaMenu=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/lluvia.mp3"));
+        tonadaMenu.play();
+        tonadaMenu.setLooping(true);
         TextureRegion texturaCompleta = new TextureRegion(backTexAnim);
         TextureRegion[][] texturaPersonaje = texturaCompleta.split(1280,720);
         spriteAnimadoBNG = new Animation(0.1f

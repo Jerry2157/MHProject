@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -127,6 +128,8 @@ public class ScreenOne extends Pantalla {
     private float tiempoPuzzle;
 
     private boolean played; //bandera se cambio de nivel
+
+    private Music sonidoF;
 
     public ScreenOne(MHMain juego) {
         played = false;
@@ -300,7 +303,10 @@ public class ScreenOne extends Pantalla {
         line9=new Texture("Dialogos/Nivel1/Esposa/line9.png");
         dialogos[8]=line9;
 
-
+        //Sonido
+        sonidoF=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/parque.mp3"));
+        sonidoF.play();
+        sonidoF.setLooping(true);
 
         //Imagenes de la pinturas
         paint1 = new Texture("Puzzle1/P1.png");
