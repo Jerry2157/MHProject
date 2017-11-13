@@ -120,11 +120,13 @@ public class Controller extends Pantalla{
                 downPressed = false;
             }
         });
-        Texture tex=new Texture("comun/btnPausa.png");
-        //Texture tex=new Texture("Botones/pausa.png");
+        //Texture tex=new Texture("comun/btnPausa.png");
+        Texture tex=new Texture("comun/pausa.png");
         Image pausa= new Image(tex);
-        pausa.setSize(60,60);
-        pausa.setPosition(ANCHO/2+100,ALTO/2+60);
+        //pausa.setSize(60,60);
+        pausa.setSize(70,70);
+        //pausa.setPosition(ANCHO/2+100,ALTO/2+60);
+        pausa.setPosition(ANCHO/2+95,ALTO/2+55);
                 //ANCHO-3*(new Texture("comun/btnPausa.png").getWidth()/2)+35,ALTO-(new Texture("comun/btnPausa.png")).getHeight()-10);
         pausa.addListener(new InputListener(){
             @Override

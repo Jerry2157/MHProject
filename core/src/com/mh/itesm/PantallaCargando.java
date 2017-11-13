@@ -64,10 +64,13 @@ class PantallaCargando extends Pantalla
 
     private void cargarRecursosPrimerNivel() {
         manager.load("whackamole/btnSalir.png", Texture.class);
-       //manager.load("Botones/pausa.png", Texture.class);
         manager.load("whackamole/btnContinuar.png", Texture.class);
+
+        manager.load("Botones/CONTINUAR.png", Texture.class);
+        manager.load("Botones/SALIR.png", Texture.class);
+        manager.load("Botones/Musica.png",Texture.class);
+
         manager.load("Lienzo.png",Texture.class);
-        manager.load("comun/btnPausa.png", Texture.class);
         manager.load("ScreenOne/fondotest.png",Texture.class);
     }
 

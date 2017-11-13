@@ -36,4 +36,9 @@ public class Objeto
     public void setPosition(float x,float y){
         sprite.setPosition(x,y);
     }
+
+
+    public void dispose() {
+        this.dispose();
+    }
 }

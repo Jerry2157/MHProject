@@ -69,7 +69,7 @@ public class ScreenTwoAnim extends Objeto{
             case Cutting:
                 timerAnimacion += Gdx.graphics.getDeltaTime();
                 // Frame que se dibujará
-                TextureRegion region = spriteAnimadoCam.getKeyFrame(timerAnimacion);
+                TextureRegion region = (TextureRegion)spriteAnimadoCam.getKeyFrame(timerAnimacion);
                 if (estadoMovimiento==EstadoMovimiento.Cutting) {
                     /*if (!region.isFlipX()) {
                         region.flip(true,false);
