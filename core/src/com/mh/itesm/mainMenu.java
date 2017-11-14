@@ -94,7 +94,7 @@ public class mainMenu extends Pantalla{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Credits(juego)); //Primer Nivel!!!!
+                juego.setScreen(new Credits(juego));
             }
         });
 
@@ -133,7 +133,7 @@ public class mainMenu extends Pantalla{
         backTexAnim = new Texture("FondoMenu.png");
         //Sonido
         tonadaMenu=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/lluvia.mp3"));
-        tonadaMenu.setVolume(0.08f);
+        tonadaMenu.setVolume(1f);
         tonadaMenu.play();
         tonadaMenu.setLooping(true);
 

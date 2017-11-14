@@ -202,7 +202,7 @@ public class Controller extends Pantalla{
         table.add(downImg).size(downImg.getWidth(), downImg.getHeight());
         table.add();
 
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+        if (Gdx.app.getType() == Application.ApplicationType.Android  || Gdx.app.getType() == Application.ApplicationType.iOS) {
             stage.addActor(table);
             stage.addActor(botonI);
         }

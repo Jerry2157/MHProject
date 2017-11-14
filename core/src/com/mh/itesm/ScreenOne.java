@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -106,6 +107,7 @@ public class ScreenOne extends Pantalla {
 
     private boolean played; //bandera se cambio de nivel
     private Music sonidoF;
+    private boolean startdialog=false;
 
     public ScreenOne(MHMain juego) {
         played = false;
@@ -140,7 +142,7 @@ public class ScreenOne extends Pantalla {
         else if (controller.isLeftPressed()) {
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
         }
-        else if((controller.isSpacePressed() || controller.isButtonPressed())&& Steven.getX()>=900){
+        else if((controller.isSpacePressed() || controller.isButtonPressed())&& Steven.getX()>=590){
             pressEspaciadora=true; //parte del codigo que con booleando para dibujar dialogo.
         }
         //si se pasa de la izquierda
@@ -180,9 +182,9 @@ public class ScreenOne extends Pantalla {
         generarNumRandom();
         cargarTexturas();
         crearObjetos();
-        // Definir quién atiende los eventos de touch
         //Proceso entrada para mover a steven y pausa
         Gdx.input.setInputProcessor(controller.getStage());
+        //variables para manipular tiempo
         tiempo = 0;
         tiempoParpadeo=0;
     }
@@ -247,7 +249,7 @@ public class ScreenOne extends Pantalla {
 
         //Sonido
         sonidoF=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/parque.mp3"));
-        sonidoF.setVolume(0.04f);
+        sonidoF.setVolume(0.7f);
         sonidoF.play();
         sonidoF.setLooping(true);
 
@@ -300,100 +302,38 @@ public class ScreenOne extends Pantalla {
         fondo.render(batch);
         fondo.setPosicion(0,0);
 
+        Steven.dibujar(batch);
         //dibujando personajes y elementos CORREGIR PARPADEO
-        batch.draw(esposaParada, 750, 60);
-        batch.draw(hijaSentada, 957, 110);
+        batch.draw(esposaParada, 730, 60);
+        batch.draw(hijaSentada, 1015, 110);
         //Manejo del parpadeo esposa E HIJA PROVISIONAL
-        if (tiempoParpadeo>=TIEMPO_PASO) {
+        /*if (tiempoParpadeo>=TIEMPO_PASO) {
             tiempoParpadeo = 0;
             batch.draw(esposaParadaPar,750,60);
             batch.draw(hijaSentadaPar, 957, 110);
-        }
+        }*/
         //draw de las pintruas
         //AGREGAR ESTADOS SI NO TOCA PIERDE Y SE REINICIA
-        if (nImage > 0 && nImage < 16 ) {
-            tiempoCondicionPuzzle=true;
-            //dar formato al tiempo para que no se vea moviendo mucho y tenga menos numeros
-            texto.mostrarMensaje(batch, "Tiempo: "+(tiempoPuzzle), (ANCHO / 4)+10, (ALTO / 1)-5); //mostrampos tiempo hecho
-            texto.setColor(0, 0, 0, 1);
-            lienzo.setPosition(1280,800); //lo sacamos de la pantalla eliminar
-            batch.draw(lienzoPuzzle,450,60);
-            batch.draw(pinturas[nImage - 1], 260, 180);
-            if(tocoBtn==true){
-                btnTocaAqui.setPosition(cordeX,cordeY);
-                tocoBtn=false;
-            }
-        }
-        //Comprueba si ternimo la pintura para mandar el true PENDIENTE, IMPORTANE QUE PUEDA PERDER SI NO TOCA EN EL TIEMPO ADECUADO
-        if(nImage==16){
-            condicionTerminoPintura=true;
-            condicionTocaAqui=false;
-            tiempoCondicionPuzzle=false;
-            float tempTiempo=tiempoPuzzle;
-            texto.mostrarMensaje(batch, "FELICIDADES, TERMINASTE EL PRIMER NIVEL \n Tu tiempo fue: "+tempTiempo, (ANCHO / 2), (ALTO/2));
-            texto.setColor(0, 0, 0, 1);
-            //CARGA NUEVA ESCENA FIJARNOS EN EL DELAY
-            float delay = 4; // seconds
-            if(played == false) {
-                played = true;
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        // Do your work
-                        sonidoF.stop();
-                        juego.setScreen(new ScreenTwo(juego));
-                    }
-                }, delay);
-            }
-        }
+        //puzzle pinturas;
+        juegoPuzzlePinturas();
+
 
         if(beginPaint==true && condicionTerminoPintura==false){
-            condicionTocaAqui=true; //activar mini uzzle pintura
+            condicionTocaAqui=true; //activar mini puzzle pintura
         }
-        //Mostrando texto al inicio del nivel
-        if (tiempo <= 2) {
-            texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque", (ANCHO / 4)+10, (ALTO / 1)-5);
-            texto.setColor(0, 0, 0, 1);
+        //TEXTOS DE LA PANTALLA, metodo que maneja textos de la pantalla que aparecen en la parte superior
+        textosScreenOne();
+
+        //Manejo de tiempo para los dialogos, usando el delay PAPPADEO CHECAR***
+        tiempoDialogos();
+
+        //CONDICIONAL QUE NOS INDICA SI STEVEN ALCANZO A SU ESPOSA PARA PONE LOS DIALOGOS
+        if(Steven.getX()>=590){
+            startdialog=true;
         }
-        //Set de intrucciones
-        if(tiempo>2 && tiempo<=7){
-            texto.mostrarMensaje(batch, "Camina hasta tu hija", (ANCHO / 4)-120, (ALTO / 1)-5);
-            texto.setColor(1, 1, 1, 1);
-        }
-        //Muestra el texto para el puzzle de pintura
-        if(nDialog>=9 && quitarTextLien==false){
-            texto.mostrarMensaje(batch, "Ahora toca el lienzo", (ANCHO / 4)-120, (ALTO / 1)-5);
-            texto.setColor(1, 1, 1, 1);
-            Gdx.input.setInputProcessor(procesadorEntrada); //le damos el control al input de procesador entrada
-            // YA NO PODEMOS REGRESARSELO AL PRINCIPAL PODRIAMOS GUARDAR LA RELACION CON UN TEMP
-        }
-        //Desplegar controlador de dialogos al llegar a la coordenada de su hija TENTATIVO A CAMBIAR
-        if(Steven.getX()>=900 && condicionTemp==true){
-            texto.mostrarMensaje(batch, "Pulsa el boton para el dialogo", (ANCHO / 4)-30, (ALTO / 1)-5);
-            texto.setColor(1, 1, 1, 1);
-        }
-        //Manejo de tiempo para los dialogos, cambiar a TREDS?? osea usando el delay
-        if ( delayDialog%160==0 && Steven.getX()>=900  && pressEspaciadora==true) {
-            tiempoParpadeo = 0;
-            nDialog++;
-        }
-        //empezamos con los dialogos IMPORTANTE CAMBIAR A DIALOGOS 2.0 Y CREAR UNA CLASE DIALOGO
-        if( Steven.getX()>=900  && pressEspaciadora==true){
-            //No dejar que steven se mueva?
-            if(estadoJuego==EstadoJuego.JUGANDO) {
-                if (nDialog == 0 || nDialog == 2 || nDialog == 4 /*|| nDialog == 5 || nDialog == 8*/) {
-                    condicionTemp = false;
-                    batch.draw(dialogos[nDialog], 620, 275);
-                }
-                if (nDialog == 1 || nDialog == 3 || nDialog == 6 /*|| nDialog == 7*/) {
-                    batch.draw(dialogos[nDialog], 820, 255);
-                }
-                if (nDialog == 9) {
-                    pressEspaciadora = false;
-                }
-            }
-        }
-        Steven.dibujar(batch);
+        //manejo y impresion de dialogos
+        sistemaDialogos();
+
         dibujarElementos(batch);
 
         batch.end();
@@ -410,8 +350,103 @@ public class ScreenOne extends Pantalla {
         }
 
         b2dr.render(world, camara.combined);
-        controller.draw();
+        //borrar el controller si llego a cierto punto solo borrar la cruzeta??
+        if(beginPaint==false) {
+            controller.draw();
+        }
     }
+
+    //metodo que va a manejar los textos con sus respectivos tiempos
+    private void textosScreenOne() {
+        //Mostrando texto al inicio del nivel
+        if (tiempo <= 2) {
+            texto.mostrarMensaje(batch, "Primer Nivel \n Una tarde agradable en el parque", (ANCHO / 4)+10, (ALTO / 1)-5);
+            texto.setColor(0, 0, 0, 1);
+        }
+        //Set de intrucciones
+        if(tiempo>2 && Steven.getX()<590 && startdialog==false){
+            texto.mostrarMensaje(batch, "Camina hasta tu familia", (ANCHO / 4)-90, (ALTO / 1)-5);
+            texto.setColor(0, 0, 0, 1);
+        }
+        //Muestra el texto para el puzzle de pintura
+        if(nDialog>=9 && quitarTextLien==false){
+            texto.mostrarMensaje(batch, "Ahora toca el lienzo", (ANCHO / 4)-120, (ALTO / 1)-5);
+            texto.setColor(0, 0, 0, 1);
+            Gdx.input.setInputProcessor(procesadorEntrada); //le damos el control al input de procesador entrada
+            // YA NO PODEMOS REGRESARSELO AL PRINCIPAL PODRIAMOS GUARDAR LA RELACION CON UN TEMP
+        }
+        //Desplegar controlador de dialogos al llegar a la coordenada de su hija TENTATIVO A CAMBIAR
+        if(startdialog==true && condicionTemp==true ){
+            texto.mostrarMensaje(batch, "Pulsa el boton para el dialogo", (ANCHO / 4)-30, (ALTO / 1)-5);
+            texto.setColor(0, 0, 0, 1);
+        }
+    }
+
+    //metodo que dibuja y maneja el puzzle pinturas
+    private void juegoPuzzlePinturas() {
+        if (nImage > 0 && nImage < 16 ) {
+            tiempoCondicionPuzzle=true;
+            texto.mostrarMensaje(batch, "Tiempo: "+((int)tiempoPuzzle), (ANCHO / 4)-190, (ALTO / 1)-5); //mostrampos tiempo hecho
+            texto.setColor(0, 0, 0, 1);
+            lienzo.setPosition(1280,800); //lo sacamos de la pantalla eliminar
+            batch.draw(lienzoPuzzle,450,60);
+            batch.draw(pinturas[nImage - 1], 260, 180);
+            if(tocoBtn==true){
+                btnTocaAqui.setPosition(cordeX,cordeY);
+                tocoBtn=false;
+            }
+        }
+        //Comprueba si ternimo la pintura para mandar el true PENDIENTE, IMPORTANE QUE PUEDA PERDER SI NO TOCA EN EL TIEMPO ADECUADO
+        if(nImage==16){
+            condicionTerminoPintura=true;
+            condicionTocaAqui=false;
+            tiempoCondicionPuzzle=false;
+            float tempTiempo=tiempoPuzzle;
+            texto.mostrarMensaje(batch, "FELICIDADES, TERMINASTE EL PRIMER NIVEL \n Tu tiempo fue: "+(int)tempTiempo, (ANCHO / 2), (ALTO/2)+50);
+            texto.setColor(0, 0, 0, 1);
+            //CARGA NUEVA ESCENA FIJARNOS EN EL DELAY
+            float delay = 4; // seconds
+            if(played == false) {
+                played = true;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        // Do your work
+                        sonidoF.stop();
+                        juego.setScreen(new ScreenTwo(juego));
+                    }
+                }, delay);
+            }
+        }
+    }
+
+    //tiempo dialogos
+    private void tiempoDialogos() {
+        if ( delayDialog%160==0 && startdialog==true  && pressEspaciadora==true) {
+            tiempoParpadeo = 0;
+            nDialog++;
+        }
+
+    }
+    //manejo dialogos
+    private void sistemaDialogos() {
+        if( startdialog==true  && pressEspaciadora==true){
+            if(estadoJuego==EstadoJuego.JUGANDO) {
+                if (nDialog == 0 || nDialog == 2 || nDialog == 4 /*|| nDialog == 5 || nDialog == 8*/) {
+                    condicionTemp = false;
+                    batch.draw(dialogos[nDialog], 485, 277);
+
+                }
+                if (nDialog == 1 || nDialog == 3 || nDialog == 6 /*|| nDialog == 7*/) {
+                    batch.draw(dialogos[nDialog], 780, 245);
+                }
+                if (nDialog == 9) {
+                    pressEspaciadora = false;
+                }
+            }
+        }
+    }
+
     //tambien corrobora si debe pasar el input procesor a el puzzle o no
     private void dibujarElementos(SpriteBatch batch) {
         lienzo.dibujar(batch);
@@ -468,6 +503,8 @@ public class ScreenOne extends Pantalla {
             //chcear porque no me permite mas de una pintura y si va a ser de pantalla completa
             if(lienzo.contiene(v)){
                 beginPaint=true;
+                //EVITAMOS QUE STEVEN SE MUEVA
+                Steven.estadoMovimiento= PlayerSteven.EstadoMovimiento.QUIETO;
                 quitarTextLien=true;
             }
             if(btnTocaAqui.contiene(v)){
