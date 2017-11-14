@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Timer;
  * Created by jerry2157 on 03/10/17.
  */
 
-public class ScreenSix extends Pantalla { //pasillo con enfermera
+public class ScreenSix extends Pantalla {
     private int tamMundoWidth = 1280;
     private boolean passed = false;
     private boolean played = false;
@@ -27,8 +27,8 @@ public class ScreenSix extends Pantalla { //pasillo con enfermera
     private MHMain juego;
 
     //Mom and daughter
-    private Texture mom;
-    private Sprite momNdaughter;
+    private Texture nurseTex;
+    private Sprite nurse;
 
 
     //World world;
@@ -48,6 +48,12 @@ public class ScreenSix extends Pantalla { //pasillo con enfermera
 
 
     public ScreenSix(MHMain juego,int xS,int yS) {
+        //crear a enfermera
+        nurseTex = new Texture("Characters/Enfermera.png");
+        nurse = new Sprite(nurseTex);
+        nurse.setX(610);
+        nurse.setY(-5);
+
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
@@ -94,7 +100,7 @@ public class ScreenSix extends Pantalla { //pasillo con enfermera
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -102,9 +108,9 @@ public class ScreenSix extends Pantalla { //pasillo con enfermera
         batch.begin();
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+        batch.draw(nurse, nurse.getX(), nurse.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){

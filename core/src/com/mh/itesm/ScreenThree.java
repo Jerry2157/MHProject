@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.Timer;
  * Created by jerry2157 on 10/09/17.
  */
 
-public class ScreenThree extends Pantalla {
+public class ScreenThree extends Pantalla {//patio trasero
     private int tamMundoWidth = 1280;
     private boolean played = false;
 

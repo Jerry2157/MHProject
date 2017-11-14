@@ -19,17 +19,17 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
     private boolean passed = false; //se cambiara de nivel
     private boolean played = false; //se acciono el elevador
 
+    private static Fondo fondo; //Imagen de fondo
+
     //Steven
     private PlayerSteven Steven;
 
-    //Cop
-    private FirstCop cop;
     private int TamEscena = 0;
     private MHMain juego;
 
     //Mom and daughter
-    private Texture mom;
-    private Sprite momNdaughter;
+    private Texture PersonaTex;
+    private Sprite persona;
 
 
     //World world;
@@ -49,6 +49,8 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
     Preferences prefs;
 
 
+
+
     public ScreenTen(MHMain juego,int xS,int yS) {
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
@@ -59,6 +61,10 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
         this.juego = juego;
 
         controller = new Controller();
+
+        persona = new Sprite(new Texture("Characters/Enfermera.png"));
+        persona.setX(1280);
+        persona.setY(64);
     }
 
     public void handleInput(){
@@ -77,6 +83,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
+
         }
     }
 
@@ -88,23 +95,25 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
+        BackgroundLayerOne = new Texture("ScreenTen/PasilloPiso1.png");
+        fondo = new Fondo(BackgroundLayerOne);
+        fondo.setPosicion(0,0);
     }
     @Override
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+        actualizarCamara();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
-
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+        fondo.render(batch);
+        fondo.setPosicion(0,0);
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        batch.draw(persona, persona.getX(), persona.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
@@ -143,7 +152,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
     }
 
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false && prefs.getBoolean("areaverdelocked") == false) {
+        if(Steven.getX()>=3700 && passed == false && prefs.getBoolean("areaverdelocked") == false) {
             passed = true;
             trabar();
             nextScreenRight();
@@ -203,5 +212,20 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
                 //llevar a cuartos
             }
         }, delay);
+    }
+    private void actualizarCamara() {
+        float posX = Steven.sprite.getX();
+        // Si está en la parte 'media'
+        if (posX>=ANCHO/2 && posX<=tamMundoWidth-ANCHO/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+            //fondo.setPosicion(posX,camara.position.y);
+        } else if (posX>tamMundoWidth-ANCHO/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(tamMundoWidth-ANCHO/2, camara.position.y, 0);
+        } else if ( posX<ANCHO/2 ) { // La primera mitad
+            camara.position.set(ANCHO/2, ALTO/2,0);
+        }
+        camara.update();
     }
 }

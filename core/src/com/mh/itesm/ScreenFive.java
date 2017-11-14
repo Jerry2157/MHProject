@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.Timer;
  * Created by jerry2157 on 03/10/17.
  */
 
-public class ScreenFive extends Pantalla {
+public class ScreenFive extends Pantalla {//cuarto steven
     private int tamMundoWidth = 1280;
     private boolean played = false;
 
@@ -63,9 +63,11 @@ public class ScreenFive extends Pantalla {
     private Preferences prefs;
 
     public ScreenFive(MHMain juego,int xS,int yS) {
+
+
         prefs = Gdx.app.getPreferences("My Preferences");
 
-        evilTex = new Texture("evilanim");
+        //evilTex = new Texture("evilanim");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
@@ -79,6 +81,8 @@ public class ScreenFive extends Pantalla {
         if(prefs.getBoolean("finalunlocked")==true){
             evilTex = new Texture("evil.png");
             evil = new Sprite(evilTex);
+            //cop
+            cop = new FirstCop(3950,64,tamMundoWidth);
         }
     }
     public void Confrontation(){
@@ -125,7 +129,9 @@ public class ScreenFive extends Pantalla {
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+        if(prefs.getBoolean("finalunlocked")==true) {
+            cop.actualizar();
+        }
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -133,15 +139,16 @@ public class ScreenFive extends Pantalla {
         batch.begin();
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+        if(prefs.getBoolean("finalunlocked")==true) {
+            cop.dibujar(batch);
+        }
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
             batch.draw(pinturas[nImage-1],50,100);
         }
-
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
         //b2dr.render(world,camara.combined);
@@ -172,7 +179,7 @@ public class ScreenFive extends Pantalla {
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=1200 && played == false) {
+        if(Steven.getX()>=1100 && played == false) {
             played= true;
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             nextScreenRight();

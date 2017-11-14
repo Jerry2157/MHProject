@@ -13,10 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Autor: Gerardo Ezequiel Magdaleno Hernandez
- * Autor: Jesus Heriberto Vasquez Sanchez A01377358.
+ * Created by jerry2157 on 10/09/17.
  */
-
 
 public class mainMenu extends Pantalla{
     private MHMain juego;
@@ -29,10 +27,7 @@ public class mainMenu extends Pantalla{
     private Texture texturaBtnAyuda;
     private Texture texturaBtnCredits;
     private Texture texturaBackground;
-    private Texture texturaBtnMusica;
-    private Texture texturaBtnMusicaX;
-
-    private Texture texturaBtnTemp;
+    private Texture texturaBtnAjustes;
 
     private Texture backTexAnim;
     private Animation spriteAnimadoBNG;         // Animación caminando
@@ -40,8 +35,6 @@ public class mainMenu extends Pantalla{
     protected Sprite sprite;    //
 
     private Music tonadaMenu;
-    //Varible que lleva la cuenta del boton de musica para acivar y desactiva la musica
-    private int tocado=0;
 
 
     public mainMenu(MHMain juego) {
@@ -58,7 +51,6 @@ public class mainMenu extends Pantalla{
     private void crearEscenaMenu() {
         escenaMenu = new Stage(vista);
         //--------------Inicia botones--------------
-
         //boton jugar
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
         ImageButton btnPlay = new ImageButton(trdPlay);
@@ -68,6 +60,7 @@ public class mainMenu extends Pantalla{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                Gdx.app.log("clicked" , "***** TOUCH!!!!");
                 //paramos la musica
                 tonadaMenu.stop();
                 juego.setScreen(new PantallaCargando(juego,Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
@@ -76,51 +69,51 @@ public class mainMenu extends Pantalla{
         //boton AYUDA
         TextureRegionDrawable trdAyuda = new TextureRegionDrawable(new TextureRegion(texturaBtnAyuda));
         ImageButton btnAyuda = new ImageButton(trdAyuda);
-        btnAyuda.setPosition(ANCHO/4 - btnAyuda.getWidth()-60, 0.2f*ALTO+10);
+        btnAyuda.setPosition(ANCHO/2 - btnAyuda.getWidth()/2, 0.2f*ALTO);
         escenaMenu.addActor(btnAyuda);
         btnAyuda.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Help(juego));
+                Gdx.app.log("clicked" , "***** TOUCH!!!!");
+                //BUEEEEEENAAAAAAAAAAAAASSSSS
+                //juego.setScreen(new PantallaCargando(juego,Pantallas.NIVEL_WHACK_A_MOLE)); //Primer Nivel!!!!
+                //BUUUUUEEEEENNNNNNNAAAAAAAASSS
+                //juego.setScreen(new Help(juego));
+                juego.setScreen(new ScreenTen(juego,20,64));
             }
         });
         //botonCreditos
         TextureRegionDrawable trdCreditos = new TextureRegionDrawable(new TextureRegion(texturaBtnCredits));
         ImageButton btnCredits = new ImageButton(trdCreditos);
-        btnCredits.setPosition(ANCHO - btnCredits.getWidth()/*ANCHO/2 - btnCredits.getWidth()/2*/, 0.2f*ALTO +10);
+        btnAyuda.setPosition(ANCHO - btnCredits.getWidth(), 0.0f*ALTO);
         escenaMenu.addActor(btnCredits);
         btnCredits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Credits(juego));
+                Gdx.app.log("clicked" , "***** TOUCH!!!!");
+                juego.setScreen(new Credits(juego)); //Primer Nivel!!!!
             }
         });
 
-        //botonMusica
-        texturaBtnTemp=texturaBtnMusica;
-        TextureRegionDrawable trdMusica=new TextureRegionDrawable(new TextureRegion(texturaBtnTemp));
-        final ImageButton btnMusica= new ImageButton(trdMusica);
-        btnMusica.setPosition(ANCHO/2-btnMusica.getWidth()/2,0.3f*ALTO-40);
-        escenaMenu.addActor(btnMusica);
-        btnMusica.addListener(new ClickListener(){
+        //botonAjustes
+        /*TextureRegionDrawable trdAjustes=new TextureRegionDrawable(new TextureRegion(texturaBtnAjustes));
+        ImageButton btnAjustes= new ImageButton(trdAjustes);
+        btnAjustes.setPosition(ANCHO/2-btnAjustes.getWidth()/2,0.3f*ALTO);
+        escenaMenu.addActor(btnAjustes);
+        btnAjustes.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                tocado ++;
-                texturaBtnTemp=texturaBtnMusicaX;
-                //AQUI SE PARA LA MUSICA
-                if(tocado%2!=0){
-                    tonadaMenu.stop();
-                }
-                else{
-                    tonadaMenu.play();
-                    tonadaMenu.setLooping(true);
-                }
-
+                Gdx.app.log("clicked" , "***** TOUCH!!!!");
+                juego.setScreen(new Credits(juego)); //Primer Nivel!!!!
             }
-        });
+        });*/
+
+
+        //-----------------fin botones---------------
+
     }
 
     private void cargarTexturas() {
@@ -128,15 +121,11 @@ public class mainMenu extends Pantalla{
         texturaBtnAyuda = new Texture("fondoNew.png");
         texturaBtnCredits = new Texture("CREDITOS.png");
         texturaBackground = new Texture("Menu/MenuBNG1920.png");
-        texturaBtnMusica=new Texture("Botones/Musica.png");
-        texturaBtnMusicaX=new Texture("Botones/MusicaApagada.png");
         backTexAnim = new Texture("FondoMenu.png");
         //Sonido
         tonadaMenu=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/lluvia.mp3"));
-        tonadaMenu.setVolume(1f);
         tonadaMenu.play();
         tonadaMenu.setLooping(true);
-
         TextureRegion texturaCompleta = new TextureRegion(backTexAnim);
         TextureRegion[][] texturaPersonaje = texturaCompleta.split(1280,720);
         spriteAnimadoBNG = new Animation(0.1f
@@ -161,6 +150,7 @@ public class mainMenu extends Pantalla{
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
         batch.draw(region,0,0);
+        //batch.draw(texturaBackground, Pantalla.ANCHO/2 -texturaBackground.getWidth()/2,Pantalla.ALTO/2-texturaBackground.getHeight()/2);
         batch.end();
         escenaMenu.draw();
 

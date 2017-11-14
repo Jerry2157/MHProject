@@ -14,10 +14,12 @@ import com.badlogic.gdx.utils.Timer;
  * Created by jerry2157 on 03/10/17.
  */
 
-public class ScreenEleven extends Pantalla {//pasillo 1er piso
+public class ScreenEleven extends Pantalla {//sotano
     private int tamMundoWidth = 5120;
     private boolean passed = false; //se cambiara de nivel
     private boolean played = false; //se acciono el elevador
+
+    private static Fondo fondo; //Imagen de fondo
 
     //Steven
     private PlayerSteven Steven;
@@ -52,13 +54,28 @@ public class ScreenEleven extends Pantalla {//pasillo 1er piso
     private Texture texturaBtnPintura;
     Preferences prefs;
 
+    private Sprite blackPanel;
+    private Sprite Light;
+
+    private Sprite radio;
 
     public ScreenEleven(MHMain juego,int xS,int yS) {
+        cop = new FirstCop(3500,64,tamMundoWidth);
+        cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
+        radio = new Sprite(new Texture("Radio.png"));
+        radio.setX(3450);
+        radio.setY(10);
+        Light = new Sprite(new Texture("Luz.png"));
+
+        blackPanel = new Sprite(new Texture("blackpanel.png"));
         SwitchLight = false;
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
+
+        Light.setX(Steven.getX());
+        Light.setY(Steven.getY());
 
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
@@ -82,8 +99,9 @@ public class ScreenEleven extends Pantalla {//pasillo 1er piso
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
-            if(controller.isButtonPressed() && SwitchLight == false){
+            if(controller.isSpacePressed() || controller.isButtonPressed() && SwitchLight == false){
                 SwitchLight = true;
+
                 //Se espera un segundo
                 float delay = 0.3f; // seconds
                 Timer.schedule(new Timer.Task(){
@@ -103,23 +121,34 @@ public class ScreenEleven extends Pantalla {//pasillo 1er piso
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
+        BackgroundLayerOne = new Texture("ScreenEleven/Sotano.png");
+        fondo = new Fondo(BackgroundLayerOne);
+        fondo.setPosicion(0,0);
     }
     @Override
     public void render(float delta) {
+
         cambiarEscena();
         Steven.actualizar();
         cop.actualizar();
+        actualizarCamara();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        fondo.render(batch);
+        fondo.setPosicion(0,0);
+        batch.draw(radio,radio.getX(),radio.getY());
         Steven.dibujar(batch);
         cop.dibujar(batch);
+        if(SwitchLight == true){
+            batch.draw(Light,Steven.getX()-Light.getX()*60,Steven.getY()-Light.getY()*5);
+        }else{
+            batch.draw(blackPanel,camara.position.x-640,camara.position.y-360);
+        }
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
@@ -155,7 +184,7 @@ public class ScreenEleven extends Pantalla {//pasillo 1er piso
     }
 
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false) {
+        /*if(Steven.getX()>=1270 && passed == false) {
             passed = true;
             trabar();
             nextScreenRight();
@@ -164,7 +193,7 @@ public class ScreenEleven extends Pantalla {//pasillo 1er piso
             passed = true;
             trabar();
             nextScreenLeft();
-        }
+        }*/
     }
     public void reaction(){//puertacerrada
         if(Steven.getX()>=4800 && Steven.getX()<=4900 &&  passed == false && prefs.getBoolean("playedSotano") == false) {
@@ -215,5 +244,20 @@ public class ScreenEleven extends Pantalla {//pasillo 1er piso
                 //llevar a cuartos
             }
         }, delay);
+    }
+    private void actualizarCamara() {
+        float posX = Steven.sprite.getX();
+        // Si está en la parte 'media'
+        if (posX>=ANCHO/2 && posX<=tamMundoWidth-ANCHO/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+            //fondo.setPosicion(posX,camara.position.y);
+        } else if (posX>tamMundoWidth-ANCHO/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(tamMundoWidth-ANCHO/2, camara.position.y, 0);
+        } else if ( posX<ANCHO/2 ) { // La primera mitad
+            camara.position.set(ANCHO/2, ALTO/2,0);
+        }
+        camara.update();
     }
 }
