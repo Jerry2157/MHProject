@@ -61,7 +61,9 @@ public class Dialogos extends Objeto {
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Dialogos() {
-        dialogueLines = new String[][]{{"hola","perro","manzana"},{"gta","mgs","youtube",""}};
+        dialogueLines = new String[][]{{"hola","perro","manzana"},{"Hola, soy tu enfermera, \n estas en el Manicomio Colonia, ",
+                "Vimos tus antecedentes, \n parece que padeces esquizofrenia","Eres el principal sospechoso \n en el acuchillamiento de tu familia",
+                "Ve y platica con la cocinera \n en la cafeteria, ella te dira que hacer"}};
         //screenOne el primer elemento es esposa, el segundo hija
         dialogueOne = new String[][]{{"Hola Steven","Que lindo dia para pasarla en parque","Quedate quieta hija, tu padre te pintara"},{"Hola Padre", "Esta muy relajado","No te muevas madre"}};
         lineStarted = false;
@@ -100,7 +102,7 @@ public class Dialogos extends Objeto {
             case 1: //Dialogo 1
                 switch (linePoint){
                     case 0://linea 0
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -110,7 +112,7 @@ public class Dialogos extends Objeto {
                         enfermera.setY(400);
                         break;
                     case 1: //linea 1
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -120,7 +122,7 @@ public class Dialogos extends Objeto {
                         enfermera.setY(400);
                         break;
                     case 2: //linea 2
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -130,7 +132,7 @@ public class Dialogos extends Objeto {
                         enfermera.setY(400);
                         break;
                     case 3: // linea 3 ULTIMA
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -140,7 +142,6 @@ public class Dialogos extends Objeto {
                         enfermera.setY(400);
                         terminado = true; //en la ultima linea se debe regresar true
                         break;
-
                 }
                 break;
             case 2: //Dialogo 2
@@ -282,7 +283,7 @@ public class Dialogos extends Objeto {
         linePointerHelperA();
     }
     private void linePointerHelperA(){
-        float delay = 4.0f;
+        float delay = 6.0f;
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {

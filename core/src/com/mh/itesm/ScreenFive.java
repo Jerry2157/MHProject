@@ -63,6 +63,9 @@ public class ScreenFive extends Pantalla {//cuarto steven
     private boolean playedDialogo;
     private boolean runningDialogo;
     //------
+    //dialogo unico steven
+    private Texture dialog1;
+    private float tiempo;
 
     public ScreenFive(MHMain juego,int xS,int yS) {
 
@@ -76,7 +79,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
 
         //evilTex = new Texture("evilanim");
         //Crear a Steven
-        Steven = new PlayerSteven(xS,yS,tamMundoWidth);
+        Steven = new PlayerSteven(300,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
 
         Gdx.input.setInputProcessor(escenaMenu);
@@ -105,7 +108,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
             if (controller.isRightPressed()) {
                 //player.setLinearVelocity(new Vector2(100, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
-            } else if (controller.isLeftPressed() || played == true) {
+            } else if (controller.isLeftPressed()) {
                 //player.setLinearVelocity(new Vector2(-100, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
             } else {
@@ -143,8 +146,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
-
-
+        dialog1=new Texture("Dialogos/Nivel1/12.png");
     }
 
     @Override
@@ -175,6 +177,11 @@ public class ScreenFive extends Pantalla {//cuarto steven
         if(prefs.getBoolean("finalunlocked")) {
             cop.dibujar(batch);
         }
+
+        //aqui va el unico dialogo
+        if((int)tiempo>=0 && (int)tiempo<=3){
+            batch.draw(dialog1,110,285);
+        }
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
@@ -182,6 +189,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
          controller.draw();
+        tiempo +=Gdx.graphics.getDeltaTime();
     }
 
 

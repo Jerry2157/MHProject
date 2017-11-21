@@ -35,6 +35,8 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
     private Sprite nurse;
 
 
+
+
     //World world;
     //private Box2DDebugRenderer b2dr;
     Body player;

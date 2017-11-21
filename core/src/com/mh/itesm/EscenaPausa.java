@@ -333,7 +333,7 @@ public class EscenaPausa extends Stage {
             this.addActor(btnMusica);*/
         }
         if(pantalla instanceof ScreenSix){
-            final ScreenFive currentS=((ScreenFive) pantalla);
+            final ScreenSix currentS=((ScreenSix) pantalla);
             //Accedemos al estado juego de screenOne
             estadoJuego=currentS.getEstadoJuego();
 

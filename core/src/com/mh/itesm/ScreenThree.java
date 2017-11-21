@@ -152,7 +152,7 @@ public class ScreenThree extends Pantalla {//patio trasero
             //Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta
-           
+
         }
         tiempo += Gdx.graphics.getDeltaTime();
 

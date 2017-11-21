@@ -150,10 +150,6 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
-            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
-        }
-        controller.draw();
 
         //verifica si el policia alcanzo a steven
         if(abs(cop.getX()-Steven.getX()) < 5){
@@ -197,7 +193,7 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
                 }
             }, delay);
         }
-
+        controller.draw();
     }
 
 
@@ -220,7 +216,7 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
         handleInput();
         //world.step(1/60f,6,2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
-        pausaInput();
+
         //camara.update();
 
         //camara.update();
