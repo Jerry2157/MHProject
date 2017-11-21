@@ -403,7 +403,7 @@ public class ScreenOne extends Pantalla {
             condicionTocaAqui=false;
             tiempoCondicionPuzzle=false;
             float tempTiempo=tiempoPuzzle;
-            texto.mostrarMensaje(batch, "FELICIDADES, TERMINASTE EL PRIMER NIVEL \n Tu tiempo fue: "+(int)tempTiempo, (ANCHO / 2), (ALTO/2)+50);
+            texto.mostrarMensaje(batch, "FELICIDADES, TERMINASTE EL PRIMER PUZZLE \n Tu tiempo fue: "+(int)tempTiempo, (ANCHO / 2), (ALTO/2)+50);
             texto.setColor(0, 0, 0, 1);
             //CARGA NUEVA ESCENA FIJARNOS EN EL DELAY
             float delay = 4; // seconds

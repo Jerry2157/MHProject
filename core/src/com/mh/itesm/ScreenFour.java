@@ -2,22 +2,12 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 
 import static java.lang.Math.abs;
@@ -33,6 +23,10 @@ public class ScreenFour extends Pantalla {
 
     //Steven
     private PlayerSteven Steven;
+
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
 
     //FirstCop
     private  FirstCop cop;
@@ -57,15 +51,7 @@ public class ScreenFour extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
-    // Contenedor de los botones
     private Stage escenaMenu;
-    private Texture texturaBtnPintura;
 
 
     public ScreenFour(MHMain juego) {
@@ -74,8 +60,6 @@ public class ScreenFour extends Pantalla {
         fliped = false;
         flippedrunning = false;
         countTime = 0;
-
-
         //Crear a Steven
         Steven = new PlayerSteven(3500,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
@@ -89,12 +73,6 @@ public class ScreenFour extends Pantalla {
         //manipular objeto world para manipular o cambiar con lo que hemos estado usando
         b2dr = new Box2DDebugRenderer();
 
-        //Inicializamos variables
-        pinturas=new Texture[16];
-        nImage=0;
-
-        //createGround();
-        //createPlayer();
         controller = new Controller();
 
         //proceduralActions
@@ -119,6 +97,20 @@ public class ScreenFour extends Pantalla {
             }
         }else{
 
+        }
+    }
+
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego==EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
         }
     }
     @Override
@@ -158,8 +150,10 @@ public class ScreenFour extends Pantalla {
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
+        }
+        controller.draw();
 
         //verifica si el policia alcanzo a steven
         if(abs(cop.getX()-Steven.getX()) < 5){
@@ -222,14 +216,11 @@ public class ScreenFour extends Pantalla {
     public void dispose() {
 
     }
-    public void HandleInput(){
-
-    }
     public void update(){
         handleInput();
         //world.step(1/60f,6,2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
-
+        pausaInput();
         //camara.update();
 
         //camara.update();
@@ -305,5 +296,23 @@ public class ScreenFour extends Pantalla {
             camara.position.set(ANCHO/2, ALTO/2,0);
         }
         camara.update();
+    }
+
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenFour(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
     }
 }

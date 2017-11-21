@@ -27,7 +27,7 @@ public class Texto
 
     public void mostrarMensaje(SpriteBatch batch, String mensaje, float x, float y) {
         GlyphLayout glyp = new GlyphLayout();
-        glyp.setText(font, mensaje + "\n" + "hola");
+        glyp.setText(font, mensaje);
         float anchoTexto = glyp.width;
         font.draw(batch, glyp, x-anchoTexto/2, y);
         font.setColor(com.badlogic.gdx.graphics.Color.BLACK);

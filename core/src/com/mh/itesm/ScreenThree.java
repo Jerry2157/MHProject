@@ -3,6 +3,8 @@ package com.mh.itesm;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -32,6 +34,9 @@ public class ScreenThree extends Pantalla {//patio trasero
     //Steven
     private PlayerSteven Steven;
 
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
     //Cop
     private FirstCop cop;
     private int TamEscena = 0;
@@ -41,21 +46,11 @@ public class ScreenThree extends Pantalla {//patio trasero
     private Texture mom;
     private Sprite momNdaughter;
 
-
-    //World world;
-    //private Box2DDebugRenderer b2dr;
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
-    // Contenedor de los botones
     private Stage escenaMenu;
-    private Texture texturaBtnPintura;
+
 
 
     public ScreenThree(MHMain juego) {
@@ -75,16 +70,7 @@ public class ScreenThree extends Pantalla {//patio trasero
 
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
-        //world = new World(new Vector2(0,-9.81f),true);
-        //manipular objeto world para manipular o cambiar con lo que hemos estado usando
-        //b2dr = new Box2DDebugRenderer();
 
-        //Inicializamos variables
-        pinturas=new Texture[16];
-        nImage=0;
-
-        //createGround();
-        //createPlayer();
         controller = new Controller();
     }
 
@@ -107,6 +93,20 @@ public class ScreenThree extends Pantalla {//patio trasero
         }
     }
 
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego==EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
+        }
+    }
+
     @Override
     public void show() {
         cargarTexturas();
@@ -114,44 +114,9 @@ public class ScreenThree extends Pantalla {//patio trasero
 
     }
 
-    //es importante que se indique que parte debe tocar e ir pintando restringuiendo que parte toco, si es posible
-
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenThree/ScreenThreeBNG.png");
-        //Imagenes de la pinturas
-        paint1 =new Texture("Puzzle1/P1.png");
-        pinturas[0]=paint1;
-        paint2 =new Texture("Puzzle1/P2.png");
-        pinturas[1]=paint2;
-        paint3=new Texture("Puzzle1/P3.png");
-        pinturas[2]=paint3;
-        paint4 =new Texture("Puzzle1/P4.png");
-        pinturas[3]=paint4;
-        paint5 =new Texture("Puzzle1/P5.png");
-        pinturas[4]=paint5;
-        paint6 =new Texture("Puzzle1/P6.png");
-        pinturas[5]=paint6;
-        paint7 =new Texture("Puzzle1/P7.png");
-        pinturas[6]=paint7;
-        paint8 =new Texture("Puzzle1/P8.png");
-        pinturas[7]=paint8;
-        paint9 =new Texture("Puzzle1/P9.png");
-        pinturas[8]=paint9;
-        paint10 =new Texture("Puzzle1/P10.png");
-        pinturas[9]=paint10;
-        paint11 =new Texture("Puzzle1/P11.png");
-        pinturas[10]=paint11;
-        paint12 =new Texture("Puzzle1/P12.png");
-        pinturas[11]=paint12;
-        paint13 =new Texture("Puzzle1/P13.png");
-        pinturas[12]=paint13;
-        paint14 =new Texture("Puzzle1/P14.png");
-        pinturas[13]=paint14;
-        paint15 =new Texture("Puzzle1/P15.png");
-        pinturas[14]=paint15;
-        paint16 =new Texture("Puzzle1/P16.png");
-        pinturas[15]=paint16;
 
     }
 
@@ -170,18 +135,15 @@ public class ScreenThree extends Pantalla {//patio trasero
         batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
         Steven.dibujar(batch);
         cop.dibujar(batch);
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
 
-        //batch.draw(puzzlePintura(),50,100);
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
+        }
+        controller.draw();
 
 
     }
@@ -199,32 +161,6 @@ public class ScreenThree extends Pantalla {//patio trasero
     public void resume() {
 
     }
-    /*public void createGround(){
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(vista.getWorldWidth()/2,0);
-        bdef.type = BodyDef.BodyType.StaticBody;
-        Body b2body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(vista.getWorldWidth()/2,20);
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef);
-    }
-    public void createPlayer(){
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(vista.getWorldWidth()/2,80);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        player = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(40,40);
-
-        fdef.shape = shape;
-        player.createFixture(fdef);
-    }*/
 
 
     @Override
@@ -236,7 +172,7 @@ public class ScreenThree extends Pantalla {//patio trasero
         handleInput();
         //world.step(1/60f,6,2);
         //camara.position.set(vista.getWorldWidth()/2,vista.getWorldHeight()/2,0);
-
+        pausaInput();
         //camara.update();
 
         camara.update();
@@ -291,5 +227,24 @@ public class ScreenThree extends Pantalla {//patio trasero
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
             }
         }, delay);
+    }
+
+
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenThree(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
     }
 }
