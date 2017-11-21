@@ -184,7 +184,7 @@ public class ScreenEleven extends Pantalla {//sotano
     }
 
     public void cambiarEscena(){
-        /*if(Steven.getX()>=1270 && passed == false) {
+        if(Steven.getX()>=3700 && passed == false) {
             passed = true;
             trabar();
             nextScreenRight();
@@ -193,7 +193,7 @@ public class ScreenEleven extends Pantalla {//sotano
             passed = true;
             trabar();
             nextScreenLeft();
-        }*/
+        }
     }
     public void reaction(){//puertacerrada
         if(Steven.getX()>=4800 && Steven.getX()<=4900 &&  passed == false && prefs.getBoolean("playedSotano") == false) {

@@ -315,6 +315,8 @@ public class ScreenOne extends Pantalla {
         //draw de las pintruas
         //AGREGAR ESTADOS SI NO TOCA PIERDE Y SE REINICIA
         //puzzle pinturas;
+        //Dialogo
+
         juegoPuzzlePinturas();
 
 
@@ -348,6 +350,7 @@ public class ScreenOne extends Pantalla {
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
+
 
         b2dr.render(world, camara.combined);
         //borrar el controller si llego a cierto punto solo borrar la cruzeta??

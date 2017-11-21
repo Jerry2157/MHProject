@@ -18,6 +18,11 @@ public class ScreenTwo extends Pantalla {
     private MHMain juego;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
 
+    //Para dialogos
+    private Texture line1; //Dialogo
+    private float tiempo=0;
+
+
     public ScreenTwo(MHMain juego) {
         //Crear a ScreenTwoBNG
         ScreenTwoBNG = new ScreenTwoAnim(0,0,tamMundoWidth);
@@ -62,6 +67,8 @@ public class ScreenTwo extends Pantalla {
     }
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenThree/ScreenThreeBNG.png");
+        //Texturas dialogo
+        line1=new Texture("Dialogos/Nivel1/di10.png");
     }
 
     @Override
@@ -75,10 +82,16 @@ public class ScreenTwo extends Pantalla {
 
         batch.begin();
 
+
+
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         ScreenTwoBNG.dibujar(batch);
+       if((int)tiempo>=3){
+           batch.draw(line1, 1010, 500);
+       }
 
         batch.end();
+        tiempo +=Gdx.graphics.getDeltaTime();
     }
 
 

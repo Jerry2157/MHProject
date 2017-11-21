@@ -180,6 +180,16 @@ public class pantallaGlobos extends Pantalla {
             //si ya acabo
             if(deletedilera1==40 && personas[i]!=null){
                 personas[i].dibujar(batch);
+                //Cargar screen twelve
+                float delay = 0.2f; // seconds
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        // Do your work
+                        juego.setScreen(new ScreenTwelve(juego,10,64));
+                    }
+                }, delay);
+
             }
 
         }
@@ -425,6 +435,8 @@ public class pantallaGlobos extends Pantalla {
                 }
             });
             this.addActor(btnSalir);
+
+            //regresar a screen twelev
 
             // Reintentar
             // Agregar botón reintentar

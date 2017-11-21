@@ -52,6 +52,9 @@ public class Dialogos extends Objeto {
 
     private String[][] dialogueLines;
 
+    //Dialogos screenONE
+    private String[][] dialogueOne;
+
     private boolean lineStarted;
     private float counterDialogue;
     private float counterDialogueStart;
@@ -59,6 +62,8 @@ public class Dialogos extends Objeto {
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Dialogos() {
         dialogueLines = new String[][]{{"hola","perro","manzana"},{"gta","mgs","youtube",""}};
+        //screenOne el primer elemento es esposa, el segundo hija
+        dialogueOne = new String[][]{{"Hola Steven","Que lindo dia para pasarla en parque","Quedate quieta hija, tu padre te pintara"},{"Hola Padre", "Esta muy relajado","No te muevas madre"}};
         lineStarted = false;
 
         font = new DlgTexto("fonts/gamefont.fnt");
@@ -168,7 +173,7 @@ public class Dialogos extends Objeto {
             case 3: //Dialogo 3
                 switch (linePoint){
                     case 0:
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[1][0],450,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -192,7 +197,33 @@ public class Dialogos extends Objeto {
                         break;
                 }
                 break;
+            //screen
             case 4:
+                switch(linePoint){
+                    case 0://dialogo 1
+                        font.mostrarMensaje(batch,dialogueOne[0][linePoint],450,450);
+                        fadeObject.draw(batch);
+                        fadeObject.setX(240);
+                        fadeObject.setY(250);
+
+                        cocinera.draw(batch);
+                        cocinera.setX(300);
+                        cocinera.setY(400);
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        terminado = true;
+                        break;
+                }
 
                 break;
             case 5:

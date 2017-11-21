@@ -23,7 +23,7 @@ public class loadingScreen extends Pantalla {
     @Override
     public void show() {
         tiempo = 0;
-        loadingBngTex = new Texture("background_loading_1920.png");
+        loadingBngTex = new Texture("ImagenesInicio/tec.jpg");
         loadingTextTex = new Texture("text_loading.png");
         loadingTec=new Texture("ImagenesInicio/tec.jpg");
         texturaReloj = new Texture("reloj.png");
@@ -46,7 +46,7 @@ public class loadingScreen extends Pantalla {
         batch.end();
         // Actualiza
         tiempo += Gdx.graphics.getDeltaTime();  // Acumula tiempo
-        if (tiempo>=0.3f) {
+        if (tiempo>=0.7f) {
             juego.setScreen(new mainMenu(juego));
         }
 
