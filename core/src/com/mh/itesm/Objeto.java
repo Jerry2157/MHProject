@@ -41,4 +41,13 @@ public class Objeto
     public void dispose() {
         this.dispose();
     }
+
+    public float getX(){
+        float x=sprite.getX();
+        return x;
+    }
+    public float getY(){
+        float y=sprite.getY();
+        return y;
+    }
 }

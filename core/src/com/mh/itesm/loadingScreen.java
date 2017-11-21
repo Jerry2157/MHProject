@@ -12,6 +12,7 @@ public class loadingScreen extends Pantalla {
     private float tiempo;   // Tiempo transcurrido
     private Texture loadingBngTex;   // Imagen que se muestra
     private Texture loadingTextTex;
+    private Texture loadingTec;
     private Texture texturaReloj;   // Imagen que se muestra
 
     public loadingScreen(MHMain juego) {
@@ -24,6 +25,7 @@ public class loadingScreen extends Pantalla {
         tiempo = 0;
         loadingBngTex = new Texture("background_loading_1920.png");
         loadingTextTex = new Texture("text_loading.png");
+        loadingTec=new Texture("ImagenesInicio/tec.jpg");
         texturaReloj = new Texture("reloj.png");
     }
 
@@ -35,6 +37,8 @@ public class loadingScreen extends Pantalla {
         batch.begin();
         batch.draw(loadingBngTex, Pantalla.ANCHO/2 -loadingBngTex.getWidth()/2,Pantalla.ALTO/2-loadingBngTex.getHeight()/2);
         //batch.draw(loadingBngTex, 0,0);
+        //AQUI PONEMOS LA IMAGEN DEL TECNOLOGICO
+        //batch.draw(loadingTec,ANCHO,ALTO);
 
         batch.draw(loadingTextTex, Pantalla.ANCHO/6*5-loadingTextTex.getWidth(),Pantalla.ALTO/5-loadingTextTex.getHeight());
         //batch.draw(loadingTextTex, 0,0);
@@ -42,7 +46,7 @@ public class loadingScreen extends Pantalla {
         batch.end();
         // Actualiza
         tiempo += Gdx.graphics.getDeltaTime();  // Acumula tiempo
-        if (tiempo>=0.1f) {
+        if (tiempo>=0.3f) {
             juego.setScreen(new mainMenu(juego));
         }
 

@@ -137,7 +137,7 @@ public class mainMenu extends Pantalla{
         texturaBtnMusicaX=new Texture("Botones/MusicaApagada.png");
         backTexAnim = new Texture("FondoMenu.png");
         //Sonido
-        tonadaMenu=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/lluvia.mp3"));
+        tonadaMenu=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/lluvia.wav"));
         tonadaMenu.setVolume(1f);
         tonadaMenu.play();
         tonadaMenu.setLooping(true);
