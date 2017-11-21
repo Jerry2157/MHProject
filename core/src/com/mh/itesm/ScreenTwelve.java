@@ -193,6 +193,7 @@ public class ScreenTwelve extends Pantalla {//area verde
                 public void run() {
                     // Do your work
                     //juego.setScreen(new ScreenEleven(juego,10,64)); Mandar a puzzle fiesta
+                    juego.setScreen((new pantallaGlobos(juego)));
                 }
             }, delay);
         }

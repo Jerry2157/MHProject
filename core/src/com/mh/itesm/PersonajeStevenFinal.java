@@ -33,14 +33,11 @@ public class PersonajeStevenFinal extends Objeto
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en 4 frames de 32x64 (ver marioSprite.png)
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(128,256);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(32,32);
         // Crea la animación con tiempo de 0.25 segundos entre frames.
 
         spriteAnimado = new Animation(0.1f
-                , texturaPersonaje[0][0], texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3]
-                , texturaPersonaje[1][0], texturaPersonaje[1][1], texturaPersonaje[1][2], texturaPersonaje[1][3]
-                , texturaPersonaje[2][0], texturaPersonaje[2][1], texturaPersonaje[2][2], texturaPersonaje[2][3]
-                , texturaPersonaje[3][0], texturaPersonaje[3][1], texturaPersonaje[3][2], texturaPersonaje[3][3]);
+                , texturaPersonaje[0][0], texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3]);
         // Animación infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja

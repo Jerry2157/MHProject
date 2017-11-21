@@ -62,7 +62,7 @@ public class PantallaWhackAMole extends Pantalla
     private Texture texturaCuadro;
 
     //Tiempo restante
-    private int tiempo = 6000;
+    private int tiempo = 3000;
     private Texto textoTiempo;
 
 
@@ -75,10 +75,13 @@ public class PantallaWhackAMole extends Pantalla
     private EscenaPierde escenaPierde;
     private EscenaPausa escenaPausa;
 
+    private Preferences prefs;
+
     // Procesador de eventos
     private final Procesador procesadorEntrada = new Procesador();
 
     public PantallaWhackAMole(MHMain juego) {
+        prefs = Gdx.app.getPreferences("My Preferences");
         this.juego = juego;
         manager = juego.getAssetManager();
     }
@@ -184,7 +187,9 @@ public class PantallaWhackAMole extends Pantalla
         if(tiempo<= 0){
             tiempo = 0;
             estado = EstadoJuego.PAUSADO;
-            juego.setScreen(new mainMenu(juego));
+            prefs.putBoolean("cocinaPassed",true);
+            prefs.flush();
+            juego.setScreen(new ScreenNine(juego,10,512));
         }
 
         // ACTUALIZAR

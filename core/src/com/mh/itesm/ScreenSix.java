@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Timer;
  * Created by jerry2157 on 03/10/17.
  */
 
-public class ScreenSix extends Pantalla {
+public class ScreenSix extends Pantalla {//pasillo 1er piso
     private int tamMundoWidth = 3840;
     private boolean passed = false;
     private boolean played = false;
@@ -95,7 +95,7 @@ public class ScreenSix extends Pantalla {
                 //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
-            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+            if (controller.isUpPressed()) {
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
@@ -198,7 +198,7 @@ public class ScreenSix extends Pantalla {
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=3840 && passed == false) {
+        if(Steven.getX()>=3700 && passed == false) {
             trabar();
             nextScreenRight();
         }

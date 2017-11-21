@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Timer;
  */
 
 public class ScreenEleven extends Pantalla {//sotano
-    private int tamMundoWidth = 5120;
+    private int tamMundoWidth = 3840;
     private boolean passed = false; //se cambiara de nivel
     private boolean played = false; //se acciono el elevador
 
@@ -59,13 +59,18 @@ public class ScreenEleven extends Pantalla {//sotano
 
     private Sprite radio;
 
+    private Sprite malo;
+
     public ScreenEleven(MHMain juego,int xS,int yS) {
-        cop = new FirstCop(3500,64,tamMundoWidth);
-        cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
+        //cop = new FirstCop(3550,64,tamMundoWidth);
+        //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
         radio = new Sprite(new Texture("Radio.png"));
-        radio.setX(3450);
-        radio.setY(10);
+        radio.setX(3500);
+        radio.setY(5);
         Light = new Sprite(new Texture("Luz.png"));
+
+        malo = new Sprite(new Texture("Characters/Villano.png"));
+        malo.setPosition(3550,64);
 
         blackPanel = new Sprite(new Texture("blackpanel.png"));
         SwitchLight = false;
@@ -127,10 +132,10 @@ public class ScreenEleven extends Pantalla {//sotano
     }
     @Override
     public void render(float delta) {
-
+        reaction();
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+        //cop.actualizar();
         actualizarCamara();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
@@ -142,10 +147,12 @@ public class ScreenEleven extends Pantalla {//sotano
         fondo.render(batch);
         fondo.setPosicion(0,0);
         batch.draw(radio,radio.getX(),radio.getY());
+        batch.draw(malo,malo.getX(),malo.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+        //cop.dibujar(batch);
         if(SwitchLight == true){
-            batch.draw(Light,Steven.getX()-Light.getX()*60,Steven.getY()-Light.getY()*5);
+            //batch.draw(Light,Steven.getX()-Light.getX()*60,Steven.getY()-Light.getY()*5);
+            batch.draw(Light,camara.position.x-1280,Steven.getY()-Light.getY()*5-128);
         }else{
             batch.draw(blackPanel,camara.position.x-640,camara.position.y-360);
         }
@@ -189,14 +196,14 @@ public class ScreenEleven extends Pantalla {//sotano
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=10 && passed == false) {
+        /*if(Steven.getX()<=10 && passed == false) {
             passed = true;
             trabar();
             nextScreenLeft();
-        }
+        }*/
     }
     public void reaction(){//puertacerrada
-        if(Steven.getX()>=4800 && Steven.getX()<=4900 &&  passed == false && prefs.getBoolean("playedSotano") == false) {
+        if(Steven.getX()>=3500 && Steven.getX()<=3550 &&  passed == false && prefs.getBoolean("playedSotano") == false) {
             prefs.putBoolean("playedSotano", true);
             prefs.flush();
             //llamar al dialogo
@@ -208,7 +215,23 @@ public class ScreenEleven extends Pantalla {//sotano
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenEleven(juego,10,64));
+                    juego.setScreen(new ScreenTen(juego,10,64));
+                }
+            }, delay);
+        }
+        if(Steven.getX()>=3400 && Steven.getX()<=3450 &&  passed == false && prefs.getBoolean("playedSotano") == false) {
+
+            //llamar al dialogo
+            passed = true;
+            trabar();
+            //Se espera un segundo
+            float delay = 0.5f; // seconds
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    SwitchLight = true;
+                    malo.setPosition(5000.0f,5000.0f);
                 }
             }, delay);
         }

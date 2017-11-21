@@ -224,6 +224,18 @@ public class ScreenFive extends Pantalla {//cuarto steven
             }
         }, delay);
     }
+    private void nextScreenLeftt() {
+        //Se espera un segundo
+        float delay = 0.5f; // seconds
+
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                juego.setScreen(new ScreenFive(juego,20,64));
+            }
+        }, delay);
+    }
 
     //Metodos get que nos permiten modificar en escena pausa
     public Pantalla getScreenFour(){

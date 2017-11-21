@@ -92,9 +92,9 @@ class PantallaCargando extends Pantalla
     private void cargarRecursosFinal() {
         manager.load("PuzzleFinal/persecucion.tmx", TiledMap.class);
         //manager.load("runner/fondoRunnerD.jpg", Texture.class);
-        manager.load("Characters/Steven/Atlas-StevenCaminandoFinal512.png", Texture.class);
+        manager.load("UltimoNivel/Stevenvistaarriba.png", Texture.class);
         manager.load("PuzzleGatos/BoladePelo40x40.png", Texture.class);
-        manager.load("runner/bala.png", Texture.class);
+        manager.load("PuzzleGatos/tuna.png", Texture.class);
         manager.load("comun/btnSalir.png", Texture.class);
 
     }

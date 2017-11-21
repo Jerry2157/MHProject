@@ -2,6 +2,7 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -63,7 +64,10 @@ public class pantallaGlobos extends Pantalla {
     //variable para llevar el registro del tiempo para perder
     private float tiempoPer=0;
 
+    Preferences prefs;
+
     public pantallaGlobos(MHMain juego){
+        prefs = Gdx.app.getPreferences("My Preferences");
         this.juego=juego;
         personas=new Objeto[44];
         globos=new Objeto[44];

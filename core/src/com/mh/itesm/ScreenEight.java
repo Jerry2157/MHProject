@@ -29,7 +29,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
 
     //Mom and daughter
     private Texture mom;
-    private Sprite momNdaughter;
+    private Sprite copito;
 
 
     //World world;
@@ -50,6 +50,8 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
 
 
     public ScreenEight(MHMain juego,int xS,int yS) {
+        copito = new Sprite(new Texture("Characters/Policia.png"));
+        copito.setPosition(200.0f,32.0f);
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
@@ -88,13 +90,13 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
+        BackgroundLayerOne = new Texture("ScreenEight/ElevadorPrimerPiso.png");
     }
     @Override
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+        //cop.actualizar();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -102,9 +104,9 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
         batch.begin();
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+        batch.draw(copito,copito.getX(),copito.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+        //cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
@@ -147,12 +149,14 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false && prefs.getBoolean("cocinaPassed") == true) {//derecha
+
+        if(Steven.getX()>=1270 && passed == false && prefs.getBoolean("cocinaPassed")) {//derecha
             passed = true;
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=10 && passed == false && prefs.getBoolean("cocinaPassed") == false) {//izquierda
+        if(Steven.getX()<=100 && passed == false && !prefs.getBoolean("cocinaPassed")) {//izquierda
+            System.out.printf("entro a cocinaaaaaa");
             passed = true;
             trabar();
             nextScreenLeft();
@@ -202,7 +206,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenNine(juego,10,64));
+                juego.setScreen(new ScreenNine(juego,2450,64));
             }
         }, delay);
     }

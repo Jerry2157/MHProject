@@ -16,7 +16,7 @@ import static java.lang.Math.abs;
  * Created by jerry2157 on 10/09/17.
  */
 
-public class ScreenFour extends Pantalla {
+public class ScreenFour extends Pantalla {//pasillo casa steven
     private int tamMundoWidth = 3840;
     private boolean played = false;
     private static Fondo fondo; //Imagen de fondo
@@ -247,7 +247,7 @@ public class ScreenFour extends Pantalla {
             this.efectoPuertaTemplo.play(PantallaMenu.volumen);
             PantallaCargando.partidaGuardada.putBoolean("nivelAgua", true); //se guarda el progreso y se desbloquea el nivel de agua...
             PantallaCargando.partidaGuardada.flush(); //se guardan los cambios*/
-            juego.setScreen(new ScreenOne(juego));//Debug
+            juego.setScreen(new ScreenFive(juego,64,64));//Debug
 
             //Se espera un segundo
             float delay = 1; // seconds
@@ -261,7 +261,7 @@ public class ScreenFour extends Pantalla {
             }, delay);
         }
         else if (64 == Steven.getX() &&  64 <= Steven.getY()){
-            juego.setScreen(new ScreenFour(juego));
+            //juego.setScreen(new ScreenFour(juego));
         }
         else{
 

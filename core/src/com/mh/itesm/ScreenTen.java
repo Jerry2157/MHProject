@@ -49,9 +49,22 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
     Preferences prefs;
 
 
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    //------
+
 
 
     public ScreenTen(MHMain juego,int xS,int yS) {
+
+        //Dialogo
+        playedDialogo = false;
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
+
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
@@ -62,9 +75,11 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
 
         controller = new Controller();
 
-        persona = new Sprite(new Texture("Characters/Enfermera.png"));
-        persona.setX(1280);
+        persona = new Sprite(new Texture("Characters/Viejita.png"));
+        persona.setX(550);
         persona.setY(64);
+
+
     }
 
     public void handleInput(){
@@ -101,6 +116,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
     }
     @Override
     public void render(float delta) {
+        reaction();
         cambiarEscena();
         Steven.actualizar();
         actualizarCamara();
@@ -111,6 +127,16 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
         batch.begin();
         fondo.render(batch);
         fondo.setPosicion(0,0);
+
+        //Dialogo
+        if((Steven.getX()>=500 && Steven.getX()<=600 || runningDialogo) && !playedDialogo){
+
+            runningDialogo = true;
+            playedDialogo = dialogos.dibujar(batch,1);
+            //played = playedDialogo;
+        }
+        //-------
+
         //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         batch.draw(persona, persona.getX(), persona.getY());
         Steven.dibujar(batch);
@@ -152,7 +178,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
     }
 
     public void cambiarEscena(){
-        if(Steven.getX()>=3700 && passed == false && prefs.getBoolean("areaverdelocked") == false) {
+        if(Steven.getX()>=3700 && passed == false && !prefs.getBoolean("areaverdelocked") && prefs.getBoolean("playedMother")) {
             passed = true;
             trabar();
             nextScreenRight();
@@ -164,9 +190,8 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
         }
     }
     public void reaction(){//puertacerrada
-        if(Steven.getX()>=520 && Steven.getX()<=570 &&  passed == false && prefs.getBoolean("playedMother") == false) {
-            prefs.putBoolean("playedMother", true);
-            prefs.flush();
+        if(Steven.getX()>=2400 && Steven.getX()<=2600 &&  passed == false && prefs.getBoolean("playedMother") && !prefs.getBoolean("playedSotano")) {
+
             //llamar al dialogo
             passed = true;
             trabar();
@@ -176,7 +201,39 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenEleven(juego,10,64));
+                    juego.setScreen(new ScreenEleven(juego,20,64));
+                }
+            }, delay);
+        }
+        if(Steven.getX()>=500 && Steven.getX()<=600 &&  passed == false && !prefs.getBoolean("playedMother")) {
+            prefs.putBoolean("playedMother", true);
+            prefs.flush();
+            //llamar al dialogo
+            //passed = true;
+            //trabar();
+            //Se espera un segundo
+            float delay = 0.1f; // seconds
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    //juego.setScreen(new ScreenEleven(juego,10,64));
+                }
+            }, delay);
+        }
+        if(Steven.getX()>=500 && Steven.getX()<=600 &&  passed == false && prefs.getBoolean("playedMother")) {
+            prefs.putBoolean("playedMother", true);
+            prefs.flush();
+            //llamar al dialogo
+            //passed = true;
+            //trabar();
+            //Se espera un segundo
+            float delay = 0.1f; // seconds
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    //juego.setScreen(new ScreenEleven(juego,10,64));
                 }
             }, delay);
         }

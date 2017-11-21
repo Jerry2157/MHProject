@@ -1,6 +1,7 @@
 package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -43,8 +44,15 @@ public class mainMenu extends Pantalla{
     //Varible que lleva la cuenta del boton de musica para acivar y desactiva la musica
     private int tocado=0;
 
+    Preferences prefs;
 
     public mainMenu(MHMain juego) {
+        prefs = Gdx.app.getPreferences("My Preferences");
+        prefs.putBoolean("cocinaPassed",false);
+        prefs.putBoolean("areaverdelocked",false);
+        prefs.putBoolean("playedMother",false);
+
+        prefs.flush();
         this.juego = juego;
     }
 
@@ -94,7 +102,16 @@ public class mainMenu extends Pantalla{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Credits(juego));
+                //juego.setScreen(new Credits(juego));
+                // Iniciar juego Mario
+                //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
+                //juego.setScreen((new ScreenEight(juego,640,32)));
+
+                //juego.setScreen((new ScreenEleven(juego,640,32)));
+
+                //juego.setScreen((new PantallaCargando(juego,Pantallas.FINAL));
+                //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER));
+                juego.setScreen(new PantallaCargando(juego, Pantallas.FINAL));
             }
         });
 
@@ -181,4 +198,5 @@ public class mainMenu extends Pantalla{
     public void dispose() {
 
     }
+
 }

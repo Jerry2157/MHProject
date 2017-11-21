@@ -245,9 +245,9 @@ public class ScreenFinal extends Pantalla {//jardin
         //texturaHongo = manager.get("runner/enemigo.png");
         texturaHongo = manager.get("PuzzleGatos/BoladePelo40x40.png");
 
-        texturaBala = manager.get("runner/bala.png");
+        texturaBala = manager.get("PuzzleGatos/tuna.png");
         //fondoB = new FondoB(texturaFondo);
-        steven = new PlayerStevenFinal((Texture)(manager.get("Characters/Steven/Atlas-StevenCaminandoFinal512.png")), 32, 128);
+        steven = new PlayerStevenFinal((Texture)(manager.get("UltimoNivel/Stevenvistaarriba.png")), 32, 128);
 
     }
 
@@ -441,7 +441,7 @@ public class ScreenFinal extends Pantalla {//jardin
         //manager.unload("runner/fondoRunnerD.jpg");
         manager.unload("Characters/Steven/Atlas-StevenCaminandoFinal512.png");
         //manager.unload("runner/enemigo.png");
-        manager.unload("runner/bala.png");
+        manager.unload("PuzzleGatos/BoladePelo40x40.png");
         manager.unload("comun/btnSalir.png");
 
     }

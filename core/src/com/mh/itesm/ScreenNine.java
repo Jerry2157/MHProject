@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Timer;
  */
 
 public class ScreenNine extends Pantalla { //cocina
-    private int tamMundoWidth = 1280;
+    private int tamMundoWidth = 2560;
     private boolean passed = false;
     private boolean played = false;
 
@@ -29,7 +29,7 @@ public class ScreenNine extends Pantalla { //cocina
 
     //Mom and daughter
     private Texture mom;
-    private Sprite momNdaughter;
+    private Sprite coocker;
 
 
     //World world;
@@ -48,7 +48,24 @@ public class ScreenNine extends Pantalla { //cocina
     private Texture texturaBtnPintura;
     Preferences prefs;
 
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    //------
+
+    private static Fondo fondo; //Imagen de fondo
+
     public ScreenNine(MHMain juego,int xS,int yS) {
+
+        //Dialogo
+        playedDialogo = false;
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
+
+        coocker = new Sprite(new Texture("Characters/Cocinera.png"));
+        coocker.setPosition(32,64);
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
@@ -88,26 +105,40 @@ public class ScreenNine extends Pantalla { //cocina
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
-
+        BackgroundLayerOne = new Texture("ScreenNine/Cocina.png");
+        fondo = new Fondo(BackgroundLayerOne);
+        fondo.setPosicion(0,0);
 
     }
 
     @Override
     public void render(float delta) {
+        reaction();
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+        actualizarCamara();
+        //cop.actualizar();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+        fondo.render(batch);
+        fondo.setPosicion(0,0);
+
+        //Dialogo
+        if((Steven.getX()>=32 && Steven.getX()<=128 || runningDialogo) && !playedDialogo){
+            played = playedDialogo;
+            runningDialogo = true;
+            playedDialogo = dialogos.dibujar(batch,1);
+        }
+        //-------
+
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        batch.draw(coocker,coocker.getX(),coocker.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+        //cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
@@ -150,7 +181,7 @@ public class ScreenNine extends Pantalla { //cocina
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false) {//derecha
+        if(Steven.getX()>=2460 && passed == false) {//derecha
             trabar();
             nextScreenRight();
         }
@@ -162,9 +193,11 @@ public class ScreenNine extends Pantalla { //cocina
         }
     }
     public void reaction(){//interaccion con la comida
-        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && prefs.getBoolean("areaverdelocked") == false) {
+        //if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && !prefs.getBoolean("areaverdelocked") && !prefs.getBoolean("cocinaPassed")) {
+        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && !prefs.getBoolean("cocinaPassed")) {
             played = true;
             //launchDiaologue(dialogue.speech(6));
+            juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
         }
     }
     public void trabar(){//bloquea a steven
@@ -186,7 +219,7 @@ public class ScreenNine extends Pantalla { //cocina
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenFive(juego,10,64));
+                //juego.setScreen(new ScreenFive(juego,10,64));
             }
         }, delay);
     }
@@ -198,8 +231,23 @@ public class ScreenNine extends Pantalla { //cocina
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenSeven(juego,10,64));
+                juego.setScreen(new ScreenEight(juego,10,64));
             }
         }, delay);
+    }
+    private void actualizarCamara() {
+        float posX = Steven.sprite.getX();
+        // Si está en la parte 'media'
+        if (posX>=ANCHO/2 && posX<=tamMundoWidth-ANCHO/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+            //fondo.setPosicion(posX,camara.position.y);
+        } else if (posX>tamMundoWidth-ANCHO/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(tamMundoWidth-ANCHO/2, camara.position.y, 0);
+        } else if ( posX<ANCHO/2 ) { // La primera mitad
+            camara.position.set(ANCHO/2, ALTO/2,0);
+        }
+        camara.update();
     }
 }

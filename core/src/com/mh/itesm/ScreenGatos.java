@@ -236,7 +236,7 @@ public class ScreenGatos extends Pantalla {//jardin
         //texturaHongo = manager.get("runner/enemigo.png");
         texturaHongo = manager.get("PuzzleGatos/BoladePelo40x40.png");
 
-        texturaBala = manager.get("runner/bala.png");
+        texturaBala = manager.get("PuzzleGatos/tuna.png");
         //fondoB = new FondoB(texturaFondo);
         steven = new StevenCats((Texture)(manager.get("Characters/Steven/Atlas-StevenCaminandoFinal512.png")), 32, 32);
 
@@ -313,8 +313,8 @@ public class ScreenGatos extends Pantalla {//jardin
         batch.end();
 
         //renderizar mapTiled
-        rendererMapa.setView(camara);
-        rendererMapa.render();  // DIBUJA el mapa
+        //rendererMapa.setView(camara);
+        //rendererMapa.render();  // DIBUJA el mapa
 
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
