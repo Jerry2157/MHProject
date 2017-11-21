@@ -259,10 +259,151 @@ public class EscenaPausa extends Stage {
             });
             this.addActor(btnMusica);*/
         }
+        if(pantalla instanceof ScreenFive){
+            final ScreenFive currentS=((ScreenFive) pantalla);
+            //Accedemos al estado juego de screenOne
+            estadoJuego=currentS.getEstadoJuego();
 
+            // Crear rectángulo transparente
+            Pixmap pixmap = new Pixmap((int) (currentS.ANCHO/*currentS.ANCHO * 0.7f*/), (int) (currentS.ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
+            pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
+            Texture texturaRectangulo = new Texture( pixmap );
+            pixmap.dispose();
+            Image imgRectangulo = new Image(texturaRectangulo);
+            imgRectangulo.setPosition(0,0/*0.15f*currentS.ANCHO, 0.1f*currentS.ALTO*/);
+            this.addActor(imgRectangulo);
 
+            // Salir
+            Texture texturaBtnSalir =new Texture("Botones/SALIR.png");
+            TextureRegionDrawable trdSalir = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnSalir));
+            ImageButton btnSalir = new ImageButton(trdSalir);
+            btnSalir.setPosition(currentS.ANCHO/2-btnSalir.getWidth()/2, currentS.ALTO*0.2f);
+            btnSalir.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Regresa al menú
+                    //deten la musica que estaba de fondo
+                    //currentS.getSonidoF().stop();
+                    currentS.getJuego().setScreen(new mainMenu(currentS.getJuego()));
 
+                }
+            });
+            this.addActor(btnSalir);
 
+            // Continuar
+            Texture texturaBtnReintentar = new Texture("Botones/CONTINUAR.png");
+            TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnReintentar));
+            ImageButton btnReintentar = new ImageButton(trdReintentar);
+            btnReintentar.setPosition(currentS.ANCHO/2-btnReintentar.getWidth()/2, currentS.ALTO*0.5f);
+            btnReintentar.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Regresa al juego
+                    currentS.setEstadoJuego(EstadoJuego.JUGANDO);
+                    Gdx.input.setInputProcessor(currentS.getController().getStage());
+                }
+            });
+            this.addActor(btnReintentar);
+            //falta entonces que se mantenga la referencia porque estamos editando en una variable lcoal
+
+            // Musica
+            /*Texture temp=new Texture("Botones/MusicaApagada.png");
+            Texture texturaBtnMusica = new Texture("Botones/Musica.png");
+            TextureRegionDrawable trdMusica = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnMusica));
+            ImageButton btnMusica = new ImageButton(trdMusica);
+            btnMusica.setPosition(currentS.ANCHO/2-btnMusica.getWidth()/2, currentS.ALTO*0.5f-120);
+            btnMusica.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    //AQUI DETENEMOS LA MUSICA
+                    tocado ++;
+                    if(tocado%2!=0){
+                        currentS.getSonidoF().stop();
+                    }
+                    else{
+                        currentS.getSonidoF().play();
+                        currentS.getSonidoF().setLooping(true);
+                    }
+                }
+            });
+            this.addActor(btnMusica);*/
+        }
+        if(pantalla instanceof ScreenSix){
+            final ScreenFive currentS=((ScreenFive) pantalla);
+            //Accedemos al estado juego de screenOne
+            estadoJuego=currentS.getEstadoJuego();
+
+            // Crear rectángulo transparente
+            Pixmap pixmap = new Pixmap((int) (currentS.ANCHO/*currentS.ANCHO * 0.7f*/), (int) (currentS.ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
+            pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
+            Texture texturaRectangulo = new Texture( pixmap );
+            pixmap.dispose();
+            Image imgRectangulo = new Image(texturaRectangulo);
+            imgRectangulo.setPosition(0,0/*0.15f*currentS.ANCHO, 0.1f*currentS.ALTO*/);
+            this.addActor(imgRectangulo);
+
+            // Salir
+            Texture texturaBtnSalir =new Texture("Botones/SALIR.png");
+            TextureRegionDrawable trdSalir = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnSalir));
+            ImageButton btnSalir = new ImageButton(trdSalir);
+            btnSalir.setPosition(currentS.ANCHO/2-btnSalir.getWidth()/2, currentS.ALTO*0.2f);
+            btnSalir.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Regresa al menú
+                    //deten la musica que estaba de fondo
+                    //currentS.getSonidoF().stop();
+                    currentS.getJuego().setScreen(new mainMenu(currentS.getJuego()));
+
+                }
+            });
+            this.addActor(btnSalir);
+
+            // Continuar
+            Texture texturaBtnReintentar = new Texture("Botones/CONTINUAR.png");
+            TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnReintentar));
+            ImageButton btnReintentar = new ImageButton(trdReintentar);
+            btnReintentar.setPosition(currentS.ANCHO/2-btnReintentar.getWidth()/2, currentS.ALTO*0.5f);
+            btnReintentar.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Regresa al juego
+                    currentS.setEstadoJuego(EstadoJuego.JUGANDO);
+                    Gdx.input.setInputProcessor(currentS.getController().getStage());
+                }
+            });
+            this.addActor(btnReintentar);
+            //falta entonces que se mantenga la referencia porque estamos editando en una variable lcoal
+
+            // Musica
+            /*Texture temp=new Texture("Botones/MusicaApagada.png");
+            Texture texturaBtnMusica = new Texture("Botones/Musica.png");
+            TextureRegionDrawable trdMusica = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnMusica));
+            ImageButton btnMusica = new ImageButton(trdMusica);
+            btnMusica.setPosition(currentS.ANCHO/2-btnMusica.getWidth()/2, currentS.ALTO*0.5f-120);
+            btnMusica.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    //AQUI DETENEMOS LA MUSICA
+                    tocado ++;
+                    if(tocado%2!=0){
+                        currentS.getSonidoF().stop();
+                    }
+                    else{
+                        currentS.getSonidoF().play();
+                        currentS.getSonidoF().setLooping(true);
+                    }
+                }
+            });
+            this.addActor(btnMusica);*/
+        }
     }
-
 }

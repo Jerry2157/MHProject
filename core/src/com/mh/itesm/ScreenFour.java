@@ -171,7 +171,7 @@ public class ScreenFour extends Pantalla {
                     //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.Cutting);
                     if(SceneActive == false) {
                         SceneActive = false;
-                        juego.setScreen(new ScreenFive(juego,20,64)); //Primer Nivel!!!!
+                        juego.setScreen(new ScreenFive(juego,20,64));
                     }
                 }
             }, delay);

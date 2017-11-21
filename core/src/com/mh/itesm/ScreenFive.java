@@ -42,6 +42,9 @@ public class ScreenFive extends Pantalla {//cuarto steven
     private Texture mom;
     private Sprite momNdaughter;
 
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
     //badpeople
     private Texture evilTex;
     private Sprite evil;
@@ -51,15 +54,8 @@ public class ScreenFive extends Pantalla {//cuarto steven
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
-    // Contenedor de los botones
     private Stage escenaMenu;
-    private Texture texturaBtnPintura;
+
     private Preferences prefs;
 
     //Dialogos
@@ -124,6 +120,20 @@ public class ScreenFive extends Pantalla {//cuarto steven
         }
     }
 
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego==EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
+        }
+    }
+
     @Override
     public void show() {
         cargarTexturas();
@@ -165,17 +175,13 @@ public class ScreenFive extends Pantalla {//cuarto steven
         if(prefs.getBoolean("finalunlocked")) {
             cop.dibujar(batch);
         }
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
-        //batch.draw(puzzlePintura(),50,100);
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
+        }
+         controller.draw();
     }
 
 
@@ -194,8 +200,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
 
     public void update(float dt){
         handleInput();
-
-
+        pausaInput();
         camara.update();
 
     }
@@ -218,5 +223,23 @@ public class ScreenFive extends Pantalla {//cuarto steven
                 juego.setScreen(new ScreenSix(juego,20,64));
             }
         }, delay);
+    }
+
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenFour(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
     }
 }

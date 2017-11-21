@@ -141,8 +141,11 @@ public class ScreenThree extends Pantalla {//patio trasero
         //batch.setProjectionMatrix(camara.combined);
 
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            //Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
+
         controller.draw();
 
 
@@ -200,7 +203,10 @@ public class ScreenThree extends Pantalla {//patio trasero
                     // Do your work
                     System.out.println("paso 2");
                     cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
-                    showPolice();
+                    if(estadoJuego==EstadoJuego.JUGANDO){
+                        showPolice();
+                    }
+
                 }
             }, delay);
         }

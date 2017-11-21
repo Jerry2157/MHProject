@@ -27,6 +27,9 @@ public class ScreenSix extends Pantalla {
     private int TamEscena = 0;
     private MHMain juego;
 
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
     //Mom and daughter
     private Texture nurseTex;
     private Sprite nurse;
@@ -37,15 +40,7 @@ public class ScreenSix extends Pantalla {
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
-    // Contenedor de los botones
     private Stage escenaMenu;
-    private Texture texturaBtnPintura;
 
     private Preferences prefs;
 
@@ -107,6 +102,20 @@ public class ScreenSix extends Pantalla {
         }
     }
 
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego==EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
+        }
+    }
+
     @Override
     public void show() {
         cargarTexturas();
@@ -152,19 +161,13 @@ public class ScreenSix extends Pantalla {
         }
         //-------
 
-
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
-
-        //batch.draw(puzzlePintura(),50,100);
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
+        }
+        controller.draw();
 
 
     }
@@ -190,7 +193,7 @@ public class ScreenSix extends Pantalla {
     public void update(float dt){
         handleInput();
 
-
+        pausaInput();
         camara.update();
 
     }
@@ -259,5 +262,23 @@ public class ScreenSix extends Pantalla {
             camara.position.set(ANCHO/2, ALTO/2,0);
         }
         camara.update();
+    }
+
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenThree(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
     }
 }
