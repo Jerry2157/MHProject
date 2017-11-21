@@ -58,6 +58,12 @@ class PantallaCargando extends Pantalla
             case PRIMER_NIVEL:
                 cargarRecursosPrimerNivel();
                 break;
+            case RUNNER:
+                cargarRecursosRunner();
+                break;
+            case FINAL:
+                cargarRecursosFinal();
+                break;
 
         }
     }
@@ -75,11 +81,22 @@ class PantallaCargando extends Pantalla
     }
 
     private void cargarRecursosRunner() {
-        manager.load("runner/fondoRunnerD.jpg", Texture.class);
-        manager.load("mario/marioSprite.png", Texture.class);
-        manager.load("runner/enemigo.png", Texture.class);
+        manager.load("PuzzleGatos/ScreenGtos.tmx", TiledMap.class);
+        //manager.load("runner/fondoRunnerD.jpg", Texture.class);
+        manager.load("Characters/Steven/Atlas-StevenCaminandoFinal512.png", Texture.class);
+        manager.load("PuzzleGatos/BoladePelo40x40.png", Texture.class);
         manager.load("runner/bala.png", Texture.class);
         manager.load("comun/btnSalir.png", Texture.class);
+
+    }
+    private void cargarRecursosFinal() {
+        manager.load("PuzzleFinal/persecucion.tmx", TiledMap.class);
+        //manager.load("runner/fondoRunnerD.jpg", Texture.class);
+        manager.load("Characters/Steven/Atlas-StevenCaminandoFinal512.png", Texture.class);
+        manager.load("PuzzleGatos/BoladePelo40x40.png", Texture.class);
+        manager.load("runner/bala.png", Texture.class);
+        manager.load("comun/btnSalir.png", Texture.class);
+
     }
 
     private void cargarRecursosWhackAMole() {
@@ -109,6 +126,7 @@ class PantallaCargando extends Pantalla
         manager.load("comun/btnPausa.png", Texture.class);
 
     }
+
 
     private void cargarRecursosMenu() {
         manager.load("menu/btnJugarMario.png", Texture.class);
@@ -150,6 +168,13 @@ class PantallaCargando extends Pantalla
                     break;
                 case PRIMER_NIVEL:
                     juego.setScreen(new ScreenOne(juego));
+                    break;
+                case RUNNER:
+                    juego.setScreen(new ScreenGatos(juego,0,0));
+                    break;
+                case FINAL:
+                    juego.setScreen(new ScreenFinal(juego,0,0));
+                    break;
             }
         }
         avance = (int)(manager.getProgress()*100);

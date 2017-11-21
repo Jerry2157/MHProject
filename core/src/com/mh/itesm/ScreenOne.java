@@ -367,6 +367,7 @@ public class ScreenOne extends Pantalla {
         if(tiempo>2 && Steven.getX()<590 && startdialog==false){
             texto.mostrarMensaje(batch, "Camina hasta tu familia", (ANCHO / 4)-90, (ALTO / 1)-5);
             texto.setColor(0, 0, 0, 1);
+
         }
         //Muestra el texto para el puzzle de pintura
         if(nDialog>=9 && quitarTextLien==false){

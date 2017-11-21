@@ -62,8 +62,19 @@ public class ScreenFive extends Pantalla {//cuarto steven
     private Texture texturaBtnPintura;
     private Preferences prefs;
 
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    //------
+
     public ScreenFive(MHMain juego,int xS,int yS) {
 
+        //Dialogo
+        playedDialogo = false;
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
 
         prefs = Gdx.app.getPreferences("My Preferences");
 
@@ -109,6 +120,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
+
         }
     }
 
@@ -129,7 +141,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
-        if(prefs.getBoolean("finalunlocked")==true) {
+        if(prefs.getBoolean("finalunlocked")) {
             cop.actualizar();
         }
         update(Gdx.graphics.getDeltaTime());
@@ -140,8 +152,17 @@ public class ScreenFive extends Pantalla {//cuarto steven
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
 
+        //Dialogo
+        if((controller.isSpacePressed() || runningDialogo) && !playedDialogo){
+
+            runningDialogo = true;
+            playedDialogo = dialogos.dibujar(batch,1);
+            played = !playedDialogo;
+        }
+        //-------
+
         Steven.dibujar(batch);
-        if(prefs.getBoolean("finalunlocked")==true) {
+        if(prefs.getBoolean("finalunlocked")) {
             cop.dibujar(batch);
         }
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande

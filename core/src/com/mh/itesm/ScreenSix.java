@@ -2,6 +2,7 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.utils.Timer;
  */
 
 public class ScreenSix extends Pantalla {
-    private int tamMundoWidth = 1280;
+    private int tamMundoWidth = 3840;
     private boolean passed = false;
     private boolean played = false;
 
@@ -46,13 +47,36 @@ public class ScreenSix extends Pantalla {
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
 
+    private Preferences prefs;
+
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    //------
+
+    private static Fondo fondo; //Imagen de fondo
+
 
     public ScreenSix(MHMain juego,int xS,int yS) {
+        prefs = Gdx.app.getPreferences("My Preferences");
+
+        //Dialogo
+        playedDialogo = false;
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
+
         //crear a enfermera
-        nurseTex = new Texture("Characters/Enfermera.png");
-        nurse = new Sprite(nurseTex);
-        nurse.setX(610);
-        nurse.setY(-5);
+        if(prefs.getBoolean("finalunlocked")) {
+
+        }else{
+            nurseTex = new Texture("Characters/Enfermera.png");
+            nurse = new Sprite(nurseTex);
+            nurse.setX(650);
+            nurse.setY(10);
+        }
+
 
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
@@ -91,8 +115,9 @@ public class ScreenSix extends Pantalla {
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
-
+        BackgroundLayerOne = new Texture("ScreenSix/Pasillo1.png");
+        fondo = new Fondo(BackgroundLayerOne);
+        fondo.setPosicion(0,0);
 
     }
 
@@ -100,16 +125,33 @@ public class ScreenSix extends Pantalla {
     public void render(float delta) {
         cambiarEscena();
         Steven.actualizar();
-
+        actualizarCamara();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(nurse, nurse.getX(), nurse.getY());
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        fondo.render(batch);
+        fondo.setPosicion(0,0);
+
+        if(prefs.getBoolean("finalunlocked")) {
+
+        }else{
+            batch.draw(nurse, nurse.getX(), nurse.getY());
+        }
+
         Steven.dibujar(batch);
+
+        //Dialogo
+        if((Steven.getX()>=550 && Steven.getX()<=550 || runningDialogo) && !playedDialogo){
+            played = playedDialogo;
+            runningDialogo = true;
+            playedDialogo = dialogos.dibujar(batch,1);
+        }
+        //-------
+
 
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
@@ -153,7 +195,7 @@ public class ScreenSix extends Pantalla {
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false) {
+        if(Steven.getX()>=3840 && passed == false) {
             trabar();
             nextScreenRight();
         }
@@ -202,5 +244,20 @@ public class ScreenSix extends Pantalla {
                 juego.setScreen(new ScreenSeven(juego,10,64));
             }
         }, delay);
+    }
+    private void actualizarCamara() {
+        float posX = Steven.sprite.getX();
+        // Si está en la parte 'media'
+        if (posX>=ANCHO/2 && posX<=tamMundoWidth-ANCHO/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+            //fondo.setPosicion(posX,camara.position.y);
+        } else if (posX>tamMundoWidth-ANCHO/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(tamMundoWidth-ANCHO/2, camara.position.y, 0);
+        } else if ( posX<ANCHO/2 ) { // La primera mitad
+            camara.position.set(ANCHO/2, ALTO/2,0);
+        }
+        camara.update();
     }
 }

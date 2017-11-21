@@ -94,7 +94,12 @@ public class mainMenu extends Pantalla{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Credits(juego));
+                //juego.setScreen(new Credits(juego));
+                // Iniciar juego Mario
+                //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
+                //juego.setScreen((new ScreenSix(juego,64,10)));
+                //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER));
+                juego.setScreen(new PantallaCargando(juego, Pantallas.FINAL));
             }
         });
 

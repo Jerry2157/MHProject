@@ -8,5 +8,8 @@ public enum Pantallas
 {
     MENU,
     PRIMER_NIVEL,
-    NIVEL_WHACK_A_MOLE
+    NIVEL_WHACK_A_MOLE,
+    RUNNER,
+    FINAL
+
 }
