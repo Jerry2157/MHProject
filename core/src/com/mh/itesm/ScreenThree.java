@@ -50,8 +50,10 @@ public class ScreenThree extends Pantalla {//patio trasero
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
     private Stage escenaMenu;
-
-
+    //Dialogo 1
+    private Texture dialog1;
+    private float tiempo=0;
+    //condicional que maneja el mov en pausa
 
     public ScreenThree(MHMain juego) {
         //Crear a Steven
@@ -117,6 +119,7 @@ public class ScreenThree extends Pantalla {//patio trasero
 
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenThree/ScreenThreeBNG.png");
+        dialog1=new Texture("Dialogos/Nivel1/11.png");
 
     }
 
@@ -136,6 +139,11 @@ public class ScreenThree extends Pantalla {//patio trasero
         Steven.dibujar(batch);
         cop.dibujar(batch);
 
+        //aqui va el unico dialogo
+        if(((int)tiempo>=7 && (int)tiempo<=13)&&Steven.getX()>=560){
+            batch.draw(dialog1,900,260);
+        }
+
         batch.end();
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
@@ -143,8 +151,10 @@ public class ScreenThree extends Pantalla {//patio trasero
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
             //Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
-            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta
+           
         }
+        tiempo += Gdx.graphics.getDeltaTime();
 
         controller.draw();
 
