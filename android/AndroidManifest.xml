@@ -8,12 +8,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Lost and Haunted"
         android:theme="@style/GdxTheme" >
         <activity
             android:name="com.mh.itesm.android.AndroidLauncher"
-            android:label="@string/app_name" 
+            android:label="Lost and Haunted"
             android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
             <intent-filter>
