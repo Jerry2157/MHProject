@@ -18,7 +18,7 @@ public class Hongo extends Objeto
     private Animation spriteAnimado;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
 
-    // Recibe una imagen con varios frames (ver enemigo.png)
+    // Recibe una imagen con varios frames (ver enemigo.png)a
     public Hongo(Texture textura, float x, float y) {
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
