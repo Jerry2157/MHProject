@@ -36,10 +36,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
+
     //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
     private int nImage;
     // Contenedor de los botones
@@ -125,9 +122,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
         //cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
+
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
