@@ -57,7 +57,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
 
 
 
-    public ScreenTen(MHMain juego,int xS,int yS) {
+    public ScreenTen(MHMain juego, int xS, int yS) {
 
         //Dialogo
         playedDialogo = false;
@@ -201,7 +201,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenEleven(juego,20,64));
+                    juego.setScreen(new ScreenTwelve(juego,2000,64));
                 }
             }, delay);
         }

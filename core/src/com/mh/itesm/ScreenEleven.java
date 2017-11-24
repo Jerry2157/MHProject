@@ -61,7 +61,7 @@ public class ScreenEleven extends Pantalla {//sotano
 
     private Sprite malo;
 
-    public ScreenEleven(MHMain juego,int xS,int yS) {
+    public ScreenEleven(MHMain juego, int xS, int yS) {
         //cop = new FirstCop(3550,64,tamMundoWidth);
         //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
         radio = new Sprite(new Texture("Radio.png"));

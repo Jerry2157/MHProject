@@ -125,7 +125,7 @@ public class ScreenGatos extends Pantalla {//jardin
 
     private boolean playingpuzzle;
 
-    public ScreenGatos(MHMain juego,int xS,int yS) {
+    public ScreenGatos(MHMain juego, int xS, int yS) {
 
         playingpuzzle = true;
         firerepeater = true;
@@ -368,7 +368,7 @@ public class ScreenGatos extends Pantalla {//jardin
         if (tiempoEnemigo<=0) {
             tiempoEnemigo = MathUtils.random(0.5f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo>0.5f?10*delta:0;
-            Hongo hongo = new Hongo(texturaHongo, ANCHO-145, 128*MathUtils.random(1,3)+36);
+            Hongo hongo = new Hongo(texturaHongo, ANCHO-145, 128* MathUtils.random(1,3)+36);
             gatoUnoState = gatoUnoFire;
             gatoDosState = gatoDosFire;
             gatoTresState = gatoTresFire;
@@ -430,7 +430,7 @@ public class ScreenGatos extends Pantalla {//jardin
         //manager.unload("runner/fondoRunnerD.jpg");
         manager.unload("Characters/Steven/Atlas-StevenCaminandoFinal512.png");
         //manager.unload("runner/enemigo.png");
-        manager.unload("runner/bala.png");
+        manager.unload("PuzzleGatos/tuna.png");
         manager.unload("comun/btnSalir.png");
 
     }

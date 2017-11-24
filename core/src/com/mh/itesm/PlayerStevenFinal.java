@@ -2,7 +2,6 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
@@ -84,7 +83,7 @@ public class PlayerStevenFinal extends PersonajeStevenFinal
 
     @Override
     public void saltar() {
-        if (estadoSalto!=EstadoSalto.SALTANDO) {    // No puede saltar mientras está en el aire
+        if (estadoSalto!= EstadoSalto.SALTANDO) {    // No puede saltar mientras está en el aire
             // Iniciar el salto
             ymax = (velocidadInicial * velocidadInicial) / (2 * G);
             tiempoVuelo = (2 * velocidadInicial) / G;

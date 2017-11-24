@@ -1,34 +1,19 @@
 package com.mh.itesm;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
 import java.util.Random;
 
 /**
@@ -165,9 +150,9 @@ public class ScreenOne extends Pantalla {
 
     public void pausaInput(){
         if(controller.isPausePressed()){
-            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
         }
-        if (estadoJuego==EstadoJuego.PAUSADO ) {
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
             if (escenaPausa==null) {
                 escenaPausa = new EscenaPausa(this,controller,vista, batch);
@@ -248,7 +233,7 @@ public class ScreenOne extends Pantalla {
         dialogos[8]=line9;
 
         //Sonido
-        sonidoF=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/parque.mp3"));
+        sonidoF= Gdx.audio.newMusic(Gdx.files.internal("Sonidos/parque.mp3"));
         sonidoF.setVolume(0.7f);
         sonidoF.play();
         sonidoF.setLooping(true);
@@ -342,7 +327,7 @@ public class ScreenOne extends Pantalla {
         manejoInputPintura();
         delayDialog ++;
         tiempo += Gdx.graphics.getDeltaTime();
-        tiempoParpadeo +=Gdx.graphics.getDeltaTime(); //Tiempo parpadeo
+        tiempoParpadeo += Gdx.graphics.getDeltaTime(); //Tiempo parpadeo
         //Timepo puzzle
         if(tiempoCondicionPuzzle){
             tiempoPuzzle += Gdx.graphics.getDeltaTime();
@@ -435,7 +420,7 @@ public class ScreenOne extends Pantalla {
     //manejo dialogos
     private void sistemaDialogos() {
         if( startdialog==true  && pressEspaciadora==true){
-            if(estadoJuego==EstadoJuego.JUGANDO) {
+            if(estadoJuego== EstadoJuego.JUGANDO) {
                 if (nDialog == 0 || nDialog == 2 || nDialog == 4 /*|| nDialog == 5 || nDialog == 8*/) {
                     condicionTemp = false;
                     batch.draw(dialogos[nDialog], 485, 277);

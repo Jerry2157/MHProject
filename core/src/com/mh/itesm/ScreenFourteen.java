@@ -49,7 +49,7 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
     Preferences prefs;
 
 
-    public ScreenFourteen(MHMain juego,int xS,int yS) {
+    public ScreenFourteen(MHMain juego, int xS, int yS) {
         enfermeraTex = new Texture("enfermera.png");
         enfermera = new Sprite(enfermeraTex);
         prefs = Gdx.app.getPreferences("My Preferences");
@@ -103,7 +103,7 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         if(prefs.getBoolean("cuartosPassed")==true) {
             batch.draw(enfermera, enfermera.getX(), enfermera.getY());
         }

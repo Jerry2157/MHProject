@@ -10,19 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import javax.swing.OverlayLayout;
 
 /**
  * Autor: Jesús Heriberto Vásquez Sánchez A01377358
  * Autor: Gerardo Ezequiel Magdaleno Hernández
  */
 
-public class ControllerActionB extends Pantalla{
+public class ControllerActionB extends Pantalla {
     Viewport viewport;
     Stage stage;
     boolean upPressed, downPressed, leftPressed, rightPressed,pausePressed, spacePressed,buttonPressed,buttonBPressed;

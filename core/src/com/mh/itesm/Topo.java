@@ -42,7 +42,7 @@ public class Topo extends Objeto
     @Override
     public void dibujar(SpriteBatch batch) {
         super.dibujar(batch);
-        if (estado==EstadoTopo.ATONTADO) {
+        if (estado== EstadoTopo.ATONTADO) {
             batch.draw(texturaEstrellas,
                     sprite.getX()+sprite.getWidth()/2-texturaEstrellas.getWidth()/2,
                     sprite.getY()+sprite.getHeight()/2-texturaEstrellas.getHeight()/2);
@@ -98,7 +98,7 @@ public class Topo extends Objeto
 
     @Override
     public boolean contiene(Vector3 v) {
-        if (estado==EstadoTopo.BAJANDO || estado==EstadoTopo.SUBIENDO) {
+        if (estado== EstadoTopo.BAJANDO || estado== EstadoTopo.SUBIENDO) {
             return super.contiene(v);
         }
         return false;

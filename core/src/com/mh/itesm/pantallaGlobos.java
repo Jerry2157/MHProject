@@ -37,7 +37,7 @@ public class pantallaGlobos extends Pantalla {
     private ParticleEmitter emisorParticulas;
 
     //igual y solo teniendo el arreglo es suficiente
-    private Objeto  per1,per2,per3,per4,per5,per6,per7,per8,per9,per10,per11,per12,per13,per14,per15,per16,per17,per18,per19,per20,per21,per22,per23,per24,per25,per26,per27,
+    private Objeto per1,per2,per3,per4,per5,per6,per7,per8,per9,per10,per11,per12,per13,per14,per15,per16,per17,per18,per19,per20,per21,per22,per23,per24,per25,per26,per27,
             per28,per29,per30, per31,per32, per33,per34,per35,per36,per37,per38,per39,per40,per41,per42,per43,per44,ene9,glob1,glob2,glob3,glob4,glob5,glob6,glob7,glob8,
             glob9,glob10,glob11,glob12,glob13,glob14,glob15,glob16,glob17,glob18,glob19,glob20,glob21,glob22,glob23,glob24,glob25,glob26,glob27,glob28,glob29,glob30,glob31,
             glob32,glob33,glob34,glob35,glob36,glob37,glob38,glob39,glob40,glob41;
@@ -56,7 +56,7 @@ public class pantallaGlobos extends Pantalla {
     private int marcador=0;
     private float tiempo=0;
     private EscenaPierde escenaPierde;
-    private EstadoJuego estadoJuego=EstadoJuego.JUGANDO;
+    private EstadoJuego estadoJuego= EstadoJuego.JUGANDO;
     //variable para dejar de sumar un tiempo cuando pierde
     private boolean stoptime;
     //variable que limita escena pierde
@@ -102,7 +102,7 @@ public class pantallaGlobos extends Pantalla {
         Texture gloV=new Texture("PuzzleGlobos/Verde.png");
         confeti=new Texture("PuzzleGlobos/confeti.png");
 
-        efecto=Gdx.audio.newSound(Gdx.files.internal("PuzzleGlobos/sound.wav"));
+        efecto= Gdx.audio.newSound(Gdx.files.internal("PuzzleGlobos/sound.wav"));
 
         //OBJETOS PERSONAS
         per1=new Objeto(pe1,0,0);per2=new Objeto(pe2,90,0);per3=new Objeto(pe3,180,0);per4=new Objeto(pe4,270,0);per5=new Objeto(pe5,360,0);per6=new Objeto(pe6,450,0);
@@ -151,7 +151,7 @@ public class pantallaGlobos extends Pantalla {
     }
     //metodo que maneja si se perdio
     private void checaPierde(){
-        if (estadoJuego==EstadoJuego.PIERDE ) {
+        if (estadoJuego== EstadoJuego.PIERDE ) {
             // Activar escenaPausa y pasarle el control
             if (escenaPierde==null) {
                 escenaPierde = new EscenaPierde(vista, batch);
@@ -190,7 +190,7 @@ public class pantallaGlobos extends Pantalla {
                     @Override
                     public void run() {
                         // Do your work
-                        juego.setScreen(new ScreenTwelve(juego,10,64));
+                        juego.setScreen(new ScreenTwelve(juego,600,32));
                     }
                 }, delay);
 
@@ -212,7 +212,7 @@ public class pantallaGlobos extends Pantalla {
                 //texto.mostrarMensaje(batch, "Perdiste, vuelve a intentarlo ", (ANCHO /2), (ALTO /2)+50);
                 //texto.setColor(0, 0, 0, 1);
                 stoptime=true;
-                estadoJuego=EstadoJuego.PIERDE;
+                estadoJuego= EstadoJuego.PIERDE;
             }
 
         }
@@ -234,7 +234,7 @@ public class pantallaGlobos extends Pantalla {
         if(stoptime==false) {
             tiempo += Gdx.graphics.getDeltaTime();
             if(perdio==false){
-                tiempoPer +=Gdx.graphics.getDeltaTime();
+                tiempoPer += Gdx.graphics.getDeltaTime();
             }
 
         }

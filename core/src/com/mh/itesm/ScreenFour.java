@@ -1,6 +1,5 @@
 package com.mh.itesm;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,7 +28,7 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
 
 
     //FirstCop
-    private  FirstCop cop;
+    private FirstCop cop;
 
     //ContadorTiempo
     private float countTime;
@@ -102,9 +101,9 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
 
     public void pausaInput(){
         if(controller.isPausePressed()){
-            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
         }
-        if (estadoJuego==EstadoJuego.PAUSADO ) {
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
             if (escenaPausa==null) {
                 escenaPausa = new EscenaPausa(this,controller,vista, batch);

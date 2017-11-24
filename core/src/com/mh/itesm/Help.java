@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * Created by jerry2157 on 11/09/17.
  */
 
-public class Help extends Pantalla{
+public class Help extends Pantalla {
     private MHMain juego;
 
     // Contenedor de los botones
@@ -69,7 +69,7 @@ public class Help extends Pantalla{
         borrarPantalla(0.0f,0.0f,0.0f);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
-        batch.draw(texturaBackground, Pantalla.ANCHO/2 -texturaBackground.getWidth()/2,Pantalla.ALTO/2-texturaBackground.getHeight()/2);
+        batch.draw(texturaBackground, Pantalla.ANCHO/2 -texturaBackground.getWidth()/2, Pantalla.ALTO/2-texturaBackground.getHeight()/2);
         batch.end();
         escenaMenu.draw();
     }

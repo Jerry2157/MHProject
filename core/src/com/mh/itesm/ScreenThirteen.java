@@ -29,7 +29,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
 
     //Mom and daughter
     private Texture mom;
-    private Sprite momNdaughter;
+    private Sprite escritorio;
 
 
     //World world;
@@ -49,11 +49,14 @@ public class ScreenThirteen extends Pantalla {//oficina director
     Preferences prefs;
 
 
-    public ScreenThirteen(MHMain juego,int xS,int yS) {
+    public ScreenThirteen(MHMain juego, int xS, int yS) {
+        escritorio = new Sprite(new Texture("atrapasueños.png"));
+        escritorio.setPosition(32,64);
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
+        cop = new FirstCop(10,10,tamMundoWidth);
 
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
@@ -101,8 +104,8 @@ public class ScreenThirteen extends Pantalla {//oficina director
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        batch.draw(escritorio,escritorio.getX(),escritorio.getY());
         Steven.dibujar(batch);
         cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande

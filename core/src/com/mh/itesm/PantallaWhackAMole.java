@@ -193,7 +193,7 @@ public class PantallaWhackAMole extends Pantalla
         }
 
         // ACTUALIZAR
-        if ( estado==EstadoJuego.JUGANDO) {
+        if ( estado== EstadoJuego.JUGANDO) {
             actualizarObjetos(delta);   // mandamos el tiempo para calcular distancia
         } // Si está pausado, perdió o ganó NO hace las actualizaciones
         // DIBUJAR
@@ -207,9 +207,9 @@ public class PantallaWhackAMole extends Pantalla
         dibujarEstado(batch);    // Puntos y mazos
         batch.end();
 
-        if (estado==EstadoJuego.PIERDE) {
+        if (estado== EstadoJuego.PIERDE) {
             escenaPierde.draw();
-        } else if (estado==EstadoJuego.PAUSADO) {
+        } else if (estado== EstadoJuego.PAUSADO) {
             escenaPausa.draw();
         }
     }
@@ -240,7 +240,7 @@ public class PantallaWhackAMole extends Pantalla
             // Pregunta si se escondió (pierde un mazo)
             if (t.seHaEscondido()) {
                 mazos--;
-                if (estado==EstadoJuego.JUGANDO) {
+                if (estado== EstadoJuego.JUGANDO) {
                     efectoRisa.play();
                 }
                 // Ya perdió???
@@ -329,7 +329,7 @@ public class PantallaWhackAMole extends Pantalla
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             v.set(screenX, screenY, 0);
             camara.unproject(v);
-            if ( estado==EstadoJuego.JUGANDO ) {
+            if ( estado== EstadoJuego.JUGANDO ) {
                 for (Objeto obj :
                         arrTopos) {
                     Topo topo = (Topo) obj;
@@ -351,8 +351,8 @@ public class PantallaWhackAMole extends Pantalla
             // Prueba botón pausa
             if (btnPausa.contiene(v)) {
                 // Se pausa el juego
-                estado = estado==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO;
-                if (estado==EstadoJuego.PAUSADO) {
+                estado = estado== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO;
+                if (estado== EstadoJuego.PAUSADO) {
                     // Activar escenaPausa y pasarle el control
                     if (escenaPausa==null) {
                         escenaPausa = new EscenaPausa(vista, batch);

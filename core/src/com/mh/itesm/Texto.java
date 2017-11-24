@@ -1,12 +1,9 @@
 package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import static com.badlogic.gdx.graphics.g3d.particles.ParticleChannels.Color;
 
 /**
  * Muestra un texto en la pantalla.

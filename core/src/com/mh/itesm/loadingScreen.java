@@ -35,12 +35,12 @@ public class loadingScreen extends Pantalla {
         // Dibuja
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
-        batch.draw(loadingBngTex, Pantalla.ANCHO/2 -loadingBngTex.getWidth()/2,Pantalla.ALTO/2-loadingBngTex.getHeight()/2);
+        batch.draw(loadingBngTex, Pantalla.ANCHO/2 -loadingBngTex.getWidth()/2, Pantalla.ALTO/2-loadingBngTex.getHeight()/2);
         //batch.draw(loadingBngTex, 0,0);
         //AQUI PONEMOS LA IMAGEN DEL TECNOLOGICO
         //batch.draw(loadingTec,ANCHO,ALTO);
 
-        batch.draw(loadingTextTex, Pantalla.ANCHO/6*5-loadingTextTex.getWidth(),Pantalla.ALTO/5-loadingTextTex.getHeight());
+        batch.draw(loadingTextTex, Pantalla.ANCHO/6*5-loadingTextTex.getWidth(), Pantalla.ALTO/5-loadingTextTex.getHeight());
         //batch.draw(loadingTextTex, 0,0);
         //batch.draw(texturaReloj, Pantalla.ANCHO/2-texturaReloj.getWidth()/2, Pantalla.ALTO/2-texturaReloj.getHeight()/2);
         batch.end();

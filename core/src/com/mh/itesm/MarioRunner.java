@@ -44,7 +44,7 @@ public class MarioRunner extends Personaje
 
     @Override
     public void saltar() {
-        if (estadoSalto!=EstadoSalto.SALTANDO) {    // No puede saltar mientras está en el aire
+        if (estadoSalto!= EstadoSalto.SALTANDO) {    // No puede saltar mientras está en el aire
             // Iniciar el salto
             ymax = (velocidadInicial * velocidadInicial) / (2 * G);
             tiempoVuelo = (2 * velocidadInicial) / G;

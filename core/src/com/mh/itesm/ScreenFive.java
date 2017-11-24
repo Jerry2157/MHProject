@@ -1,25 +1,12 @@
 package com.mh.itesm;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 
 /**
@@ -67,7 +54,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
     private Texture dialog1;
     private float tiempo;
 
-    public ScreenFive(MHMain juego,int xS,int yS) {
+    public ScreenFive(MHMain juego, int xS, int yS) {
 
         //Dialogo
         playedDialogo = false;
@@ -125,9 +112,9 @@ public class ScreenFive extends Pantalla {//cuarto steven
 
     public void pausaInput(){
         if(controller.isPausePressed()){
-            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
         }
-        if (estadoJuego==EstadoJuego.PAUSADO ) {
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
             if (escenaPausa==null) {
                 escenaPausa = new EscenaPausa(this,controller,vista, batch);
@@ -162,7 +149,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
 
         //Dialogo
         if((controller.isSpacePressed() || runningDialogo) && !playedDialogo){
@@ -189,7 +176,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
          controller.draw();
-        tiempo +=Gdx.graphics.getDeltaTime();
+        tiempo += Gdx.graphics.getDeltaTime();
     }
 
 

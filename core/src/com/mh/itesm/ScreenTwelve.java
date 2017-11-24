@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Timer;
  */
 
 public class ScreenTwelve extends Pantalla {//area verde
-    private int tamMundoWidth = 3840;
+    private int tamMundoWidth = 2560;
     private boolean passed = false; //se cambiara de nivel
     private boolean played = false; //se acciono el elevador
 
@@ -29,7 +29,7 @@ public class ScreenTwelve extends Pantalla {//area verde
 
     //Mom and daughter
     private Texture mom;
-    private Sprite momNdaughter;
+    private Sprite objectXtra;
 
 
     //World world;
@@ -39,8 +39,7 @@ public class ScreenTwelve extends Pantalla {//area verde
     private Texture BackgroundLayerOne;   // Imagen que se muestra
     //Pinturas interactuables
     //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
+
     //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
     private int nImage;
     // Contenedor de los botones
@@ -48,8 +47,12 @@ public class ScreenTwelve extends Pantalla {//area verde
     private Texture texturaBtnPintura;
     Preferences prefs;
 
+    private static Fondo fondo; //Imagen de fondo
 
-    public ScreenTwelve(MHMain juego,int xS,int yS) {
+
+    public ScreenTwelve(MHMain juego, int xS, int yS) {
+        objectXtra = new Sprite(new Texture("atrapasueños.png"));
+        objectXtra.setPosition(520,32);
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
@@ -73,7 +76,7 @@ public class ScreenTwelve extends Pantalla {//area verde
                 //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
-            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+            if (controller.isUpPressed()) {
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
@@ -89,36 +92,39 @@ public class ScreenTwelve extends Pantalla {//area verde
 
     private void cargarTexturas() {
         if(prefs.getBoolean("playedTalkDir") == false && prefs.getBoolean("playedTalkDirCat") == false){
-            BackgroundLayerOne = new Texture("ScreenFive/ScreenTwelveBNGOne.png");
+            BackgroundLayerOne = new Texture("Jardin.png");
         }else if(prefs.getBoolean("playedTalkDir") == true && prefs.getBoolean("playedTalkDirCat") == false && prefs.getBoolean("continuehistory")==false){
-            BackgroundLayerOne = new Texture("ScreenFive/ScreenTwelveBNGTwo.png");
+            BackgroundLayerOne = new Texture("Jardin.png");
         }else if(prefs.getBoolean("playedTalkDir") == true && prefs.getBoolean("playedTalkDirCat") == false && prefs.getBoolean("continuehistory")==true){
-            BackgroundLayerOne = new Texture("ScreenFive/ScreenTwelveBNGThree.png");
+            BackgroundLayerOne = new Texture("Jardin.png");
         }else{
 
         }
+        fondo = new Fondo(BackgroundLayerOne);
+        fondo.setPosicion(0,0);
 
     }
     @Override
     public void render(float delta) {
+        reaction();
+        actualizarCamara();
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        fondo.render(batch);
+        fondo.setPosicion(0,0);
+        batch.draw(objectXtra,objectXtra.getX(),objectXtra.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
+
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
@@ -152,19 +158,19 @@ public class ScreenTwelve extends Pantalla {//area verde
     }
 
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false && prefs.getBoolean("playedDir") == true) {//derecha
+        if(Steven.getX()>=2450 && passed == false && !prefs.getBoolean("playedDir")) {//derecha
             passed = true;
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=10 && passed == false && prefs.getBoolean("lockedDir") == false) {//izquierda
+        if(Steven.getX()<=10 && passed == false && !prefs.getBoolean("lockedDir")) {//izquierda
             passed = true;
             trabar();
             nextScreenLeft();
         }
     }
     public void reaction(){//puertacerrada
-        if(Steven.getX()>=1020 && Steven.getX()<=1070 &&  passed == false && prefs.getBoolean("continuehistory") == true) {//puerta central
+        if(Steven.getX()>=2300 && Steven.getX()<=2400 &&  passed == false && prefs.getBoolean("continuehistory") == true) {//puerta central
             prefs.putBoolean("areaverdelocked", true);
             prefs.flush();
             //llamar al dialogo
@@ -180,7 +186,7 @@ public class ScreenTwelve extends Pantalla {//area verde
                 }
             }, delay);
         }
-        if(Steven.getX()>=520 && Steven.getX()<=570 &&  passed == false && prefs.getBoolean("PassedParty") == true) {//flashback
+        if(Steven.getX()>=520 && Steven.getX()<=570 &&  passed == false && !prefs.getBoolean("PassedParty")) {//flashback
             prefs.putBoolean("PassedParty", true);
             prefs.flush();
             //llamar al dialogo
@@ -230,4 +236,20 @@ public class ScreenTwelve extends Pantalla {//area verde
             }
         }, delay);
     }
+    private void actualizarCamara() {
+        float posX = Steven.sprite.getX();
+        // Si está en la parte 'media'
+        if (posX>=ANCHO/2 && posX<=tamMundoWidth-ANCHO/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+            //fondo.setPosicion(posX,camara.position.y);
+        } else if (posX>tamMundoWidth-ANCHO/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(tamMundoWidth-ANCHO/2, camara.position.y, 0);
+        } else if ( posX<ANCHO/2 ) { // La primera mitad
+            camara.position.set(ANCHO/2, ALTO/2,0);
+        }
+        camara.update();
+    }
+
 }

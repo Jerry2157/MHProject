@@ -26,7 +26,7 @@ class FondoB
         // Dibujar en posición actual
         batch.draw(textura, x, 0);    // Primer fondo
         float xDerecha = x + textura.getWidth();
-        if ( xDerecha>=0 && xDerecha<Pantalla.ANCHO) {
+        if ( xDerecha>=0 && xDerecha< Pantalla.ANCHO) {
             batch.draw(textura, xDerecha, 0);   // Segundo fondo
         }
         // Nueva posición

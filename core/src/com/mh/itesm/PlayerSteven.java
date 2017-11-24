@@ -13,7 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
  * Created by jerry2157 on 11/09/17.
  */
 
-public class PlayerSteven extends Objeto{
+public class PlayerSteven extends Objeto {
     //Atlases
     private Texture stevenCam;
     private Texture StevenJump;
@@ -71,7 +71,7 @@ public class PlayerSteven extends Objeto{
                 timerAnimacion += Gdx.graphics.getDeltaTime();
                 // Frame que se dibujará
                 TextureRegion region = (TextureRegion)spriteAnimadoCam.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
+                if (estadoMovimiento== EstadoMovimiento.MOV_IZQUIERDA) {
                     if (!region.isFlipX()) {
                         region.flip(true,false);
                     }
@@ -136,7 +136,7 @@ public class PlayerSteven extends Objeto{
         // Ejecutar movimiento horizontal
         float nuevaX = sprite.getX();
         // ¿Quiere ir a la Derecha?
-        if ( estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
+        if ( estadoMovimiento== EstadoMovimiento.MOV_DERECHA) {
             /* Obtiene el bloque del lado derecho. Asigna null si puede pasar.
             int x = (int) ((sprite.getX() + 32) / 32);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) (sprite.getY() / 32);
@@ -158,7 +158,7 @@ public class PlayerSteven extends Objeto{
             }
         }
         // ¿Quiere ir a la izquierda?
-        if ( estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
+        if ( estadoMovimiento== EstadoMovimiento.MOV_IZQUIERDA) {
             int xIzq = (int) ((sprite.getX()) / 32);
             int y = (int) (sprite.getY() / 32);
             /* Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
@@ -211,7 +211,7 @@ public class PlayerSteven extends Objeto{
     // Inicia el salto
     public void saltar() {
 
-        if (estadoSalto!=EstadoSalto.SUBIENDO && estadoSalto!=EstadoSalto.BAJANDO) {
+        if (estadoSalto!= EstadoSalto.SUBIENDO && estadoSalto!= EstadoSalto.BAJANDO) {
             // inicia
             estadoSalto = EstadoSalto.SUBIENDO;
             yOriginal = sprite.getY();

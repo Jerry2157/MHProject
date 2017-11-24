@@ -69,7 +69,7 @@ public class Credits extends Pantalla {
         borrarPantalla(0.0f,0.0f,0.0f);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
-        batch.draw(texturaBackground, Pantalla.ANCHO/2 -texturaBackground.getWidth()/2,Pantalla.ALTO/2-texturaBackground.getHeight()/2);
+        batch.draw(texturaBackground, Pantalla.ANCHO/2 -texturaBackground.getWidth()/2, Pantalla.ALTO/2-texturaBackground.getHeight()/2);
         batch.end();
         escenaMenu.draw();
     }

@@ -1,6 +1,5 @@
 package com.mh.itesm;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
@@ -55,7 +54,7 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
     private static Fondo fondo; //Imagen de fondo
 
 
-    public ScreenSix(MHMain juego,int xS,int yS) {
+    public ScreenSix(MHMain juego, int xS, int yS) {
         prefs = Gdx.app.getPreferences("My Preferences");
 
         //Dialogo
@@ -106,9 +105,9 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
 
     public void pausaInput(){
         if(controller.isPausePressed()){
-            estadoJuego = estadoJuego==EstadoJuego.PAUSADO?EstadoJuego.JUGANDO:EstadoJuego.PAUSADO; // Se pausa el juego
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
         }
-        if (estadoJuego==EstadoJuego.PAUSADO ) {
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
             if (escenaPausa==null) {
                 escenaPausa = new EscenaPausa(this,controller,vista, batch);

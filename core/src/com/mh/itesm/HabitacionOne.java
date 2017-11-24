@@ -48,7 +48,7 @@ public class HabitacionOne extends Pantalla { //cocina
     private Texture texturaBtnPintura;
     Preferences prefs;
 
-    public HabitacionOne(MHMain juego,int xS,int yS) {
+    public HabitacionOne(MHMain juego, int xS, int yS) {
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
@@ -105,7 +105,7 @@ public class HabitacionOne extends Pantalla { //cocina
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
         Steven.dibujar(batch);
         cop.dibujar(batch);

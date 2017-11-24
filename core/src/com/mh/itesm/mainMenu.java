@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 
 
-public class mainMenu extends Pantalla{
+public class mainMenu extends Pantalla {
     private MHMain juego;
 
     // Contenedor de los botones
@@ -51,6 +51,10 @@ public class mainMenu extends Pantalla{
         prefs.putBoolean("cocinaPassed",false);
         prefs.putBoolean("areaverdelocked",false);
         prefs.putBoolean("playedMother",false);
+        prefs.putBoolean("continuehistory",false);
+        prefs.putBoolean("PassedParty",false);
+        prefs.putBoolean("playedDir",false);
+        prefs.putBoolean("lockedDir",false);
 
         prefs.flush();
         this.juego = juego;
@@ -78,7 +82,7 @@ public class mainMenu extends Pantalla{
                 super.clicked(event, x, y);
                 //paramos la musica
                 tonadaMenu.stop();
-                juego.setScreen(new PantallaCargando(juego,Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
+                juego.setScreen(new PantallaCargando(juego, Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
             }
         });
         //boton AYUDA
@@ -102,16 +106,16 @@ public class mainMenu extends Pantalla{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //juego.setScreen(new Credits(juego));
+                juego.setScreen(new Credits(juego));
                 // Iniciar juego Mario
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
                 //juego.setScreen((new ScreenEight(juego,640,32)));
 
-                //juego.setScreen((new ScreenEleven(juego,640,32)));
+                //juego.setScreen((new ScreenTwelve(juego,2000,32)));
 
                 //juego.setScreen((new PantallaCargando(juego,Pantallas.FINAL));
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER));
-                juego.setScreen(new PantallaCargando(juego, Pantallas.FINAL));
+                //juego.setScreen(new PantallaCargando(juego, Pantallas.FINAL));
             }
         });
 
@@ -149,7 +153,7 @@ public class mainMenu extends Pantalla{
         texturaBtnMusicaX=new Texture("Botones/MusicaApagada.png");
         backTexAnim = new Texture("FondoMenu.png");
         //Sonido
-        tonadaMenu=Gdx.audio.newMusic(Gdx.files.internal("Sonidos/lluvia.wav"));
+        tonadaMenu= Gdx.audio.newMusic(Gdx.files.internal("Sonidos/lluvia.wav"));
         tonadaMenu.setVolume(1f);
         tonadaMenu.play();
         tonadaMenu.setLooping(true);

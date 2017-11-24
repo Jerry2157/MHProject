@@ -146,7 +146,7 @@ class PantallaRunner extends Pantalla
         if (tiempoEnemigo<=0) {
             tiempoEnemigo = MathUtils.random(0.5f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo>0.5f?10*delta:0;
-            Hongo hongo = new Hongo(texturaHongo, ANCHO+1, 70*MathUtils.random(1,4));
+            Hongo hongo = new Hongo(texturaHongo, ANCHO+1, 70* MathUtils.random(1,4));
             enemigos.add(hongo);
         }
         // Actualizar enemigos

@@ -125,7 +125,7 @@ public class ScreenFinal extends Pantalla {//jardin
 
     private boolean playingpuzzle;
 
-    public ScreenFinal(MHMain juego,int xS,int yS) {
+    public ScreenFinal(MHMain juego, int xS, int yS) {
 
         playingpuzzle = true;
         firerepeater = true;
@@ -379,7 +379,7 @@ public class ScreenFinal extends Pantalla {//jardin
         if (tiempoEnemigo<=0) {
             tiempoEnemigo = MathUtils.random(0.5f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo>0.5f?10*delta:0;
-            Hongo hongo = new Hongo(texturaHongo, ANCHO+1, 128*MathUtils.random(1,3)+36);
+            Hongo hongo = new Hongo(texturaHongo, ANCHO+1, 128* MathUtils.random(1,3)+36);
             gatoUnoState = gatoUnoFire;
             gatoDosState = gatoDosFire;
             gatoTresState = gatoTresFire;
@@ -454,9 +454,9 @@ public class ScreenFinal extends Pantalla {//jardin
 
     }
     public void cambiarEscena(){
-        if(steven.sprite.getX()>=1100 && played == false) {
+        if(steven.sprite.getX()>=3400 && played == false) {
             played= true;
-            Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            //steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             nextScreenRight();
         }
     }
