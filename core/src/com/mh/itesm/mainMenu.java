@@ -74,7 +74,7 @@ public class mainMenu extends Pantalla {
         //boton jugar
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
         ImageButton btnPlay = new ImageButton(trdPlay);
-        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.5f*ALTO);
+        btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2,0.25f*ALTO);
         escenaMenu.addActor(btnPlay);
         btnPlay.addListener(new ClickListener(){
             @Override
@@ -88,7 +88,7 @@ public class mainMenu extends Pantalla {
         //boton AYUDA
         TextureRegionDrawable trdAyuda = new TextureRegionDrawable(new TextureRegion(texturaBtnAyuda));
         ImageButton btnAyuda = new ImageButton(trdAyuda);
-        btnAyuda.setPosition(ANCHO/4 - btnAyuda.getWidth()-60, 0.2f*ALTO+10);
+        btnAyuda.setPosition(ANCHO/4 - btnAyuda.getWidth()-180, 0.2f*ALTO+10);
         escenaMenu.addActor(btnAyuda);
         btnAyuda.addListener(new ClickListener(){
             @Override
@@ -100,7 +100,7 @@ public class mainMenu extends Pantalla {
         //botonCreditos
         TextureRegionDrawable trdCreditos = new TextureRegionDrawable(new TextureRegion(texturaBtnCredits));
         ImageButton btnCredits = new ImageButton(trdCreditos);
-        btnCredits.setPosition(ANCHO - btnCredits.getWidth()/*ANCHO/2 - btnCredits.getWidth()/2*/, 0.2f*ALTO +10);
+        btnCredits.setPosition(ANCHO - btnCredits.getWidth()-15/*ANCHO/2 - btnCredits.getWidth()/2*/, 0.2f*ALTO +10);
         escenaMenu.addActor(btnCredits);
         btnCredits.addListener(new ClickListener(){
             @Override
@@ -123,7 +123,7 @@ public class mainMenu extends Pantalla {
         texturaBtnTemp=texturaBtnMusica;
         TextureRegionDrawable trdMusica=new TextureRegionDrawable(new TextureRegion(texturaBtnTemp));
         final ImageButton btnMusica= new ImageButton(trdMusica);
-        btnMusica.setPosition(ANCHO/2-btnMusica.getWidth()/2,0.3f*ALTO-40);
+        btnMusica.setPosition(ANCHO/2-btnMusica.getWidth()/2,0.05f*ALTO);
         escenaMenu.addActor(btnMusica);
         btnMusica.addListener(new ClickListener(){
             @Override
@@ -146,8 +146,8 @@ public class mainMenu extends Pantalla {
 
     private void cargarTexturas() {
         texturaBtnJugar = new Texture("NUEVOJUEGO.png");
-        texturaBtnAyuda = new Texture("fondoNew.png");
-        texturaBtnCredits = new Texture("CREDITOS.png");
+        texturaBtnAyuda = new Texture("AyudaBtnMain.png");
+        texturaBtnCredits = new Texture("CreditsBtnMain.png");
         texturaBackground = new Texture("Menu/MenuBNG1920.png");
         texturaBtnMusica=new Texture("Botones/Musica.png");
         texturaBtnMusicaX=new Texture("Botones/MusicaApagada.png");

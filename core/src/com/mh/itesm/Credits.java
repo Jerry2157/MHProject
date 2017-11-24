@@ -40,7 +40,7 @@ public class Credits extends Pantalla {
         //boton jugar
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
         ImageButton btnPlay = new ImageButton(trdPlay);
-        btnPlay.setPosition(ANCHO/3 - btnPlay.getWidth()/2,0.2f*ALTO);
+        btnPlay.setPosition(ANCHO/5 - btnPlay.getWidth()/2-128,0.05f*ALTO);
         escenaMenu.addActor(btnPlay);
         btnPlay.addListener(new ClickListener(){
             @Override

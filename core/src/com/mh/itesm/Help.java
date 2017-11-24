@@ -40,7 +40,7 @@ public class Help extends Pantalla {
         //boton jugar
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(texturaBtnJugar));
         ImageButton btnPlay = new ImageButton(trdPlay);
-        btnPlay.setPosition(ANCHO/3*2 - btnPlay.getWidth()/2,0.2f*ALTO);
+        btnPlay.setPosition(ANCHO/6*5 - btnPlay.getWidth()/2+15,0.05f*ALTO);
         escenaMenu.addActor(btnPlay);
         btnPlay.addListener(new ClickListener(){
             @Override
