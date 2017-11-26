@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -79,6 +80,9 @@ public class PantallaWhackAMole extends Pantalla
 
     // Procesador de eventos
     private final Procesador procesadorEntrada = new Procesador();
+
+    private boolean playedTimer;
+    private Stage stage;
 
     public PantallaWhackAMole(MHMain juego) {
         prefs = Gdx.app.getPreferences("My Preferences");
@@ -184,14 +188,17 @@ public class PantallaWhackAMole extends Pantalla
         if(estado == EstadoJuego.JUGANDO) {
             tiempo -= Gdx.graphics.getDeltaTime();
         }
-        if(tiempo<= 0){
+        if(tiempo<= 0 && !playedTimer){
+
             tiempo = 0;
             estado = EstadoJuego.PAUSADO;
             prefs.putBoolean("cocinaPassed",true);
             prefs.flush();
+            playedTimer = true;
+            //stage.addAction(Actions.fadeOut(1.0f));//pasa a negro fadeOut
             juego.setScreen(new ScreenNine(juego,10,512));
-        }
 
+        }
         // ACTUALIZAR
         if ( estado== EstadoJuego.JUGANDO) {
             actualizarObjetos(delta);   // mandamos el tiempo para calcular distancia
@@ -389,13 +396,15 @@ public class PantallaWhackAMole extends Pantalla
     {
         public EscenaPierde(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
-            // Crear círculo transparente
-            Pixmap pixmap = new Pixmap((int)ANCHO, (int)(ALTO), Pixmap.Format.RGBA8888 );
-            pixmap.setColor( 0, 0, 0, 0.55f );
-            pixmap.fillCircle((int)ANCHO/2, (int)ALTO/2, (int)ALTO/2);
-            Texture texturaCirculo = new Texture( pixmap );
+            // Crear rectángulo transparente
+            Pixmap pixmap = new Pixmap((int) (ANCHO/*currentS.ANCHO * 0.7f*/), (int) (ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
+            pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
+            Texture texturaRectangulo = new Texture( pixmap );
             pixmap.dispose();
-            this.addActor(new Image(texturaCirculo));
+            Image imgRectangulo = new Image(texturaRectangulo);
+            imgRectangulo.setPosition(0,0/*0.15f*currentS.ANCHO, 0.1f*currentS.ALTO*/);
+            this.addActor(imgRectangulo);
 
             /* Agregar botón salir
             Texture texturabtnSalir = manager.get("whackamole/btnSalir.png");
@@ -415,7 +424,7 @@ public class PantallaWhackAMole extends Pantalla
 
             // Reintentar
             // Agregar botón reintentar
-            Texture texturabtnReintentar = manager.get("whackamole/btnReintentar.png");
+            Texture texturabtnReintentar = manager.get("Botones/CONTINUAR.png");
             TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
                     new TextureRegion(texturabtnReintentar));
             ImageButton btnReintentar = new ImageButton(trdReintentar);
@@ -462,18 +471,18 @@ public class PantallaWhackAMole extends Pantalla
     {
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
-            // Crear triángulo transparente
-            Pixmap pixmap = new Pixmap((int)(ANCHO*0.7f), (int)(ALTO*0.8f), Pixmap.Format.RGBA8888 );
-            pixmap.setColor( 0.2f, 0, 0.3f, 0.65f );
-            pixmap.fillTriangle(0,pixmap.getHeight(),pixmap.getWidth(),pixmap.getHeight(),pixmap.getWidth()/2,0);
-            Texture texturaTriangulo = new Texture( pixmap );
+            // Crear rectángulo transparente
+            Pixmap pixmap = new Pixmap((int) (ANCHO/*currentS.ANCHO * 0.7f*/), (int) (ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
+            pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
+            Texture texturaRectangulo = new Texture( pixmap );
             pixmap.dispose();
-            Image imgTriangulo = new Image(texturaTriangulo);
-            imgTriangulo.setPosition(0.15f*ANCHO, 0.1f*ALTO);
-            this.addActor(imgTriangulo);
+            Image imgRectangulo = new Image(texturaRectangulo);
+            imgRectangulo.setPosition(0,0/*0.15f*currentS.ANCHO, 0.1f*currentS.ALTO*/);
+            this.addActor(imgRectangulo);
 
             // Salir
-            Texture texturaBtnSalir = manager.get("whackamole/btnSalir.png");
+            Texture texturaBtnSalir = manager.get("Botones/SALIR.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -488,7 +497,7 @@ public class PantallaWhackAMole extends Pantalla
             this.addActor(btnSalir);
 
             // Continuar
-            Texture texturabtnReintentar = manager.get("whackamole/btnContinuar.png");
+            Texture texturabtnReintentar = manager.get("Botones/CONTINUAR.png");
             TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
                     new TextureRegion(texturabtnReintentar));
             ImageButton btnReintentar = new ImageButton(trdReintentar);

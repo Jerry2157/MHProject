@@ -33,8 +33,7 @@ public class ScreenFinal extends Pantalla {//jardin
     private int tamMundoWidth = 3840;
     private boolean played = false;
 
-    //Steven
-    private PlayerSteven Steven;
+
 
     //Cop
     private FirstCop cop;
@@ -89,8 +88,8 @@ public class ScreenFinal extends Pantalla {//jardin
 
     // Objeto de prueba
     private PlayerStevenFinal steven;
-    private float dx = 0;
-    private float dy = 0;
+    private float dx = 10;
+    private float dy = 10;
 
     // Enemigos (hongos :)
     private Texture texturaHongo;
@@ -124,6 +123,13 @@ public class ScreenFinal extends Pantalla {//jardin
     private boolean firerepeater;
 
     private boolean playingpuzzle;
+
+    private Sprite Camioneta;
+    private Sprite PatrullaOne,PatrullaTwo;
+    private Sprite Policia;
+
+    private PlayerPoliciaFinal policia;
+
 
     public ScreenFinal(MHMain juego, int xS, int yS) {
 
@@ -183,7 +189,7 @@ public class ScreenFinal extends Pantalla {//jardin
         }
     }
     private void cargarMapa() {
-        mapa = new TmxMapLoader().load("PuzzleFinal/persecucion.tmx");
+        mapa = new TmxMapLoader().load("UltimoNivel/Fondo.tmx");
         rendererMapa = new OrthogonalTiledMapRenderer(mapa);
     }
 
@@ -243,12 +249,12 @@ public class ScreenFinal extends Pantalla {//jardin
         tiempoEnemigo = MathUtils.random(1.5f,5.0f);
         //texturaFondo = manager.get("runner/fondoRunnerD.jpg");
         //texturaHongo = manager.get("runner/enemigo.png");
-        texturaHongo = manager.get("PuzzleGatos/BoladePelo40x40.png");
+        texturaHongo = manager.get("UltimoNivel/barrilito.png");
 
         texturaBala = manager.get("PuzzleGatos/tuna.png");
         //fondoB = new FondoB(texturaFondo);
         steven = new PlayerStevenFinal((Texture)(manager.get("UltimoNivel/Stevenvistaarriba.png")), 32, 128);
-
+        policia = new PlayerPoliciaFinal((Texture)(manager.get("")),32,128);
     }
 
     private void cargarTexturas() {
@@ -265,10 +271,10 @@ public class ScreenFinal extends Pantalla {//jardin
         //steven.actualizar();
 
         // Actualizar
-        actualizarMario();
-        actualizarSaltoMario(delta);
+        //actualizarMario();
+        //actualizarSaltoMario(delta);
         actualizarEnemigos(delta);
-        actualizarBalas(delta);
+        //actualizarBalas(delta);
 
         steven.actualizar(delta,mapa);
 
@@ -374,42 +380,48 @@ public class ScreenFinal extends Pantalla {//jardin
     }
 
     private void actualizarEnemigos(float delta) {
-        // Generar nuevo enemigo
-        tiempoEnemigo -= delta;
-        if (tiempoEnemigo<=0) {
-            tiempoEnemigo = MathUtils.random(0.5f, tiempoMaximo);
-            tiempoMaximo -= tiempoMaximo>0.5f?10*delta:0;
-            Hongo hongo = new Hongo(texturaHongo, ANCHO+1, 128* MathUtils.random(1,3)+36);
-            gatoUnoState = gatoUnoFire;
-            gatoDosState = gatoDosFire;
-            gatoTresState = gatoTresFire;
+        if(steven.getX() <2500) {
+            // Generar nuevo enemigo
+            tiempoEnemigo -= delta;
+            if (tiempoEnemigo <= 0) {
+                tiempoEnemigo = MathUtils.random(0.5f, tiempoMaximo);
+                tiempoMaximo -= tiempoMaximo > 0.5f ? 40 * delta : 0;
+                Hongo hongo = new Hongo(texturaHongo, camara.position.x + 700, 64 * MathUtils.random(1, 8) + 36, 32, 64);
+                gatoUnoState = gatoUnoFire;
+                gatoDosState = gatoDosFire;
+                gatoTresState = gatoTresFire;
 
-            enemigos.add(hongo);
-        }
-        // Actualizar enemigos
-        for (Hongo hongo :enemigos) {
-            hongo.mover(delta);
-        }
-        // Verificar choque
-        for(int k=enemigos.size-1; k>=0; k--) {
-            Hongo hongo = enemigos.get(k);
-            if (hongo.chocaCon(steven)) {
-                // Pierde!!!
-                enemigos.removeIndex(k);
-                // Activar escenaPausa y pasarle el control
-                if (escenaPausa==null) {
-                    escenaPausa = new ScreenFinal.EscenaPausa(vista, batch);
-                }
-                Gdx.input.setInputProcessor(escenaPausa);
-            } else if (hongo.sprite.getX()<-hongo.sprite.getWidth()) {
-                enemigos.removeIndex(k);
+                enemigos.add(hongo);
             }
         }
+            // Actualizar enemigos
+            for (Hongo hongo : enemigos) {
+                hongo.mover(delta);
+            }
+            // Verificar choque
+            for (int k = enemigos.size - 1; k >= 0; k--) {
+                Hongo hongo = enemigos.get(k);
+                if (hongo.chocaCon(steven)) {
+                    // Pierde!!!
+                    played = false;
+                    steven.setEstadoMovimiento(PlayerStevenFinal.EstadoMovimiento.QUIETO);
+                    enemigos.removeIndex(k);
+                    // Activar escenaPausa y pasarle el control
+                    if (escenaPausa == null) {
+                        escenaPausa = new EscenaPausa(vista, batch);
+
+                    }
+                    Gdx.input.setInputProcessor(escenaPausa);
+                } else if (hongo.sprite.getX() < -hongo.sprite.getWidth()) {
+                    enemigos.removeIndex(k);
+                }
+            }
+
     }
     private void terminar() {
         // Activar escenaPausa y pasarle el control
         if (escenaPausa==null) {
-            escenaPausa = new ScreenFinal.EscenaPausa(vista, batch);
+            escenaPausa = new EscenaPausa(vista, batch);
         }
         Gdx.input.setInputProcessor(escenaPausa);
     }
@@ -439,9 +451,9 @@ public class ScreenFinal extends Pantalla {//jardin
     @Override
     public void dispose() {
         //manager.unload("runner/fondoRunnerD.jpg");
-        manager.unload("Characters/Steven/Atlas-StevenCaminandoFinal512.png");
+        manager.unload("UltimoNivel/Stevenvistaarriba.png");
         //manager.unload("runner/enemigo.png");
-        manager.unload("PuzzleGatos/BoladePelo40x40.png");
+        manager.unload("UltimoNivel/barrilito.png");
         manager.unload("comun/btnSalir.png");
 
     }
@@ -469,7 +481,7 @@ public class ScreenFinal extends Pantalla {//jardin
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenSix(juego,20,64));
+                //juego.setScreen(new ScreenSix(juego,20,64));
             }
         }, delay);
     }

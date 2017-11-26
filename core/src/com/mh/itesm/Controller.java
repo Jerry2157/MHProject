@@ -27,7 +27,8 @@ public class Controller extends Pantalla {
 
     public Controller(){
         cam = new OrthographicCamera();
-        viewport = new FitViewport(800, 480, cam);
+        //viewport = new FitViewport(800, 480, cam);
+        viewport = new FitViewport(1280, 720, cam);
         stage = new Stage(viewport, batch);
 
         stage.addListener(new InputListener(){

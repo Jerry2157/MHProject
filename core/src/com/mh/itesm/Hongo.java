@@ -37,6 +37,25 @@ public class Hongo extends Objeto
         sprite.setPosition(x,y);    // Posición inicial
     }
 
+    // Recibe una imagen con varios frames (ver enemigo.png)a
+    public Hongo(Texture textura, float x, float y,int a, int b) {
+        // Lee la textura como región
+        TextureRegion texturaCompleta = new TextureRegion(textura);
+        // La divide en 2 frames de 32x64 (ver enemigo.png)
+        //TextureRegion[][] texturaPersonaje = texturaCompleta.split(32,32);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(a,b);
+        // Crea la animación con tiempo de 0.25 segundos entre frames.
+        //spriteAnimado = new Animation(0.1f, texturaPersonaje[0][0], texturaPersonaje[0][1]);
+        spriteAnimado = new Animation(0.1f, texturaPersonaje[0][0]);
+        // Animación infinita
+        spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite
+        sprite = new Sprite(texturaPersonaje[0][0]);
+        sprite.setPosition(x,y);    // Posición inicial
+    }
+
     // Dibuja el hongo
     public void dibujar(SpriteBatch batch) {
         // Dibuja el personaje dependiendo del estadoMovimiento

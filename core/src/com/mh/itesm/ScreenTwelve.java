@@ -51,7 +51,7 @@ public class ScreenTwelve extends Pantalla {//area verde
 
 
     public ScreenTwelve(MHMain juego, int xS, int yS) {
-        objectXtra = new Sprite(new Texture("atrapasueños.png"));
+        objectXtra = new Sprite(new Texture("Radio.png"));
         objectXtra.setPosition(520,32);
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
@@ -229,7 +229,7 @@ public class ScreenTwelve extends Pantalla {//area verde
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
-                juego.setScreen(new ScreenTwelve(juego,10,64));
+                juego.setScreen(new ScreenGatos(juego,10,64));
                 // Do your work
                 //juego.setScreen(new ScreenTen(juego,10,64));
                 //llevar a cuartos

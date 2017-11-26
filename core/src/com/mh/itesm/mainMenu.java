@@ -3,15 +3,19 @@ package com.mh.itesm;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
  * Autor: Gerardo Ezequiel Magdaleno Hernandez
@@ -46,6 +50,8 @@ public class mainMenu extends Pantalla {
 
     Preferences prefs;
 
+    private Stage stage;
+
     public mainMenu(MHMain juego) {
         prefs = Gdx.app.getPreferences("My Preferences");
         prefs.putBoolean("cocinaPassed",false);
@@ -58,6 +64,9 @@ public class mainMenu extends Pantalla {
 
         prefs.flush();
         this.juego = juego;
+
+        stage = new Stage(new FitViewport(1280, 720));
+
     }
 
     @Override
@@ -65,6 +74,7 @@ public class mainMenu extends Pantalla {
         cargarTexturas();   // Carga imágenes
         crearEscenaMenu();  // Crea la escena
         Gdx.input.setInputProcessor(escenaMenu);
+
     }
 
     private void crearEscenaMenu() {
@@ -82,6 +92,7 @@ public class mainMenu extends Pantalla {
                 super.clicked(event, x, y);
                 //paramos la musica
                 tonadaMenu.stop();
+
                 juego.setScreen(new PantallaCargando(juego, Pantallas.PRIMER_NIVEL)); //Primer Nivel!!!!
             }
         });
@@ -106,16 +117,18 @@ public class mainMenu extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                juego.setScreen(new Credits(juego));
+                //juego.setScreen(new Credits(juego));
                 // Iniciar juego Mario
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
                 //juego.setScreen((new ScreenEight(juego,640,32)));
 
                 //juego.setScreen((new ScreenTwelve(juego,2000,32)));
-
+                //stage.addAction(Actions.fadeOut(10.0f));//pasa a negro fadeOut
                 //juego.setScreen((new PantallaCargando(juego,Pantallas.FINAL));
-                //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER));
-                //juego.setScreen(new PantallaCargando(juego, Pantallas.FINAL));
+                //escenaMenu.addAction(Actions.fadeIn(1));
+                //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER)); //screen gatos
+                juego.setScreen(new PantallaCargando(juego, Pantallas.FINAL));
+                //juego.setScreen(new pantallaGlobos(juego));
             }
         });
 
@@ -184,6 +197,7 @@ public class mainMenu extends Pantalla {
         batch.draw(region,0,0);
         batch.end();
         escenaMenu.draw();
+        stage.draw();
 
     }
 

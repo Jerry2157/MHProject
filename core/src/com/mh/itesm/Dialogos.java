@@ -58,7 +58,7 @@ public class Dialogos extends Objeto {
     public Dialogos() {
         dialogueLines = new String[][]{{"hola","perro","manzana"},{"Hola, soy tu enfermera, \n estas en el Manicomio Colonia, ",
                 "Vimos tus antecedentes, \n parece que padeces esquizofrenia","Eres el principal sospechoso \n en el acuchillamiento de tu familia",
-                "Ve y platica con la cocinera \n en la cafeteria, ella te dira que hacer"}};
+                "Ve y platica con la cocinera \n en la cafeteria, ella te dira que hacer"},{"hola","perro","manzana"}};
         //screenOne el primer elemento es esposa, el segundo hija
         dialogueOne = new String[][]{{"Hola Steven","Que lindo dia para pasarla en parque","Quedate quieta hija, tu padre te pintara"},{"Hola Padre", "Esta muy relajado","No te muevas madre"}};
         lineStarted = false;
@@ -142,7 +142,7 @@ public class Dialogos extends Objeto {
             case 2: //Dialogo 2
                 switch (linePoint){
                     case 0:
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],450,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -152,10 +152,25 @@ public class Dialogos extends Objeto {
                         cocinera.setY(400);
                         break;
                     case 1:
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],450,450);
+                        fadeObject.draw(batch);
+                        fadeObject.setX(240);
+                        fadeObject.setY(250);
 
+                        cocinera.draw(batch);
+                        cocinera.setX(300);
+                        cocinera.setY(400);
                         break;
                     case 2:
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],450,450);
+                        fadeObject.draw(batch);
+                        fadeObject.setX(240);
+                        fadeObject.setY(250);
 
+                        cocinera.draw(batch);
+                        cocinera.setX(300);
+                        cocinera.setY(400);
+                        terminado = true;
                         break;
                     case 3:
 
@@ -278,7 +293,7 @@ public class Dialogos extends Objeto {
         linePointerHelperA();
     }
     private void linePointerHelperA(){
-        float delay = 6.0f;
+        float delay = 4.0f;
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
@@ -288,6 +303,7 @@ public class Dialogos extends Objeto {
 
                 }else{
                     linePoint+=1;
+                    System.out.printf("linepoint:" + linePoint);
                     linePointerHelperA();
                 }
             }

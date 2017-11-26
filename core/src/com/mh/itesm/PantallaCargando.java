@@ -93,7 +93,7 @@ class PantallaCargando extends Pantalla
         manager.load("PuzzleFinal/persecucion.tmx", TiledMap.class);
         //manager.load("runner/fondoRunnerD.jpg", Texture.class);
         manager.load("UltimoNivel/Stevenvistaarriba.png", Texture.class);
-        manager.load("PuzzleGatos/BoladePelo40x40.png", Texture.class);
+        manager.load("UltimoNivel/barrilito.png", Texture.class);
         manager.load("PuzzleGatos/tuna.png", Texture.class);
         manager.load("comun/btnSalir.png", Texture.class);
 
@@ -173,7 +173,7 @@ class PantallaCargando extends Pantalla
                     juego.setScreen(new ScreenGatos(juego,0,0));
                     break;
                 case FINAL:
-                    juego.setScreen(new ScreenFinal(juego,0,0));
+                    juego.setScreen(new ScreenFinal(juego,100,100));
                     break;
             }
         }

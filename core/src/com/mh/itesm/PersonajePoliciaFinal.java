@@ -14,7 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
  *
  */
 
-public class PersonajeStevenFinal extends Objeto
+public class PersonajePoliciaFinal extends Objeto
 {
     private final float VELOCIDAD_X = 2;      // Velocidad horizontal
 
@@ -29,7 +29,7 @@ public class PersonajeStevenFinal extends Objeto
     private float yOriginal;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
-    public PersonajeStevenFinal(Texture textura, float x, float y) {
+    public PersonajePoliciaFinal(Texture textura, float x, float y) {
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en 4 frames de 32x64 (ver marioSprite.png)

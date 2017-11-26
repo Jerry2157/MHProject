@@ -3,6 +3,7 @@ package com.mh.itesm;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -24,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 /**
  * Created by jerry2157 on 03/10/17.
@@ -64,6 +67,14 @@ public class ScreenGatos extends Pantalla {//jardin
     private Dialogos dialogos;
     private boolean playedDialogo;
     private boolean runningDialogo;
+    private boolean startDialogue;
+    //------
+
+    //Dialogos
+    private Dialogos dialogoTwo;
+    private boolean playedDialogoTwo;
+    private boolean runningDialogoTwo;
+    private boolean finalDialogue;
     //------
 
 
@@ -125,7 +136,43 @@ public class ScreenGatos extends Pantalla {//jardin
 
     private boolean playingpuzzle;
 
+    // Estado del juego
+    private EstadoJuego estado = EstadoJuego.JUGANDO;
+
+    //Tiempo restante
+    private int tiempo = 3000;
+    private Texto textoTiempo;
+
+    private boolean playedTimer;
+    private Stage stage;
+
+    private Sprite[] globos;
+    private  boolean playedXplosion;
+
+    private Sprite trophyCat;
+
+    private boolean grabbedTrophy;
+
+
+
+
     public ScreenGatos(MHMain juego, int xS, int yS) {
+
+        globos = new Sprite[3];
+        globos[0] = new Sprite(new Texture("PuzzleGlobos/confeti.png"));
+        globos[1] = new Sprite(new Texture("PuzzleGlobos/confeti.png"));
+        globos[2] = new Sprite(new Texture("PuzzleGlobos/confeti.png"));
+        playedXplosion = false;
+
+        trophyCat = new Sprite(new Texture("PuzzleGatos/GatoItem160x120.png"));
+        trophyCat.setPosition(360,32);
+
+        grabbedTrophy = false;
+
+
+        textoTiempo = new Texto("fuentes/mole.fnt");
+
+        playedTimer = false;
 
         playingpuzzle = true;
         firerepeater = true;
@@ -146,7 +193,16 @@ public class ScreenGatos extends Pantalla {//jardin
         playedDialogo = false;
         runningDialogo = false;
         dialogos = new Dialogos();
+        startDialogue = false;
         //-------
+
+        //Dialogo
+        playedDialogoTwo = false;
+        runningDialogoTwo = false;
+        dialogoTwo = new Dialogos();
+        finalDialogue = false;
+        //-------
+
 
         //cargar mapa xd
         cargarMapa();
@@ -239,7 +295,6 @@ public class ScreenGatos extends Pantalla {//jardin
         texturaBala = manager.get("PuzzleGatos/tuna.png");
         //fondoB = new FondoB(texturaFondo);
         steven = new StevenCats((Texture)(manager.get("Characters/Steven/Atlas-StevenCaminandoFinal512.png")), 32, 32);
-
     }
 
     private void cargarTexturas() {
@@ -251,6 +306,32 @@ public class ScreenGatos extends Pantalla {//jardin
 
     @Override
     public void render(float delta) {
+        reaction();
+        //timer
+        if(estado == EstadoJuego.JUGANDO) {
+            tiempo -= Gdx.graphics.getDeltaTime();
+        }
+        if(tiempo<= 0 && !playedTimer){
+
+            tiempo = 0;
+            estado = EstadoJuego.PAUSADO;
+            prefs.putBoolean("cocinaPassed",true);
+            prefs.flush();
+            playedTimer = true;
+            //stage.addAction(Actions.fadeOut(1.0f));//pasa a negro fadeOut
+            //juego.setScreen(new ScreenNine(juego,10,512));
+
+
+            gatoUnoState = new Sprite(new Texture("dote.png"));
+            gatoDosState = new Sprite(new Texture("dote.png"));
+            gatoTresState = new Sprite(new Texture("dote.png"));
+
+
+        }else{
+            actualizarEnemigos(delta);
+            actualizarBalas(delta);
+
+        }
 
         cambiarEscena();
         //steven.actualizar();
@@ -258,8 +339,7 @@ public class ScreenGatos extends Pantalla {//jardin
         // Actualizar
         actualizarMario();
         actualizarSaltoMario(delta);
-        actualizarEnemigos(delta);
-        actualizarBalas(delta);
+
 
         steven.actualizar(delta,mapa);
 
@@ -275,6 +355,9 @@ public class ScreenGatos extends Pantalla {//jardin
 
 
         batch.begin();
+
+
+
 
         //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         fondo.render(batch);
@@ -296,18 +379,50 @@ public class ScreenGatos extends Pantalla {//jardin
         gatoTresState.draw(batch);
         gatoTresState.setPosition(ANCHO-160,128*3);
 
-        /*Dialogo
-        if((controller.isSpacePressed() || runningDialogo) && !playedDialogo){
-
+        //Dialogo
+        if((!startDialogue || runningDialogo) && !playedDialogo){
+            startDialogue = true;
+            //played = playedDialogo;
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,1);
-            played = !playedDialogo;
         }
-        //-------*/
+        //-------
+
+        //DialogoTwo
+        if(playedDialogo && (runningDialogoTwo || finalDialogue) && !playedDialogoTwo ){
+            finalDialogue = true;
+            runningDialogoTwo = true;
+
+            playedDialogoTwo = dialogoTwo.dibujar(batch,2);
+        }
+        //----------
+
 
         //Steven.dibujar(batch);
         if(prefs.getBoolean("finalunlocked")) {
             cop.dibujar(batch);
+        }
+        //texto.mostrarMensaje(batch,"Puntos: "+puntos,2*ANCHO/3,ALTO-texturaMazo.getHeight()/2);
+        textoTiempo.mostrarMensaje(batch,"Aguanta: " + (tiempo/6000) + ":" + (tiempo%6000),ANCHO/3*1,ALTO/8*7);
+
+        if(playedTimer && !playedXplosion){
+            globos[0].draw(batch);
+            globos[1].draw(batch);
+            globos[2].draw(batch);
+
+            //Se espera un segundo
+            float delay = 0.5f; // seconds
+
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    playedXplosion = true;
+                }
+            }, delay);
+        }
+        if(playedTimer && playedXplosion){
+            trophyCat.draw(batch);
         }
 
         batch.end();
@@ -368,12 +483,14 @@ public class ScreenGatos extends Pantalla {//jardin
         if (tiempoEnemigo<=0) {
             tiempoEnemigo = MathUtils.random(0.5f, tiempoMaximo);
             tiempoMaximo -= tiempoMaximo>0.5f?10*delta:0;
-            Hongo hongo = new Hongo(texturaHongo, ANCHO-145, 128* MathUtils.random(1,3)+36);
-            gatoUnoState = gatoUnoFire;
-            gatoDosState = gatoDosFire;
-            gatoTresState = gatoTresFire;
+            if(!playedTimer) {
+                Hongo hongo = new Hongo(texturaHongo, ANCHO - 145, 128 * MathUtils.random(1, 3) + 36);
+                gatoUnoState = gatoUnoFire;
+                gatoDosState = gatoDosFire;
+                gatoTresState = gatoTresFire;
 
-            enemigos.add(hongo);
+                enemigos.add(hongo);
+            }
         }
         // Actualizar enemigos
         for (Hongo hongo :enemigos) {
@@ -387,7 +504,7 @@ public class ScreenGatos extends Pantalla {//jardin
                 enemigos.removeIndex(k);
                 // Activar escenaPausa y pasarle el control
                 if (escenaPausa==null) {
-                    escenaPausa = new ScreenGatos.EscenaPausa(vista, batch);
+                    escenaPausa = new EscenaPausa(vista, batch);
                 }
                 Gdx.input.setInputProcessor(escenaPausa);
             } else if (hongo.sprite.getX()<-hongo.sprite.getWidth()) {
@@ -398,7 +515,7 @@ public class ScreenGatos extends Pantalla {//jardin
     private void terminar() {
         // Activar escenaPausa y pasarle el control
         if (escenaPausa==null) {
-            escenaPausa = new ScreenGatos.EscenaPausa(vista, batch);
+            escenaPausa = new EscenaPausa(vista, batch);
         }
         Gdx.input.setInputProcessor(escenaPausa);
     }
@@ -450,6 +567,26 @@ public class ScreenGatos extends Pantalla {//jardin
         }
     }
 
+    public void reaction() {//puertacerrada
+        if (steven.getX() >= 360 && steven.getX() <= 450 && playedTimer && playedXplosion && !grabbedTrophy) {//puerta central
+            finalDialogue = true;
+            grabbedTrophy = true;
+            trophyCat = new Sprite(new Texture("dote.png"));
+            prefs.putBoolean("areaverdelocked", true);
+            prefs.flush();
+
+            //Se espera un segundo
+            float delay = 5.0f; // seconds
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    // Do your work
+                    juego.setScreen(new ScreenTwelve(juego, 2400, 64));
+                }
+            }, delay);
+        }
+    }
+
     private void nextScreenRight() {
         //Se espera un segundo
         float delay = 0.5f; // seconds
@@ -468,19 +605,18 @@ public class ScreenGatos extends Pantalla {//jardin
     private class EscenaPausa extends Stage
     {
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
-            super(vista, batch);
             // Crear rectángulo transparente
-            Pixmap pixmap = new Pixmap((int)(ANCHO*0.7f), (int)(ALTO*0.8f), Pixmap.Format.RGBA8888 );
-            pixmap.setColor( 0.1f, 0.1f, 0.1f, 0.65f );
+            Pixmap pixmap = new Pixmap((int) (ANCHO/*currentS.ANCHO * 0.7f*/), (int) (ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture( pixmap );
             pixmap.dispose();
             Image imgRectangulo = new Image(texturaRectangulo);
-            imgRectangulo.setPosition(0.15f*ANCHO, 0.1f*ALTO);
+            imgRectangulo.setPosition(0,0/*0.15f*currentS.ANCHO, 0.1f*currentS.ALTO*/);
             this.addActor(imgRectangulo);
 
             // Salir
-            Texture texturaBtnSalir = manager.get("comun/btnSalir.png");
+            Texture texturaBtnSalir = manager.get("Botones/CONTINUAR.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -489,12 +625,64 @@ public class ScreenGatos extends Pantalla {//jardin
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al menú
-                    juego.setScreen((new ScreenSix(juego,64,10)));
+                    juego.setScreen(new mainMenu(juego));
                 }
             });
             this.addActor(btnSalir);
+
+
         }
     }
+
+    // Escena pierde
+    class EscenaPierde extends Stage {
+        public EscenaPierde(Viewport vista, SpriteBatch batch) {
+            super(vista, batch);
+            // Crear rectángulo transparente
+            Pixmap pixmap = new Pixmap((int) (ANCHO/*currentS.ANCHO * 0.7f*/), (int) (ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
+            pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
+            Texture texturaRectangulo = new Texture( pixmap );
+            pixmap.dispose();
+            Image imgRectangulo = new Image(texturaRectangulo);
+            imgRectangulo.setPosition(0,0/*0.15f*currentS.ANCHO, 0.1f*currentS.ALTO*/);
+            this.addActor(imgRectangulo);
+
+            /* Agregar botón salir
+            Texture texturabtnSalir = manager.get("whackamole/btnSalir.png");
+            TextureRegionDrawable trdSalir = new TextureRegionDrawable(
+                    new TextureRegion(texturabtnSalir));
+            ImageButton btnSalir = new ImageButton(trdSalir);
+            btnSalir.setPosition(ANCHO/2-btnSalir.getWidth()/2, ALTO*0.3f);
+            btnSalir.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Regresa al menú
+                    juego.setScreen(new mainMenu(juego));
+                    //juego.setScreen(new mainMenu(juego,Pantallas.MENU));
+                }
+            });
+            this.addActor(btnSalir);*/
+
+            // Reintentar
+            // Agregar botón reintentar
+            Texture texturabtnReintentar = manager.get("Botones/CONTINUAR.png");
+            TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
+                    new TextureRegion(texturabtnReintentar));
+            ImageButton btnReintentar = new ImageButton(trdReintentar);
+            btnReintentar.setPosition(ANCHO / 2 - btnReintentar.getWidth() / 2, ALTO * 0.6f);
+            btnReintentar.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Reiniciar el juego
+
+                    juego.setScreen(new ScreenGatos(juego,10,64));
+                }
+            });
+            this.addActor(btnReintentar);
+        }
+    }
+
     private void actualizarCamara() {
         float posX = Steven.sprite.getX();
         // Si está en la parte 'media'
@@ -510,4 +698,7 @@ public class ScreenGatos extends Pantalla {//jardin
         }
         camara.update();
     }
+
+
+
 }
