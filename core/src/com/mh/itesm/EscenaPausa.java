@@ -88,11 +88,11 @@ public class EscenaPausa extends Stage {
 
             // Musica
             Texture temp=new Texture("Botones/MusicaApagada.png");
-            Texture texturaBtnMusica = new Texture("Botones/Musica.png");
+            Texture texturaBtnMusica = new Texture("Botones/MusicaP.png");
             TextureRegionDrawable trdMusica = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnMusica));
             ImageButton btnMusica = new ImageButton(trdMusica);
-            btnMusica.setPosition(currentS.ANCHO/2-btnMusica.getWidth()/2, currentS.ALTO*0.5f-120);
+            btnMusica.setPosition(currentS.ANCHO/2-btnMusica.getWidth()/2, currentS.ALTO*0.5f-110);
             btnMusica.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

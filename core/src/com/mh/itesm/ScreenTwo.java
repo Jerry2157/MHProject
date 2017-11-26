@@ -86,7 +86,7 @@ public class ScreenTwo extends Pantalla {
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         ScreenTwoBNG.dibujar(batch);
-       if((int)tiempo>=3){
+       if((int)tiempo>=3.5){
            batch.draw(line1, 1010, 500);
        }
 
