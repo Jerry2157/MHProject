@@ -14,7 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
  *
  */
 
-public class PersonajePoliciaFinal extends Objeto
+public class PersonajePatrullaFinal extends Objeto
 {
     private final float VELOCIDAD_X = 2;      // Velocidad horizontal
 
@@ -29,17 +29,16 @@ public class PersonajePoliciaFinal extends Objeto
     private float yOriginal;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
-    public PersonajePoliciaFinal(Texture textura, float x, float y) {
+    public PersonajePatrullaFinal(Texture textura, float x, float y) {
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en 4 frames de 32x64 (ver marioSprite.png)
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(32,32);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(224,160);
         // Crea la animación con tiempo de 0.25 segundos entre frames.
 
-        spriteAnimado = new Animation(0.1f
-                , texturaPersonaje[0][0], texturaPersonaje[0][1], texturaPersonaje[0][2], texturaPersonaje[0][3]);
+        //spriteAnimado = new Animation(0.1f, texturaPersonaje[0][0]);
         // Animación infinita
-        spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
+        //spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite con el personaje quieto (idle)
@@ -56,34 +55,7 @@ public class PersonajePoliciaFinal extends Objeto
 
         switch (estadoMovimiento) {
             case MOV_DERECHA:
-                timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Frame que se dibujará
-                TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento== EstadoMovimiento.MOV_IZQUIERDA) {
-                    if (!region.isFlipX()) {
-                        region.flip(true,false);
-                    }
-                } else {
-                    if (region.isFlipX()) {
-                        region.flip(true,false);
-                    }
-                }
-                batch.draw(region,sprite.getX(),sprite.getY());
-                break;
-            case MOV_IZQUIERDA:
-                timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Frame que se dibujará
-                TextureRegion regiontwo = spriteAnimado.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento== EstadoMovimiento.MOV_IZQUIERDA) {
-                    if (!regiontwo.isFlipX()) {
-                        regiontwo.flip(true,false);
-                    }
-                } else {
-                    if (regiontwo.isFlipX()) {
-                        regiontwo.flip(true,false);
-                    }
-                }
-                batch.draw(regiontwo,sprite.getX(),sprite.getY());
+                sprite.draw(batch);
                 break;
             case QUIETO:
                 sprite.draw(batch);
@@ -91,34 +63,10 @@ public class PersonajePoliciaFinal extends Objeto
                 sprite.draw(batch);
                 break;
             case MOV_ABAJO:
-                timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Frame que se dibujará
-                TextureRegion regionfour = spriteAnimado.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento== EstadoMovimiento.MOV_IZQUIERDA) {
-                    if (!regionfour.isFlipX()) {
-                        regionfour.flip(true,false);
-                    }
-                } else {
-                    if (regionfour.isFlipX()) {
-                        regionfour.flip(true,false);
-                    }
-                }
-                batch.draw(regionfour,sprite.getX(),sprite.getY());
+                sprite.draw(batch);
                 break;
             case MOV_ARRIBA:
-                timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Frame que se dibujará
-                TextureRegion regionthree = spriteAnimado.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento== EstadoMovimiento.MOV_IZQUIERDA) {
-                    if (!regionthree.isFlipX()) {
-                        regionthree.flip(true,false);
-                    }
-                } else {
-                    if (regionthree.isFlipX()) {
-                        regionthree.flip(true,false);
-                    }
-                }
-                batch.draw(regionthree,sprite.getX(),sprite.getY());
+                sprite.draw(batch);
                 break;
         }
     }

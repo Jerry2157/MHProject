@@ -125,16 +125,32 @@ public class ScreenFinal extends Pantalla {//jardin
     private boolean playingpuzzle;
 
     private Sprite Camioneta;
-    private Sprite PatrullaOne,PatrullaTwo;
+    private PatrullaPoliciaFinal patrullaOne, patrullaTwo;
     private Sprite Policia;
 
     private PlayerPoliciaFinal policia;
 
 
+    private boolean playedGoal;
+    private boolean playedGoalCops;
+    private boolean playedCops;
+
+    private Sprite camion;
+    private Sprite malo;
+
+
     public ScreenFinal(MHMain juego, int xS, int yS) {
+
+        playedGoal = false;
+        playedCops = false;
 
         playingpuzzle = true;
         firerepeater = true;
+
+        camion = new Sprite(new Texture("UltimoNivel/Camion.png"));
+        camion.setPosition(3050,300);
+        malo = new Sprite(new Texture("UltimoNivel/villanosentado.png"));
+        malo.setPosition(3120,365);
 
         //gatos armas
         gatoUno = new Sprite(new Texture("PuzzleGatos/GatoMalo160x120.png"));
@@ -253,8 +269,10 @@ public class ScreenFinal extends Pantalla {//jardin
 
         texturaBala = manager.get("PuzzleGatos/tuna.png");
         //fondoB = new FondoB(texturaFondo);
-        steven = new PlayerStevenFinal((Texture)(manager.get("UltimoNivel/Stevenvistaarriba.png")), 32, 128);
-        policia = new PlayerPoliciaFinal((Texture)(manager.get("")),32,128);
+        steven = new PlayerStevenFinal((Texture)(manager.get("UltimoNivel/Stevenvistaarriba.png")), 32, 360);
+        policia = new PlayerPoliciaFinal((Texture)(manager.get("UltimoNivel/PoliciaVistaArriba.png")),2000,360-16);
+        patrullaOne = new PatrullaPoliciaFinal((Texture)(manager.get("UltimoNivel/AutoPolicia.png")), 2000, 430);
+        patrullaTwo = new PatrullaPoliciaFinal((Texture)(manager.get("UltimoNivel/AutoPolicia.png")), 2000, 130);
     }
 
     private void cargarTexturas() {
@@ -307,22 +325,41 @@ public class ScreenFinal extends Pantalla {//jardin
             bala.dibujar(batch);
         }
 
-        //gatos
-        /*gatoUnoState.draw(batch);
-        gatoUnoState.setPosition(ANCHO-160,128);
-        gatoDosState.draw(batch);
-        gatoDosState.setPosition(ANCHO-160,128*2);
-        gatoTresState.draw(batch);
-        gatoTresState.setPosition(ANCHO-160,128*3);*/
+        camion.draw(batch);
+        malo.draw(batch);
 
-        /*Dialogo
-        if((controller.isSpacePressed() || runningDialogo) && !playedDialogo){
+        if(playedGoalCops && !playedCops){
+            policia.actualizar(delta,mapa);
+            policia.dibujar(batch);
+            policia.setEstadoMovimiento(PlayerPoliciaFinal.EstadoMovimiento.MOV_DERECHA);
 
+            patrullaOne.actualizar(delta,mapa);
+            patrullaOne.dibujar(batch);
+            patrullaOne.setEstadoMovimiento(PatrullaPoliciaFinal.EstadoMovimiento.MOV_DERECHA);
+
+            patrullaTwo.actualizar(delta,mapa);
+            patrullaTwo.dibujar(batch);
+            patrullaTwo.setEstadoMovimiento(PatrullaPoliciaFinal.EstadoMovimiento.MOV_DERECHA);
+            if(policia.sprite.getX()>=2500){
+                playedCops = true;
+            }
+        }else if(playedGoalCops && playedCops){
+            policia.dibujar(batch);
+            policia.setEstadoMovimiento(PlayerPoliciaFinal.EstadoMovimiento.QUIETO);
+            patrullaOne.dibujar(batch);
+            patrullaOne.setEstadoMovimiento(PatrullaPoliciaFinal.EstadoMovimiento.QUIETO);
+            patrullaTwo.dibujar(batch);
+            patrullaTwo.setEstadoMovimiento(PatrullaPoliciaFinal.EstadoMovimiento.QUIETO);
+
+        }
+
+        //Dialogo
+        if((playedGoal) && !playedDialogo){
             runningDialogo = true;
-            playedDialogo = dialogos.dibujar(batch,1);
+            playedDialogo = dialogos.dibujar(batch,2);
             played = !playedDialogo;
         }
-        //-------*/
+        //-------
 
         //Steven.dibujar(batch);
         if(prefs.getBoolean("finalunlocked")) {
@@ -338,6 +375,12 @@ public class ScreenFinal extends Pantalla {//jardin
         if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
     }
+
+    public void finalAnimation(){
+
+    }
+
+
 
     public void facecathelper(){
         if(playingpuzzle){
@@ -403,8 +446,9 @@ public class ScreenFinal extends Pantalla {//jardin
                 Hongo hongo = enemigos.get(k);
                 if (hongo.chocaCon(steven)) {
                     // Pierde!!!
-                    played = false;
                     steven.setEstadoMovimiento(PlayerStevenFinal.EstadoMovimiento.QUIETO);
+                    played = true;
+                    juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
                     enemigos.removeIndex(k);
                     // Activar escenaPausa y pasarle el control
                     if (escenaPausa == null) {
@@ -454,7 +498,7 @@ public class ScreenFinal extends Pantalla {//jardin
         manager.unload("UltimoNivel/Stevenvistaarriba.png");
         //manager.unload("runner/enemigo.png");
         manager.unload("UltimoNivel/barrilito.png");
-        manager.unload("comun/btnSalir.png");
+        //manager.unload("comun/btnSalir.png");
 
     }
 
@@ -466,10 +510,32 @@ public class ScreenFinal extends Pantalla {//jardin
 
     }
     public void cambiarEscena(){
-        if(steven.sprite.getX()>=3400 && played == false) {
+        if(steven.sprite.getX()>=3000 && played == false) {
             played= true;
-            //steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
-            nextScreenRight();
+            playedGoal = true;
+            steven.setEstadoMovimiento(PlayerStevenFinal.EstadoMovimiento.QUIETO);
+            //nextScreenRight();
+
+            //Se espera un segundo
+            float delay = 5.0f; // seconds
+
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    playedGoalCops = true;
+                }
+            }, delay);
+            //Se espera un segundo
+            float delayTwo = 120.0f; // seconds
+
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    // Do your work
+                    juego.setScreen(new PantallaCargando(juego,Pantallas.ENDING));
+                }
+            }, delayTwo);
         }
     }
 

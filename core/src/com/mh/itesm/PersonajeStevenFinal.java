@@ -175,7 +175,7 @@ public class PersonajeStevenFinal extends Objeto
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
             if (celdaDerecha != null) {
                 Object tipo = celdaDerecha.getTile().getProperties().get("tipo");
-                if (!"ladrillo".equals(tipo)) {
+                if (!"pasto".equals(tipo)) {
                     celdaDerecha = null;  // Puede pasar
                 }
             }
@@ -196,7 +196,7 @@ public class PersonajeStevenFinal extends Objeto
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(x, yAba);
             if (celdaIzquierda != null) {
                 Object tipo = celdaIzquierda.getTile().getProperties().get("tipo");
-                if (!"ladrillo".equals(tipo)) {
+                if (!"pasto".equals(tipo)) {
                     celdaIzquierda = null;  // Puede pasar
                 }
             }
@@ -226,7 +226,7 @@ public class PersonajeStevenFinal extends Objeto
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
             if (celdaDerecha != null) {
                 Object tipo = celdaDerecha.getTile().getProperties().get("tipo");
-                if (!"ladrillo".equals(tipo)) {
+                if (!"pasto".equals(tipo)) {
                     celdaDerecha = null;  // Puede pasar
                 }
             }
@@ -247,7 +247,7 @@ public class PersonajeStevenFinal extends Objeto
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
             if (celdaIzquierda != null) {
                 Object tipo = celdaIzquierda.getTile().getProperties().get("tipo");
-                if (!"ladrillo".equals(tipo)) {
+                if (!"pasto".equals(tipo)) {
                     celdaIzquierda = null;  // Puede pasar
                 }
             }

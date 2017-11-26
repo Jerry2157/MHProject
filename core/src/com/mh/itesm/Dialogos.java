@@ -142,33 +142,33 @@ public class Dialogos extends Objeto {
             case 2: //Dialogo 2
                 switch (linePoint){
                     case 0:
-                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],2760,450);
                         fadeObject.draw(batch);
-                        fadeObject.setX(240);
+                        fadeObject.setX(2500);
                         fadeObject.setY(250);
 
                         cocinera.draw(batch);
-                        cocinera.setX(300);
+                        cocinera.setX(2560);
                         cocinera.setY(400);
                         break;
                     case 1:
-                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],2760,450);
                         fadeObject.draw(batch);
-                        fadeObject.setX(240);
+                        fadeObject.setX(2500);
                         fadeObject.setY(250);
 
                         cocinera.draw(batch);
-                        cocinera.setX(300);
+                        cocinera.setX(2560);
                         cocinera.setY(400);
                         break;
                     case 2:
-                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],450,450);
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],2760,450);
                         fadeObject.draw(batch);
-                        fadeObject.setX(240);
+                        fadeObject.setX(2500);
                         fadeObject.setY(250);
 
                         cocinera.draw(batch);
-                        cocinera.setX(300);
+                        cocinera.setX(2560);
                         cocinera.setY(400);
                         terminado = true;
                         break;

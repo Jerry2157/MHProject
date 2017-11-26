@@ -10,6 +10,7 @@ public enum Pantallas
     PRIMER_NIVEL,
     NIVEL_WHACK_A_MOLE,
     RUNNER,
-    FINAL
+    FINAL,
+    ENDING
 
 }

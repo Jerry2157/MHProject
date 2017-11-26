@@ -64,6 +64,9 @@ class PantallaCargando extends Pantalla
             case FINAL:
                 cargarRecursosFinal();
                 break;
+            case ENDING:
+                cargarRecursosENDING();
+                break;
 
         }
     }
@@ -93,9 +96,11 @@ class PantallaCargando extends Pantalla
         manager.load("PuzzleFinal/persecucion.tmx", TiledMap.class);
         //manager.load("runner/fondoRunnerD.jpg", Texture.class);
         manager.load("UltimoNivel/Stevenvistaarriba.png", Texture.class);
+        manager.load("UltimoNivel/PoliciaVistaArriba.png", Texture.class);
         manager.load("UltimoNivel/barrilito.png", Texture.class);
         manager.load("PuzzleGatos/tuna.png", Texture.class);
         manager.load("comun/btnSalir.png", Texture.class);
+        manager.load("UltimoNivel/AutoPolicia.png", Texture.class);
 
     }
 
@@ -138,6 +143,12 @@ class PantallaCargando extends Pantalla
         manager.load("menu/fondoSinFin.jpg", Texture.class);
         manager.load("menu/fondoSinFin.jpg", Texture.class);
     }
+    private  void cargarRecursosENDING(){
+        manager.load("ScreenEnding/EscenaFinal1.png",Texture.class);
+        manager.load("ScreenEnding/EscenaFinal2.png",Texture.class);
+        manager.load("ScreenEnding/EscenaFinal3.png",Texture.class);
+        manager.load("ScreenEnding/Credits.png",Texture.class);
+    }
 
     @Override
     public void render(float delta) {
@@ -175,6 +186,8 @@ class PantallaCargando extends Pantalla
                 case FINAL:
                     juego.setScreen(new ScreenFinal(juego,100,100));
                     break;
+                case ENDING:
+                    juego.setScreen(new ScreenFinalEnding(juego));
             }
         }
         avance = (int)(manager.getProgress()*100);
