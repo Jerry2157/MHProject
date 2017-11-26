@@ -58,7 +58,7 @@ public class Help extends Pantalla {
     }
 
     private void cargarTexturas() {
-        texturaBtnJugar = new Texture("MENU.png");
+        texturaBtnJugar = new Texture("Botones/Menubtn.png");
         texturaBtnAyuda = new Texture("MENU.png");
         texturaBackground = new Texture("Menu/Ayuda.png");
     }

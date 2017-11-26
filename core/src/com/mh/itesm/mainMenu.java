@@ -105,6 +105,8 @@ public class mainMenu extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                //paramos la musica
+                tonadaMenu.stop();
                 juego.setScreen(new Help(juego));
             }
         });
@@ -117,7 +119,9 @@ public class mainMenu extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //juego.setScreen(new Credits(juego));
+                //paramos la musica
+                tonadaMenu.stop();
+                juego.setScreen(new Credits(juego));
                 // Iniciar juego Mario
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
                 //juego.setScreen((new ScreenEight(juego,640,32)));
@@ -127,7 +131,8 @@ public class mainMenu extends Pantalla {
                 //juego.setScreen((new PantallaCargando(juego,Pantallas.FINAL));
                 //escenaMenu.addAction(Actions.fadeIn(1));
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER)); //screen gatos
-                juego.setScreen(new PantallaCargando(juego, Pantallas.FINAL));
+                //juego.setScreen(new ScreenSix(juego,20,64));
+
                 //juego.setScreen(new pantallaGlobos(juego));
             }
         });

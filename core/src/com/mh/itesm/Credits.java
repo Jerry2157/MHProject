@@ -58,7 +58,7 @@ public class Credits extends Pantalla {
     }
     //cambiar la flecha que sea como boton
     private void cargarTexturas() {
-        texturaBtnJugar = new Texture("MENU.png");
+        texturaBtnJugar = new Texture("Botones/Menubtn.png");
         texturaBtnAyuda = new Texture("MENU.png");
         texturaBackground = new Texture("Menu/creditos.png");
     }
