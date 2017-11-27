@@ -125,17 +125,17 @@ public class mainMenu extends Pantalla {
                 super.clicked(event, x, y);
                 //paramos la musica
                 tonadaMenu.stop();
-                //juego.setScreen(new Credits(juego));
+                juego.setScreen(new Credits(juego));
                 // Iniciar juego Mario
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
                 //juego.setScreen((new ScreenEight(juego,640,32)));
 
-                //juego.setScreen((new ScreenThirteen(juego,1100,32)));
+                //juego.setScreen((new ScreenFinal(juego,10,64)));
                 //stage.addAction(Actions.fadeOut(10.0f));//pasa a negro fadeOut
-                //juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
+               // juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
                 //escenaMenu.addAction(Actions.fadeIn(1));
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER)); //screen gatos
-                juego.setScreen(new ScreenSix(juego,32,32));
+                //juego.setScreen(new ScreenTwelve(juego,2000,64));
 
                 //juego.setScreen(new pantallaGlobos(juego));
             }

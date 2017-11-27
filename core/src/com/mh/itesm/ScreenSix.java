@@ -160,8 +160,7 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
         //-------
 
         batch.end();
-        //b2dr.render(world,camara.combined);
-        //batch.setProjectionMatrix(camara.combined);
+
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
             if(Steven.getX()>=this.ANCHO/2){
                 escenaPausa.updateBtnPos(this);

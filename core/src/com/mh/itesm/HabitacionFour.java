@@ -48,6 +48,9 @@ public class HabitacionFour extends Pantalla { //cocina
     private Texture texturaB4tnPintura;
     Preferences prefs;
 
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
     public HabitacionFour(MHMain juego, int xS, int yS) {
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
@@ -61,6 +64,19 @@ public class HabitacionFour extends Pantalla { //cocina
 
         controller = new Controller();
         cargarTexturas();
+    }
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
+        }
     }
 
     public void handleInput(){
@@ -109,18 +125,12 @@ public class HabitacionFour extends Pantalla { //cocina
         batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
         Steven.dibujar(batch);
 
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
+        batch.end();
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
 
-        //batch.draw(puzzlePintura(),50,100);
-        batch.end();
-        //b2dr.render(world,camara.combined);
-        //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        controller.draw();
 
 
     }
@@ -145,7 +155,7 @@ public class HabitacionFour extends Pantalla { //cocina
 
     public void update(float dt){
         handleInput();
-
+        pausaInput();
 
         camara.update();
 
@@ -205,5 +215,26 @@ public class HabitacionFour extends Pantalla { //cocina
                 juego.setScreen(new ScreenFourteen(juego,2500,64));
             }
         }, delay);
+    }
+
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenFour(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
+    }
+    public PlayerSteven getPlayerSteven(){
+        return Steven;
     }
 }

@@ -69,6 +69,9 @@ public class ScreenFiveTwo extends Pantalla {//sotano
     private boolean runningDialogo;
     //------
 
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
     public ScreenFiveTwo(MHMain juego, int xS, int yS) {
 
         //Dialogo
@@ -164,6 +167,20 @@ public class ScreenFiveTwo extends Pantalla {//sotano
         }
     }
 
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
+        }
+    }
+
     @Override
     public void show() {
         cargarTexturas();
@@ -200,11 +217,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
         }else{
             batch.draw(blackPanel,camara.position.x-640,camara.position.y-360);
         }
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
+
 
 
         //Dialogo
@@ -217,10 +230,10 @@ public class ScreenFiveTwo extends Pantalla {//sotano
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
-        //b2dr.render(world,camara.combined);
-        //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
+        }
+        controller.draw();
     }
 
     @Override
@@ -240,6 +253,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
 
     public void update(float dt){
         handleInput();
+        pausaInput();
         camara.update();
     }
 
@@ -335,5 +349,26 @@ public class ScreenFiveTwo extends Pantalla {//sotano
             camara.position.set(ANCHO/2, ALTO/2,0);
         }
         camara.update();
+    }
+
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenFour(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
+    }
+    public PlayerSteven getPlayerSteven(){
+        return Steven;
     }
 }

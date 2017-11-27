@@ -47,6 +47,9 @@ public class ScreenTwelve extends Pantalla {//area verde
     private Texture texturaBtnPintura;
     Preferences prefs;
 
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
     private static Fondo fondo; //Imagen de fondo
 
 
@@ -80,6 +83,19 @@ public class ScreenTwelve extends Pantalla {//area verde
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
+        }
+    }
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
         }
     }
 
@@ -122,16 +138,15 @@ public class ScreenTwelve extends Pantalla {//area verde
         fondo.setPosicion(0,0);
         batch.draw(objectXtra,objectXtra.getX(),objectXtra.getY());
         Steven.dibujar(batch);
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
 
-
-        //batch.draw(puzzlePintura(),50,100);
         batch.end();
-        //b2dr.render(world,camara.combined);
-        //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            if(Steven.getX()<=1800 /*&& Steven.getX()>=this.ANCHO/2*/){
+                escenaPausa.updateBtnPos(this);
+            }
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
+        }
+        controller.draw();
 
 
     }
@@ -154,6 +169,7 @@ public class ScreenTwelve extends Pantalla {//area verde
 
     public void update(float dt){
         handleInput();
+        pausaInput();
         camara.update();
     }
 
@@ -250,6 +266,27 @@ public class ScreenTwelve extends Pantalla {//area verde
             camara.position.set(ANCHO/2, ALTO/2,0);
         }
         camara.update();
+    }
+
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenFour(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
+    }
+    public PlayerSteven getPlayerSteven(){
+        return Steven;
     }
 
 }

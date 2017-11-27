@@ -37,15 +37,7 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
-    // Contenedor de los botones
     private Stage escenaMenu;
-    private Texture texturaBtnPintura;
     Preferences prefs;
 
     private static Fondo fondo; //Imagen de fondo
@@ -55,6 +47,9 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
     private boolean playedDialogo;
     private boolean runningDialogo;
     //------
+
+    private EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
 
 
     public ScreenFourteen(MHMain juego, int xS, int yS) {
@@ -94,6 +89,19 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
+        }
+    }
+    public void pausaInput(){
+        if(controller.isPausePressed()){
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+        }
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
         }
     }
 
@@ -139,21 +147,20 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
             //-------
 
         }
-        //cop.dibujar(batch);
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
+
+        batch.end();
+
+        if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            if(Steven.getX()>=this.ANCHO/2){
+                escenaPausa.updateBtnPos(this);
+            }
+            escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
 
-
-
-        //batch.draw(puzzlePintura(),50,100);
-        batch.end();
-        //b2dr.render(world,camara.combined);
-        //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
+        //si esta ocurriendo el sistema de dialogos steven no se puede mover ni pausar el juego
+        if(playedDialogo==true || runningDialogo==false){
             controller.draw();
+        }
 
 
     }
@@ -176,6 +183,7 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
 
     public void update(float dt){
         handleInput();
+        pausaInput();
         camara.update();
     }
 
@@ -325,6 +333,26 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
             camara.position.set(ANCHO/2, ALTO/2,0);
         }
         camara.update();
+    }
+    //Metodos get que nos permiten modificar en escena pausa
+    public Pantalla getScreenThree(){
+        return this;
+    }
+    public Controller getController(){
+        return controller;
+    }
+    public MHMain getJuego(){
+        return this.juego;
+    }
+    //public Music getSonidoF(){ return sonidoF;}
+    public EstadoJuego getEstadoJuego(){
+        return estadoJuego;
+    }
+    public void setEstadoJuego(EstadoJuego estado){
+        estadoJuego=estado;
+    }
+    public PlayerSteven getPlayerSteven(){
+        return Steven;
     }
 
 }

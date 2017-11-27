@@ -156,6 +156,7 @@ public class ScreenGatos extends Pantalla {//jardin
 
 
 
+
     public ScreenGatos(MHMain juego, int xS, int yS) {
 
         globos = new Sprite[3];
@@ -290,11 +291,11 @@ public class ScreenGatos extends Pantalla {//jardin
         tiempoEnemigo = MathUtils.random(1.5f,5.0f);
         //texturaFondo = manager.get("runner/fondoRunnerD.jpg");
         //texturaHongo = manager.get("runner/enemigo.png");
-        texturaHongo = manager.get("PuzzleGatos/BoladePelo40x40.png");
+        texturaHongo = new Texture("PuzzleGatos/BoladePelo40x40.png");
 
-        texturaBala = manager.get("PuzzleGatos/tuna.png");
+        texturaBala = new Texture("PuzzleGatos/tuna.png");
         //fondoB = new FondoB(texturaFondo);
-        steven = new StevenCats((Texture)(manager.get("Characters/Steven/Atlas-StevenCaminandoFinal512.png")), 32, 32);
+        steven = new StevenCats((Texture)(new Texture("Characters/Steven/Atlas-StevenCaminandoFinal512.png")), 32, 32);
     }
 
     private void cargarTexturas() {
@@ -618,7 +619,7 @@ public class ScreenGatos extends Pantalla {//jardin
             this.addActor(imgRectangulo);
 
             // Salir
-            Texture texturaBtnSalir = manager.get("Botones/CONTINUAR.png");
+            Texture texturaBtnSalir = new Texture("Botones/CONTINUAR.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -668,7 +669,7 @@ public class ScreenGatos extends Pantalla {//jardin
 
             // Reintentar
             // Agregar botón reintentar
-            Texture texturabtnReintentar = manager.get("Botones/CONTINUAR.png");
+            Texture texturabtnReintentar = new Texture("Botones/CONTINUAR.png");
             TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
                     new TextureRegion(texturabtnReintentar));
             ImageButton btnReintentar = new ImageButton(trdReintentar);

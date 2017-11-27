@@ -58,12 +58,12 @@ public class PantallaWhackAMole extends Pantalla
 
     // Marcador
     private int puntos = 0;     // 50 por cada topo cuando sube, 60 por cada topo cuando baja
-    private int mazos = 5;      // Intentos
+    private int mazos = 8;      // Intentos
     private Texto texto;        // Para imprimir el estado
     private Texture texturaCuadro;
 
     //Tiempo restante
-    private int tiempo = 3000;
+    private int tiempo = 2200;
     private Texto textoTiempo;
 
 
@@ -167,7 +167,7 @@ public class PantallaWhackAMole extends Pantalla
         texturaTopo = manager.get("whackamole/whackamoleFINAL/WhackAMoleFinalEscalados/mole.png");
         texturaEstrellas = manager.get("whackamole/estrellasGolpe.png");
         texturaMazo = manager.get("whackamole/mazo.png");
-        texturaBtnPausa = manager.get("comun/btnPausa.png");
+        texturaBtnPausa = new Texture("comun/pausa.png");
         // Audios
         efectoGolpe = manager.get("whackamole/golpe.mp3");
         efectoRisa = manager.get("whackamole/risa.mp3");
@@ -191,12 +191,12 @@ public class PantallaWhackAMole extends Pantalla
         if(tiempo<= 0 && !playedTimer){
 
             tiempo = 0;
-            estado = EstadoJuego.PAUSADO;
+            //estado = EstadoJuego.PAUSADO;
             prefs.putBoolean("cocinaPassed",true);
             prefs.flush();
             playedTimer = true;
             //stage.addAction(Actions.fadeOut(1.0f));//pasa a negro fadeOut
-            juego.setScreen(new ScreenNine(juego,10,512));
+            juego.setScreen(new ScreenNine(juego,630,64));
 
         }
         // ACTUALIZAR
@@ -216,7 +216,7 @@ public class PantallaWhackAMole extends Pantalla
 
         if (estado== EstadoJuego.PIERDE) {
             escenaPierde.draw();
-        } else if (estado== EstadoJuego.PAUSADO) {
+        }else if (estado== EstadoJuego.PAUSADO ) {
             escenaPausa.draw();
         }
     }
@@ -424,7 +424,7 @@ public class PantallaWhackAMole extends Pantalla
 
             // Reintentar
             // Agregar botón reintentar
-            Texture texturabtnReintentar = manager.get("Botones/CONTINUAR.png");
+            Texture texturabtnReintentar = new Texture("Botones/CONTINUAR.png");
             TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
                     new TextureRegion(texturabtnReintentar));
             ImageButton btnReintentar = new ImageButton(trdReintentar);
@@ -434,7 +434,8 @@ public class PantallaWhackAMole extends Pantalla
                 public void clicked(InputEvent event, float x, float y) {
                     // Reiniciar el juego
                     puntos = 0;
-                    mazos = 5;
+                    mazos = 8;
+                    tiempo = 2200;
                     estado = EstadoJuego.JUGANDO;
                     reiniciarObjetos();
                     //cargarMarcadorMayor();
@@ -482,7 +483,7 @@ public class PantallaWhackAMole extends Pantalla
             this.addActor(imgRectangulo);
 
             // Salir
-            Texture texturaBtnSalir = manager.get("Botones/SALIR.png");
+            Texture texturaBtnSalir = new Texture("Botones/SALIR.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -497,7 +498,7 @@ public class PantallaWhackAMole extends Pantalla
             this.addActor(btnSalir);
 
             // Continuar
-            Texture texturabtnReintentar = manager.get("Botones/CONTINUAR.png");
+            Texture texturabtnReintentar = new Texture("Botones/CONTINUAR.png");
             TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
                     new TextureRegion(texturabtnReintentar));
             ImageButton btnReintentar = new ImageButton(trdReintentar);
