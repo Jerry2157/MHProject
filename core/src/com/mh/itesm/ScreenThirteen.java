@@ -160,7 +160,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
         if((prefs.getBoolean("playedTalkDir") || runningDialogo) && !playedDialogo && !prefs.getBoolean("playedTalkDirCat")){
             //played = playedDialogo;
             runningDialogo = true;
-            playedDialogo = dialogos.dibujar(batch,1);
+            playedDialogo = dialogos.dibujar(batch,7);
         }
         //-------
 
@@ -169,7 +169,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
             finalDialogue = true;
             runningDialogoTwo = true;
 
-            playedDialogoTwo = dialogoTwo.dibujar(batch,2);
+            playedDialogoTwo = dialogoTwo.dibujar(batch,8);
         }
         //----------
         batch.end();

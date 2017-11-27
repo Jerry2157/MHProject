@@ -39,6 +39,13 @@ public class Dialogos extends Objeto {
     private Sprite fadeObject;
     private Sprite fadeObject2;
     private Sprite fadeObject3;
+    private Sprite fadeObject4;
+    private Sprite fadeObject5;
+    private Sprite fadeObject6;
+    private Sprite fadeObject7;
+    private Sprite fadeObject8;
+    private Sprite fadeObject9;
+    private Sprite fadeObject10;
 
     private Sprite dote;
 
@@ -49,9 +56,6 @@ public class Dialogos extends Objeto {
     private int linePoint;
 
     private String[][] dialogueLines;
-
-    //Dialogos screenONE
-    private String[][] dialogueOne;
 
     private boolean lineStarted;
     private float counterDialogue;
@@ -76,10 +80,34 @@ public class Dialogos extends Objeto {
                         "El hombre \n era de una edad parecida a la tuya, \n vestia unas botas color cafe, su pelo era claro ",
                         "Es todo lo que recuerdo. \n Deberias comer un poco. \n Sientate en la segunda mesa de la izquierda \n te prepare un plato",
                         "Despues dirijete a tu habitacion y espera"
-                }
+                },
+                //3
+                {"Disculpa jovencito \n puedes ayudarme a encontrar mi radio \n esta en el sotano",
+                        "Se me perdio ayer \n AYUDA"},
+                //4
+                {"Steven!!\n Pensaba que estabas en tu cuarto",
+                "Ya que vi a alguien ahí, \n deberias regresar"
+                },
+                //5
+                {"Tu no mereces lo que tienes. \n Deberias estar aqui internado \n Para siempre",
+                        "Me alegro de haber herido \n a tu esposa e hija\n espero no se recuperen"
+                },
+                //6
+                {"Hola Steven \n Yo puedo ayudarte dandote informacion",
+                        "Pero a cambio me tienes que ayudar \n a buscar a mi gato \n regresa cuando lo encuentres "},
+                //7
+                {"Volviste\n Y encontraste a mi gato\n bien hecho",
+                "Ve y busca al chico nuevo\n en la cuarta habitacion\n el te ayudara"},
+                //8
+                {"Todo fue tan sencillo\n Solo le dije a tu familia \n que era un amigo tuyo\n y no preguntaron",
+                "Me dejaron pasar a tu casa.\n Seguro escuchaste sus gritos",
+                        "Despues fue sencillo involucrarte \n Gracias a tu historial medico",
+                        "Que haras\n quien le creeria a un esquizofrenico"
+                },
+                //9
+                {}
         };
-        //screenOne el primer elemento es esposa, el segundo hija
-        dialogueOne = new String[][]{{"Hola Steven","Que lindo dia para pasarla en parque","Quedate quieta hija, tu padre te pintara"},{"Hola Padre", "Esta muy relajado","No te muevas madre"}};
+
         lineStarted = false;
         linePoint=0;
 
@@ -95,6 +123,13 @@ public class Dialogos extends Objeto {
         fadeObject = new Sprite(new Texture("Dialoguefade.png"));
         fadeObject2 = new Sprite(new Texture("Dialoguefade.png"));
         fadeObject3 = new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject4=new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject5=new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject6=new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject7=new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject8=new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject9=new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject10=new Sprite(new Texture("Dialoguefade.png"));
 
         dote = new Sprite(new Texture("dote.png"));
 
@@ -272,48 +307,200 @@ public class Dialogos extends Objeto {
                 }
                 break;
             //screen
-            case 4:
+            case 4: //dialogos viejita nivel sotano
                 switch(linePoint){
                     case 0://dialogo 1
-                        font.mostrarMensaje(batch,dialogueOne[0][linePoint],450,450);
-                        fadeObject.draw(batch);
-                        fadeObject.setX(240);
-                        fadeObject.setY(250);
+                        font.mostrarMensaje(batch,dialogueLines[3][linePoint],660,450);
+                        fadeObject4.draw(batch);
+                        fadeObject4.setX(240);
+                        fadeObject4.setY(250);
 
-                        cocinera.draw(batch);
-                        cocinera.setX(300);
-                        cocinera.setY(400);
+                        viejita.draw(batch);
+                        viejita.setX(300);
+                        viejita.setY(400);
                         break;
                     case 1:
+                        font.mostrarMensaje(batch,dialogueLines[3][linePoint],660,450);
+                        fadeObject4.draw(batch);
+                        fadeObject4.setX(240);
+                        fadeObject4.setY(250);
 
+                        viejita.draw(batch);
+                        viejita.setX(300);
+                        viejita.setY(400);
                         break;
                     case 2:
-
+                        terminado = true;
                         break;
                     case 3:
 
                         break;
                     case 4:
 
+
+                        break;
+                }
+
+                break;
+            case 5: //Screen fourteen enfermera
+                switch(linePoint) {
+                    case 0://dialogo 1
+                        font.mostrarMensaje(batch, dialogueLines[4][linePoint], 660, 450);
+                        fadeObject5.draw(batch);
+                        fadeObject5.setX(240);
+                        fadeObject5.setY(250);
+
+                        enfermera.draw(batch);
+                        enfermera.setX(300);
+                        enfermera.setY(400);
+                        break;
+                    case 1:
+                        font.mostrarMensaje(batch, dialogueLines[4][linePoint], 660, 450);
+                        fadeObject5.draw(batch);
+                        fadeObject5.setX(240);
+                        fadeObject5.setY(250);
+
+                        enfermera.draw(batch);
+                        enfermera.setX(300);
+                        enfermera.setY(400);
+                        break;
+                    case 2:
                         terminado = true;
                         break;
                 }
 
                 break;
-            case 5:
+            case 6: //Dialogos villano cuando admite que el es el malo
+                switch(linePoint) {
+                    case 0://dialogo 1
+                        font.mostrarMensaje(batch, dialogueLines[5][linePoint], 660, 450);
+                        fadeObject6.draw(batch);
+                        fadeObject6.setX(240);
+                        fadeObject6.setY(250);
+
+                        villano.draw(batch);
+                        villano.setX(300);
+                        villano.setY(400);
+                        break;
+                    case 1:
+                        font.mostrarMensaje(batch, dialogueLines[5][linePoint], 660, 450);
+                        fadeObject6.draw(batch);
+                        fadeObject6.setX(240);
+                        fadeObject6.setY(250);
+
+                        villano.draw(batch);
+                        villano.setX(300);
+                        villano.setY(400);
+                        break;
+                    case 2:
+                        terminado = true;
+                        break;
+                }
 
                 break;
-            case 6:
+            case 7:// Director parte 1 recuperar gato
+                switch(linePoint) {
+                    case 0://dialogo 1
+                        font.mostrarMensaje(batch, dialogueLines[6][linePoint], 660, 450);
+                        fadeObject7.draw(batch);
+                        fadeObject7.setX(240);
+                        fadeObject7.setY(250);
+
+                        director.draw(batch);
+                        director.setX(300);
+                        director.setY(400);
+                        break;
+                    case 1:
+                        font.mostrarMensaje(batch, dialogueLines[6][linePoint], 660, 450);
+                        fadeObject7.draw(batch);
+                        fadeObject7.setX(240);
+                        fadeObject7.setY(250);
+
+                        director.draw(batch);
+                        director.setX(300);
+                        director.setY(400);
+                        break;
+                    case 2:
+                        terminado = true;
+                        break;
+                }
 
                 break;
-            case 7:
+            case 8: //Director 2 ve con el chico nuevo
+                switch(linePoint) {
+                    case 0://dialogo 1
+                        font.mostrarMensaje(batch, dialogueLines[7][linePoint], 660, 450);
+                        fadeObject8.draw(batch);
+                        fadeObject8.setX(240);
+                        fadeObject8.setY(250);
 
+                        director.draw(batch);
+                        director.setX(300);
+                        director.setY(400);
+                        break;
+                    case 1:
+                        font.mostrarMensaje(batch, dialogueLines[7][linePoint], 660, 450);
+                        fadeObject8.draw(batch);
+                        fadeObject8.setX(240);
+                        fadeObject8.setY(250);
+
+                        director.draw(batch);
+                        director.setX(300);
+                        director.setY(400);
+                        break;
+                    case 2:
+                        terminado = true;
+                        break;
+                }
                 break;
-            case 8:
+            case 9: //el villano revela su crimen
+                switch (linePoint){
+                    case 0://linea 0
+                        font.mostrarMensaje(batch,dialogueLines[8][linePoint],660,450);
+                        fadeObject9.draw(batch);
+                        fadeObject9.setX(240);
+                        fadeObject9.setY(250);
 
-                break;
-            case 9:
+                        villano.draw(batch);
+                        villano.setX(300);
+                        villano.setY(400);
+                        break;
+                    case 1: //linea 1
+                        font.mostrarMensaje(batch,dialogueLines[8][linePoint],660,450);
+                        fadeObject9.draw(batch);
+                        fadeObject9.setX(240);
+                        fadeObject9.setY(250);
 
+                        villano.draw(batch);
+                        villano.setX(300);
+                        villano.setY(400);
+                        break;
+                    case 2: //linea 2
+                        font.mostrarMensaje(batch,dialogueLines[8][linePoint],660,450);
+                        fadeObject9.draw(batch);
+                        fadeObject9.setX(240);
+                        fadeObject9.setY(250);
+
+                        villano.draw(batch);
+                        villano.setX(300);
+                        villano.setY(400);
+
+                        break;
+                    case 3: // linea 3 ULTIMA
+                        font.mostrarMensaje(batch,dialogueLines[8][linePoint],660,450);
+                        fadeObject9.draw(batch);
+                        fadeObject9.setX(240);
+                        fadeObject9.setY(250);
+
+                        villano.draw(batch);
+                        villano.setX(300);
+                        villano.setY(400);
+
+                        break;
+                    case 4:
+
+                        terminado = true; //en la ultima linea se debe regresar true
+                }
                 break;
             case 10:
 

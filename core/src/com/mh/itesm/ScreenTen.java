@@ -141,7 +141,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
         if((Steven.getX()>=500 && Steven.getX()<=600 || runningDialogo) && !playedDialogo){
 
             runningDialogo = true;
-            playedDialogo = dialogos.dibujar(batch,1);
+            playedDialogo = dialogos.dibujar(batch,4);
             //played = playedDialogo;
         }
         //-------

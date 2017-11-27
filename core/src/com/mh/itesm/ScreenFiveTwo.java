@@ -224,7 +224,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
         if((played || runningDialogo) && !playedDialogo){
             played = playedDialogo;
             runningDialogo = true;
-            playedDialogo = dialogos.dibujar(batch,1);
+            playedDialogo = dialogos.dibujar(batch,6);
         }
         //-------
 

@@ -142,7 +142,7 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
             if((Steven.getX()>=350 && Steven.getX()<=550 || runningDialogo) && !playedDialogo){
                 played = playedDialogo;
                 runningDialogo = true;
-                playedDialogo = dialogos.dibujar(batch,1);
+                playedDialogo = dialogos.dibujar(batch,5);
             }
             //-------
 
