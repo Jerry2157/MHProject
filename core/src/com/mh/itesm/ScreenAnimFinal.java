@@ -59,7 +59,7 @@ public class ScreenAnimFinal extends Objeto {
 
         // Crea la animación con tiempo de 0.25 segundos entre frames.
 
-        spriteAnimadoCam = new Animation(2.0f
+        spriteAnimadoCam = new Animation(1.0f
                 , texturaPersonaje[0][0],texturaPersonaje[0][0], texturaPersonaje[0][1], texturaPersonaje[0][2]
                 , texturaPersonaje[1][0], texturaPersonaje[1][1], texturaPersonaje[1][2]
                 , texturaPersonaje[2][0], texturaPersonaje[2][1], texturaPersonaje[2][2]

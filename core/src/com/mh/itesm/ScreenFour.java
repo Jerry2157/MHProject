@@ -1,6 +1,7 @@
 package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -51,6 +52,7 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
     private Stage escenaMenu;
+    private Music sonidoF;
 
 
     public ScreenFour(MHMain juego) {
@@ -122,6 +124,11 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
         BackgroundLayerOne = new Texture("ScreenFour/SceneFourBNG.png");
         fondo = new Fondo(BackgroundLayerOne);
         fondo.setPosicion(0,0);
+        //Sonido
+        sonidoF= Gdx.audio.newMusic(Gdx.files.internal("Sonidos/parque.mp3"));
+        sonidoF.setVolume(0.5f);
+        sonidoF.play();
+        sonidoF.setLooping(true);
     }
 
     @Override
@@ -166,6 +173,7 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
                     //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.Cutting);
                     if(SceneActive == false) {
                         SceneActive = false;
+                        sonidoF.stop();
                         juego.setScreen(new ScreenFive(juego,20,64));
                     }
                 }
@@ -242,6 +250,7 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
             this.efectoPuertaTemplo.play(PantallaMenu.volumen);
             PantallaCargando.partidaGuardada.putBoolean("nivelAgua", true); //se guarda el progreso y se desbloquea el nivel de agua...
             PantallaCargando.partidaGuardada.flush(); //se guardan los cambios*/
+            sonidoF.stop();
             juego.setScreen(new ScreenFive(juego,64,64));//Debug
 
             //Se espera un segundo

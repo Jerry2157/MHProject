@@ -356,7 +356,7 @@ public class ScreenFinal extends Pantalla {//jardin
         //Dialogo
         if((playedGoal) && !playedDialogo){
             runningDialogo = true;
-            playedDialogo = dialogos.dibujar(batch,9);
+            playedDialogo = dialogos.dibujar(batch,10);
             played = !playedDialogo;
         }
         //-------

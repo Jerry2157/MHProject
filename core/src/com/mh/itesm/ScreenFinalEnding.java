@@ -23,6 +23,12 @@ public class ScreenFinalEnding extends Pantalla {
     private Texture line1; //Dialogo
     private float tiempo=0;
 
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    //------
+
     private AssetManager manager;
 
 
@@ -57,6 +63,12 @@ public class ScreenFinalEnding extends Pantalla {
                 ScreenTwoBNG.setEstadoMovimiento(ScreenAnimFinal.EstadoMovimiento.QUIETO);
             }
         }, delayTwo);
+
+        //Dialogo
+        playedDialogo = false;
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
 
 
     }
@@ -109,6 +121,13 @@ public class ScreenFinalEnding extends Pantalla {
         if((int)tiempo>=3){
             //batch.draw(line1, 1010, 500);
         }
+        //Dialogo
+        if((int)tiempo>=10 && !playedDialogo){
+            runningDialogo = true;
+            playedDialogo = dialogos.dibujar(batch,11);
+            played = !playedDialogo;
+        }
+        //-------
 
         batch.end();
         tiempo += Gdx.graphics.getDeltaTime();

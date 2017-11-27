@@ -1,6 +1,7 @@
 package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -40,6 +41,8 @@ public class ScreenThree extends Pantalla {//patio trasero
     private float tiempo=0;
     private boolean increTiempo=false;
     //condicional que maneja el mov en pausa
+
+    private Music sonidoF;
 
     public ScreenThree(MHMain juego) {
         //Crear a Steven
@@ -106,6 +109,11 @@ public class ScreenThree extends Pantalla {//patio trasero
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenThree/ScreenThreeBNG.png");
         dialog1=new Texture("Dialogos/Nivel1/11.png");
+        //Sonido
+        sonidoF= Gdx.audio.newMusic(Gdx.files.internal("Sonidos/parque.mp3"));
+        sonidoF.setVolume(0.5f);
+        sonidoF.play();
+        sonidoF.setLooping(true);
 
     }
 
@@ -216,6 +224,7 @@ public class ScreenThree extends Pantalla {//patio trasero
             }, delay);
         }
         else if (64 == Steven.getX() &&  64 <= Steven.getY() && played == true){
+            sonidoF.stop();
             juego.setScreen(new ScreenFour(juego));
         }
         else{

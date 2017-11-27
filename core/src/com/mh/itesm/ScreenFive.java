@@ -2,6 +2,7 @@ package com.mh.itesm;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -53,6 +54,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
     //dialogo unico steven
     private Texture dialog1;
     private float tiempo;
+    private Music sonidoF;
 
     public ScreenFive(MHMain juego, int xS, int yS) {
 
@@ -134,6 +136,11 @@ public class ScreenFive extends Pantalla {//cuarto steven
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
         dialog1=new Texture("Dialogos/Nivel1/12.png");
+        //Sonido
+        sonidoF= Gdx.audio.newMusic(Gdx.files.internal("Sonidos/voices.mp3"));
+        sonidoF.setVolume(0.5f);
+        sonidoF.play();
+        sonidoF.setLooping(true);
     }
 
     @Override
@@ -215,6 +222,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
             @Override
             public void run() {
                 // Do your work
+                sonidoF.stop();
                 juego.setScreen(new ScreenSix(juego,20,64));
             }
         }, delay);
@@ -227,6 +235,7 @@ public class ScreenFive extends Pantalla {//cuarto steven
             @Override
             public void run() {
                 // Do your work
+                sonidoF.stop();
                 juego.setScreen(new ScreenFive(juego,20,64));
             }
         }, delay);
