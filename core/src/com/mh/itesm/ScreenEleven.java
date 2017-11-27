@@ -3,6 +3,7 @@ package com.mh.itesm;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -57,6 +58,8 @@ public class ScreenEleven extends Pantalla {//sotano
 
     private Sprite malo;
 
+    private Music sonidoF;
+
     public ScreenEleven(MHMain juego, int xS, int yS) {
         //cop = new FirstCop(3550,64,tamMundoWidth);
         //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.QUIETO);
@@ -69,6 +72,11 @@ public class ScreenEleven extends Pantalla {//sotano
         malo.setPosition(3550,64);
 
         blackPanel = new Sprite(new Texture("blackpanel.png"));
+        //Sonido
+        sonidoF= Gdx.audio.newMusic(Gdx.files.internal("ScreenEleven/scary.wav"));
+        sonidoF.setVolume(0.5f);
+        sonidoF.play();
+        sonidoF.setLooping(true);
         SwitchLight = false;
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
@@ -224,6 +232,7 @@ public class ScreenEleven extends Pantalla {//sotano
                 @Override
                 public void run() {
                     // Do your work
+                    sonidoF.stop();
                     juego.setScreen(new ScreenTen(juego,2600,64));
                 }
             }, delay);
@@ -261,6 +270,7 @@ public class ScreenEleven extends Pantalla {//sotano
             @Override
             public void run() {
                 // Do your work
+                sonidoF.stop();
                 juego.setScreen(new ScreenNine(juego,10,64));
             }
         }, delay);
@@ -272,6 +282,7 @@ public class ScreenEleven extends Pantalla {//sotano
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
+                sonidoF.stop();
                 juego.setScreen(new ScreenTen(juego,10,64));
                 // Do your work
                 //juego.setScreen(new ScreenTen(juego,10,64));

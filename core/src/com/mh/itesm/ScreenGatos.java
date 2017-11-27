@@ -388,7 +388,7 @@ public class ScreenGatos extends Pantalla {//jardin
             startDialogue = true;
             //played = playedDialogo;
             runningDialogo = true;
-            playedDialogo = dialogos.dibujar(batch,1);
+            playedDialogo = dialogos.dibujar(batch,12);
         }
         //-------
 
@@ -397,7 +397,7 @@ public class ScreenGatos extends Pantalla {//jardin
             finalDialogue = true;
             runningDialogoTwo = true;
 
-            playedDialogoTwo = dialogoTwo.dibujar(batch,2);
+            playedDialogoTwo = dialogoTwo.dibujar(batch,13);
         }
         //----------
 

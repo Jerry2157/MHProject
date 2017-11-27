@@ -372,7 +372,7 @@ public class ScreenFinal extends Pantalla {//jardin
 
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
+        //if(Gdx.app.getType() == Application.ApplicationType.Android)
             controller.draw();
     }
 

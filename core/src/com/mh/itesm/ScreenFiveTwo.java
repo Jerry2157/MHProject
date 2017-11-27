@@ -3,6 +3,7 @@ package com.mh.itesm;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -61,7 +62,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
     private Sprite radio;
 
     private Sprite malo;
-
+    private Music sonidoF;
 
     //Dialogos
     private Dialogos dialogos;
@@ -190,6 +191,14 @@ public class ScreenFiveTwo extends Pantalla {//sotano
         BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
         fondo = new Fondo(BackgroundLayerOne);
         fondo.setPosicion(0,0);
+
+        //Sonido
+        sonidoF= Gdx.audio.newMusic(Gdx.files.internal("ScreenEleven/voices.mp3"));
+        sonidoF.setVolume(0.5f);
+        sonidoF.play();
+        sonidoF.setLooping(true);
+
+
     }
     @Override
     public void render(float delta) {
@@ -282,6 +291,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
                 @Override
                 public void run() {
                     // Do your work
+                    sonidoF.stop();
                     juego.setScreen(new ScreenTen(juego,10,64));
                 }
             }, delay);
@@ -317,6 +327,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
             @Override
             public void run() {
                 // Do your work
+                sonidoF.stop();
                 juego.setScreen(new ScreenNine(juego,10,64));
             }
         }, delay);
@@ -328,6 +339,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
+                sonidoF.stop();
                 juego.setScreen(new ScreenTen(juego,10,64));
                 // Do your work
                 //juego.setScreen(new ScreenTen(juego,10,64));

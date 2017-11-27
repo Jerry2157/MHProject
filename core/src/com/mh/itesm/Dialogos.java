@@ -51,6 +51,7 @@ public class Dialogos extends Objeto {
     private Sprite fadeObject9;
     private Sprite fadeObject10;
     private Sprite fadeObject11;
+    private Sprite fadeObject12;
 
     private Sprite dote;
 
@@ -118,10 +119,12 @@ public class Dialogos extends Objeto {
                         "Lo bueno es que ya estamos juntos"
                 },
                 //11
-                {"Hey tu bola de pelos\n ven aqui",
-                        "Felicidades \n obtuviste al gato del director"
+                {"Hey tu bola de pelos\n ven aqui"
 
-                }
+                },
+                //12
+                {"Felicidades \n obtuviste al gato del director"}
+
         };
 
         lineStarted = false;
@@ -152,6 +155,7 @@ public class Dialogos extends Objeto {
         fadeObject9 = new Sprite(new Texture("Dialoguefade.png"));
         fadeObject10 = new Sprite(new Texture("Dialoguefade.png"));
         fadeObject11 = new Sprite(new Texture("DialoguefadeTwo.png"));
+        fadeObject12 = new Sprite(new Texture("DialoguefadeTwo.png"));
 
         dote = new Sprite(new Texture("dote.png"));
 
@@ -558,33 +562,33 @@ public class Dialogos extends Objeto {
                     case 11: //screen ending
                         switch (linePoint) {
                             case 0://linea 0
-                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 660, 450);
+                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 860, 450);
                                 fadeObject11.draw(batch);
-                                fadeObject11.setX(240);
+                                fadeObject11.setX(440);
                                 fadeObject11.setY(250);
 
                                 steven.draw(batch);
-                                steven.setX(300);
+                                steven.setX(500);
                                 steven.setY(400);
                                 break;
                             case 1: //linea 1
-                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 660, 450);
+                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 860, 450);
                                 fadeObject11.draw(batch);
-                                fadeObject11.setX(240);
+                                fadeObject11.setX(440);
                                 fadeObject11.setY(250);
 
                                 esposa.draw(batch);
-                                esposa.setX(300);
+                                esposa.setX(500);
                                 esposa.setY(400);
                                 break;
                             case 2: //linea 2
-                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 660, 450);
+                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 860, 450);
                                 fadeObject11.draw(batch);
-                                fadeObject11.setX(240);
+                                fadeObject11.setX(440);
                                 fadeObject11.setY(250);
 
                                 hija.draw(batch);
-                                hija.setX(300);
+                                hija.setX(500);
                                 hija.setY(400);
                                 break;
                             case 3:
@@ -596,7 +600,7 @@ public class Dialogos extends Objeto {
                     case 12://dialogos gato
                         switch (linePoint) {
                             case 0://linea 0
-                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 660, 450);
+                                font.mostrarMensaje(batch, dialogueLines[11][linePoint], 660, 450);
                                 fadeObject11.draw(batch);
                                 fadeObject11.setX(240);
                                 fadeObject11.setY(250);
@@ -606,22 +610,33 @@ public class Dialogos extends Objeto {
                                 steven.setY(400);
                                 break;
                             case 1: //linea 1
-                                font.mostrarMensaje(batch, dialogueLines[10][linePoint], 660, 450);
-                                fadeObject11.draw(batch);
-                                fadeObject11.setX(240);
-                                fadeObject11.setY(250);
-
-                                esposa.draw(batch);
-                                esposa.setX(300);
-                                esposa.setY(400);
+                                terminado=true;
                                 break;
                             case 2:
-                                terminado=true;
+
                                 break;
                         }
 
                         break;
                     case 13:
+                        switch (linePoint) {
+                            case 0://linea 0
+                                font.mostrarMensaje(batch, dialogueLines[12][linePoint], 660, 450);
+                                fadeObject11.draw(batch);
+                                fadeObject11.setX(240);
+                                fadeObject11.setY(250);
+
+                                gato.draw(batch);
+                                gato.setX(300);
+                                gato.setY(400);
+                                break;
+                            case 1: //linea 1
+                                terminado=true;
+                                break;
+                            case 2:
+
+                                break;
+                        }
 
                         break;
                     case 14:
