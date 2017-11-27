@@ -31,7 +31,7 @@
   <properties>
    <property name="tipo" value="calle"/>
   </properties>
-  <image source="Calle.png" trans="ff00ff" width="192" height="32"/>
+  <image source="calle.png" trans="ff00ff" width="192" height="32"/>
   <tile id="1">
    <properties>
     <property name="tipo" value="calle"/>
@@ -42,7 +42,7 @@
   <properties>
    <property name="tipo" value="pasto"/>
   </properties>
-  <image source="Pasto.png" trans="ff00ff" width="192" height="64"/>
+  <image source="pasto.png" trans="ff00ff" width="192" height="64"/>
   <tile id="0">
    <properties>
     <property name="tipo" value="pasto"/>

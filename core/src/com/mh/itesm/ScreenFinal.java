@@ -219,7 +219,7 @@ public class ScreenFinal extends Pantalla {//jardin
     }
 
     public void arege(){
-        juego.setScreen(new PantallaCargando(juego,Pantallas.ENDING));
+        //juego.setScreen(new PantallaCargando(juego,Pantallas.ENDING));
     }
     private void cargarMapa() {
         mapa = new TmxMapLoader().load("UltimoNivel/Fondo.tmx");
@@ -389,8 +389,8 @@ public class ScreenFinal extends Pantalla {//jardin
 
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        /*if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();*/
+        //if(Gdx.app.getType() == Application.ApplicationType.Android)
+        controller.draw();
     }
 
     public void finalAnimation(){
@@ -544,7 +544,7 @@ public class ScreenFinal extends Pantalla {//jardin
                 }
             }, delay);
             //Se espera un segundo
-            float delayTwo = 120.0f; // seconds
+            float delayTwo = 8.0f; // seconds
 
             Timer.schedule(new Timer.Task(){
                 @Override

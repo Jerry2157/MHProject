@@ -112,7 +112,7 @@ public class Dialogos extends Objeto {
                 },
                 //9
                 {"Si lo acepto\n yo lo hice \n yo acuchille a tu familia\n yo te incrimine",
-                        "Lo tenemos controlado,\n parece que si ereres inocente, \n Ya puedes visitar a tu esposa e hija\n en el hosptial"},
+                        "Lo tenemos controlado,\n parece que si erees inocente, \n Ya puedes visitar a tu esposa e hija\n en el hosptial"},
                 //10
                 {"Pense que no las volveria a ver",
                         "Estamos bien\n no imaginamos por lo que pasaste",
