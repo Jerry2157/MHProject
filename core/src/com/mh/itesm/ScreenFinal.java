@@ -139,6 +139,8 @@ public class ScreenFinal extends Pantalla {//jardin
     private Sprite malo;
 
 
+
+
     public ScreenFinal(MHMain juego, int xS, int yS) {
 
         playedGoal = false;
@@ -196,6 +198,17 @@ public class ScreenFinal extends Pantalla {//jardin
         //cats function
         manager = juego.getAssetManager();
         facecathelper();
+
+        float delay = 60.0f; // seconds
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                //LLAMA AL DIALOGO BETO
+                //
+                arege();
+            }
+        }, delay);
     }
     public void Confrontation(){
         if(played == false){
@@ -203,6 +216,10 @@ public class ScreenFinal extends Pantalla {//jardin
             //inicia animacion de confrontacion
             prefs.putBoolean("finalscape",true);
         }
+    }
+
+    public void arege(){
+        juego.setScreen(new PantallaCargando(juego,Pantallas.ENDING));
     }
     private void cargarMapa() {
         mapa = new TmxMapLoader().load("UltimoNivel/Fondo.tmx");
@@ -372,8 +389,8 @@ public class ScreenFinal extends Pantalla {//jardin
 
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        //if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        /*if(Gdx.app.getType() == Application.ApplicationType.Android)
+            controller.draw();*/
     }
 
     public void finalAnimation(){

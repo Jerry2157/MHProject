@@ -42,7 +42,7 @@ public class ScreenFinalEnding extends Pantalla {
         ScreenTwoBNG = new ScreenAnimFinal(0,0,tamMundoWidth,manager);
         ScreenTwoBNG.setEstadoMovimiento(ScreenAnimFinal.EstadoMovimiento.Cutting);
 
-        float delay = 90.0f; // seconds
+        float delay = 50.0f; // seconds
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
@@ -53,7 +53,7 @@ public class ScreenFinalEnding extends Pantalla {
             }
         }, delay);
 
-        float delayTwo = 80.0f;
+        float delayTwo = 40.0f;
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
@@ -116,7 +116,7 @@ public class ScreenFinalEnding extends Pantalla {
 
 
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         ScreenTwoBNG.dibujar(batch);
         if((int)tiempo>=3){
             //batch.draw(line1, 1010, 500);
@@ -158,12 +158,12 @@ public class ScreenFinalEnding extends Pantalla {
 
     }
     public void cambiarEscena(){
-        if(1100 == ScreenTwoBNG.getX() &&  64 <= ScreenTwoBNG.getY()){ //258  y 512 es la posicion del templo, lo identifique con el system.out.println
+        /*if(1100 == ScreenTwoBNG.getX() &&  64 <= ScreenTwoBNG.getY()){ //258  y 512 es la posicion del templo, lo identifique con el system.out.println
             // Para verificar si el usuario ya tomo los 3 pergaminos y liberar el boton de galeria de arte...
             /*liberarArte();
             this.efectoPuertaTemplo.play(PantallaMenu.volumen);
             PantallaCargando.partidaGuardada.putBoolean("nivelAgua", true); //se guarda el progreso y se desbloquea el nivel de agua...
-            PantallaCargando.partidaGuardada.flush(); //se guardan los cambios*/
+            PantallaCargando.partidaGuardada.flush(); //se guardan los cambios
             //juego.setScreen(new ScreenOne(juego));//Debug
 
             //Se espera un segundo
@@ -183,7 +183,7 @@ public class ScreenFinalEnding extends Pantalla {
         }
         else{
 
-        }
+        }*/
     }
 
     private void showPolice() {
