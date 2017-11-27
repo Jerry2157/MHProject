@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 
 public class ScreenFiveTwo extends Pantalla {//sotano
     private int tamMundoWidth = 1280;
-    private boolean passed = false; //se cambiara de nivel
+    private boolean passed = true; //se cambiara de nivel
     private boolean played = true; //se acciono el elevador
 
     private static Fondo fondo; //Imagen de fondo
@@ -88,7 +88,7 @@ public class ScreenFiveTwo extends Pantalla {//sotano
         Light = new Sprite(new Texture("Luz.png"));
 
         malo = new Sprite(new Texture("Characters/VillanoTwo.png"));
-        malo.setPosition(64,64);
+        malo.setPosition(128,64);
 
         blackPanel = new Sprite(new Texture("blackpanel.png"));
         SwitchLight = false;

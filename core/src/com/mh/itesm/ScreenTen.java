@@ -138,7 +138,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
         fondo.setPosicion(0,0);
 
         //Dialogo
-        if((Steven.getX()>=500 && Steven.getX()<=600 || runningDialogo) && !playedDialogo){
+        if((Steven.getX()>=500 && Steven.getX()<=600 || runningDialogo) && !playedDialogo && !prefs.getBoolean("playedSotano")){
 
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,4);
@@ -196,9 +196,9 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
             nextScreenRight();
         }
         if(Steven.getX()<=10 && passed == false) {
-            passed = true;
-            trabar();
-            nextScreenLeft();
+            //passed = true;
+            //trabar();
+            //nextScreenLeft();
         }
     }
     public void reaction(){//puertacerrada
@@ -213,7 +213,8 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenTwelve(juego,2000,64));
+                    juego.setScreen(new ScreenEleven(juego,10,64));
+                    //juego.setScreen(new ScreenTwelve(juego,2000,64));
                 }
             }, delay);
         }
@@ -229,7 +230,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
                 @Override
                 public void run() {
                     // Do your work
-                    //juego.setScreen(new ScreenEleven(juego,10,64));
+                    //
                 }
             }, delay);
         }
@@ -275,7 +276,7 @@ public class ScreenTen extends Pantalla {//pasillo 1er piso
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
-                juego.setScreen(new ScreenTwelve(juego,10,64));
+                juego.setScreen(new ScreenTwelve(juego,2000,64));
                 // Do your work
                 //juego.setScreen(new ScreenTen(juego,10,64));
                 //llevar a cuartos

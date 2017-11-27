@@ -136,7 +136,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //Dialogo MODIFICAR COORDENADAS
-        if((Steven.getX()<=250 || runningDialogo) && !playedDialogo ){
+        if((Steven.getX()<=250 || runningDialogo) && !playedDialogo && !prefs.getBoolean("cocinaPassed")){
             played = playedDialogo;
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,2);
@@ -185,12 +185,12 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
     }
     public void cambiarEscena(){
 
-        if(Steven.getX()>=1270 && passed == false && prefs.getBoolean("cocinaPassed")) {//derecha
+        if(Steven.getX()>=1000 && passed == false && prefs.getBoolean("cocinaPassed")) {//derecha
             passed = true;
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=100 && passed == false && !prefs.getBoolean("cocinaPassed")) {//izquierda
+        if(Steven.getX()<=10 && passed == false && !prefs.getBoolean("cocinaPassed")) {//izquierda
             System.out.printf("entro a cocinaaaaaa");
             passed = true;
             trabar();
@@ -253,7 +253,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
             @Override
             public void run() {
                 // Do your work
-                //juego.setScreen(new ScreenTen(juego,10,64));
+                juego.setScreen(new ScreenTen(juego,15,64));
                 //llevar a cuartos
             }
         }, delay);

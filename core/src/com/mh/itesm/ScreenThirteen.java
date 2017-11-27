@@ -60,6 +60,8 @@ public class ScreenThirteen extends Pantalla {//oficina director
     private EscenaPausa escenaPausa;
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
 
+    private boolean playedfinal = false;
+
     public ScreenThirteen(MHMain juego, int xS, int yS) {
 
         prefs = Gdx.app.getPreferences("My Preferences");
@@ -170,6 +172,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
             runningDialogoTwo = true;
 
             playedDialogoTwo = dialogoTwo.dibujar(batch,8);
+            arege();
         }
         //----------
         batch.end();
@@ -182,11 +185,25 @@ public class ScreenThirteen extends Pantalla {//oficina director
         if((playedDialogo==true || runningDialogo==false) && (playedDialogoTwo==true || runningDialogoTwo==false)){
             controller.draw();
         }
-
-
-
     }
 
+    public void arege(){
+        if(playedfinal == false){
+            playedfinal = true;
+            aregehelper();
+        }
+    }
+    public void aregehelper(){
+        //Se espera un segundo
+        float delay = 6f; // seconds
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                // Do your work
+                juego.setScreen(new ScreenSeven(juego,11,64));
+            }
+        }, delay);
+    }
 
     @Override
     public void pause() {
@@ -234,7 +251,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
             passed = true;
             trabar();
             //Se espera un segundo
-            float delay = 20f; // seconds
+            float delay = 12f; // seconds
             Timer.schedule(new Timer.Task(){
                 @Override
                 public void run() {
@@ -255,7 +272,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
             passed = true;
             trabar();
             //Se espera un segundo
-            float delay = 30.0f; // seconds
+            float delay = 6.0f; // seconds
             Timer.schedule(new Timer.Task(){
                 @Override
                 public void run() {

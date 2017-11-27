@@ -136,13 +136,13 @@ public class ScreenNine extends Pantalla { //cocina
         fondo.render(batch);
         fondo.setPosicion(0,0);
 
-        //Dialogo
+        /*Dialogo
         if((Steven.getX()>=32 && Steven.getX()<=128 || runningDialogo) && !playedDialogo){
             played = playedDialogo;
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,1);
         }
-        //-------
+        //-------*/
 
         //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2,Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         batch.draw(coocker,coocker.getX(),coocker.getY());
@@ -150,10 +150,15 @@ public class ScreenNine extends Pantalla { //cocina
         //cop.dibujar(batch);
         //Dialogo
         if((Steven.getX()<=200 || runningDialogo) && !playedDialogo  ){
-            played = playedDialogo;
             runningDialogo = true;
-
             playedDialogo = dialogos.dibujar(batch,3);
+            if(!playedDialogo){
+                played = true;
+                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+
+            }else{
+                played = false;
+            }
         }
         //-------
 
@@ -169,8 +174,6 @@ public class ScreenNine extends Pantalla { //cocina
         if(playedDialogo==true || runningDialogo==false){
             controller.draw();
         }
-
-
     }
 
 
@@ -199,7 +202,7 @@ public class ScreenNine extends Pantalla { //cocina
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=2460 && passed == false) {//derecha
+        if(Steven.getX()>=2400 && passed == false) {//derecha
             trabar();
             nextScreenRight();
         }
@@ -249,7 +252,7 @@ public class ScreenNine extends Pantalla { //cocina
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenEight(juego,10,64));
+                juego.setScreen(new ScreenEight(juego,15,20));
             }
         }, delay);
     }

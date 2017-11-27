@@ -163,7 +163,7 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
         }
     }
     public void reaction(){//elevador
-        if(Steven.getX()>=600 && Steven.getX()<=900 && (controller.isButtonPressed() || controller.isSpacePressed()) && !passed && !prefs.getBoolean("finalunlocked")) {
+        if(Steven.getX()>=600 && Steven.getX()<=900 && (controller.isButtonPressed() || controller.isSpacePressed()) && !passed && !prefs.getBoolean("finalunlocked") && !prefs.getBoolean("playedTalkDirCat")) {
             passed = true;
             trabar();
 
@@ -173,7 +173,7 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenEight(juego,640,50));
+                    juego.setScreen(new ScreenEight(juego,640,20));
                 }
             }, delay);
         }

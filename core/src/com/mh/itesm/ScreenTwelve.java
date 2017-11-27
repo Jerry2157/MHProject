@@ -54,7 +54,7 @@ public class ScreenTwelve extends Pantalla {//area verde
 
 
     public ScreenTwelve(MHMain juego, int xS, int yS) {
-        objectXtra = new Sprite(new Texture("Radio.png"));
+        objectXtra = new Sprite(new Texture("atrapasuenos.png"));
         objectXtra.setPosition(520,32);
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
@@ -174,7 +174,7 @@ public class ScreenTwelve extends Pantalla {//area verde
     }
 
     public void cambiarEscena(){
-        if(Steven.getX()>=2450 && passed == false && !prefs.getBoolean("playedDir")) {//derecha
+        if(Steven.getX()>=2450 && passed == false && prefs.getBoolean("playedDir")) {//derecha
             passed = true;
             trabar();
             nextScreenRight();
@@ -234,7 +234,7 @@ public class ScreenTwelve extends Pantalla {//area verde
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenThirteen(juego,10,64));
+                juego.setScreen(new ScreenThirteen(juego,1100,64));
             }
         }, delay);
     }

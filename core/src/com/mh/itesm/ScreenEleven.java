@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Timer;
 public class ScreenEleven extends Pantalla {//sotano
     private int tamMundoWidth = 3840;
     private boolean passed = false; //se cambiara de nivel
+    private boolean playedTwo = false;
     private boolean played = false; //se acciono el elevador
 
     private static Fondo fondo; //Imagen de fondo
@@ -161,7 +162,7 @@ public class ScreenEleven extends Pantalla {//sotano
         //cop.dibujar(batch);
         if(SwitchLight == true){
             //batch.draw(Light,Steven.getX()-Light.getX()*60,Steven.getY()-Light.getY()*5);
-            batch.draw(Light,camara.position.x-1280,Steven.getY()-Light.getY()*5-128);
+            batch.draw(Light,Steven.sprite.getX()-1280,Steven.getY()-Light.getY()*5-128);
         }else{
             batch.draw(blackPanel,camara.position.x-640,camara.position.y-360);
         }
@@ -211,7 +212,7 @@ public class ScreenEleven extends Pantalla {//sotano
         }*/
     }
     public void reaction(){//puertacerrada
-        if(Steven.getX()>=3500 && Steven.getX()<=3550 &&  passed == false && prefs.getBoolean("playedSotano") == false) {
+        if(Steven.getX()>=3500 && Steven.getX()<=3550 && prefs.getBoolean("playedSotano") == false && playedTwo) {
             prefs.putBoolean("playedSotano", true);
             prefs.flush();
             //llamar al dialogo
@@ -223,11 +224,11 @@ public class ScreenEleven extends Pantalla {//sotano
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenTen(juego,10,64));
+                    juego.setScreen(new ScreenTen(juego,2600,64));
                 }
             }, delay);
         }
-        if(Steven.getX()>=3400 && Steven.getX()<=3450 &&  passed == false && prefs.getBoolean("playedSotano") == false) {
+        if(Steven.getX()>=3300 && Steven.getX()<=3400 &&  passed == false && prefs.getBoolean("playedSotano") == false && !playedTwo) {
 
             //llamar al dialogo
             passed = true;
@@ -240,6 +241,8 @@ public class ScreenEleven extends Pantalla {//sotano
                     // Do your work
                     SwitchLight = true;
                     malo.setPosition(5000.0f,5000.0f);
+                    passed = false;
+                    playedTwo = true;
                 }
             }, delay);
         }

@@ -140,7 +140,7 @@ public class ScreenGatos extends Pantalla {//jardin
     private EstadoJuego estado = EstadoJuego.JUGANDO;
 
     //Tiempo restante
-    private int tiempo = 3000;
+    private int tiempo = 1500;
     private Texto textoTiempo;
 
     private boolean playedTimer;
@@ -375,10 +375,13 @@ public class ScreenGatos extends Pantalla {//jardin
         //gatos
         gatoUnoState.draw(batch);
         gatoUnoState.setPosition(ANCHO-160,128);
+        globos[0].setPosition(ANCHO-160,128);
         gatoDosState.draw(batch);
         gatoDosState.setPosition(ANCHO-160,128*2);
+        globos[1].setPosition(ANCHO-160,128*2);
         gatoTresState.draw(batch);
         gatoTresState.setPosition(ANCHO-160,128*3);
+        globos[2].setPosition(ANCHO-160,128*3);
 
         //Dialogo
         if((!startDialogue || runningDialogo) && !playedDialogo){
@@ -503,6 +506,7 @@ public class ScreenGatos extends Pantalla {//jardin
             if (hongo.chocaCon(steven)) {
                 // Pierde!!!
                 enemigos.removeIndex(k);
+                juego.setScreen(new ScreenGatos(juego,11,64));
                 // Activar escenaPausa y pasarle el control
                 if (escenaPausa==null) {
                     escenaPausa = new EscenaPausa(vista, batch);
@@ -546,10 +550,10 @@ public class ScreenGatos extends Pantalla {//jardin
     @Override
     public void dispose() {
         //manager.unload("runner/fondoRunnerD.jpg");
-        manager.unload("Characters/Steven/Atlas-StevenCaminandoFinal512.png");
+        //manager.unload("Characters/Steven/Atlas-StevenCaminandoFinal512.png");
         //manager.unload("runner/enemigo.png");
-        manager.unload("PuzzleGatos/tuna.png");
-        manager.unload("comun/btnSalir.png");
+        //manager.unload("PuzzleGatos/tuna.png");
+        //manager.unload("comun/btnSalir.png");
 
     }
 
@@ -583,7 +587,7 @@ public class ScreenGatos extends Pantalla {//jardin
                 public void run() {
                     // Do your work
                     prefs.putBoolean("playedTalkDirCat",true);
-                    juego.setScreen(new ScreenThirteen(juego, 2400, 64));
+                    juego.setScreen(new ScreenThirteen(juego, 640, 64));
 
                 }
             }, delay);

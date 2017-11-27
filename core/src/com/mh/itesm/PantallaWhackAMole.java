@@ -441,6 +441,7 @@ public class PantallaWhackAMole extends Pantalla
                     //cargarMarcadorMayor();
                     // Regresa el control a la pantalla
                     Gdx.input.setInputProcessor(procesadorEntrada);
+
                 }
             });
             this.addActor(btnReintentar);

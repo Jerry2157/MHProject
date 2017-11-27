@@ -65,6 +65,7 @@ public class mainMenu extends Pantalla {
         prefs.putBoolean("playedTalkDirCat",false);
         prefs.putBoolean("cuartosPassed",false);
         prefs.putBoolean("finalunlocked",false);
+        prefs.putBoolean("playedSotano",false);
 
         prefs.flush();
         this.juego = juego;
@@ -128,13 +129,14 @@ public class mainMenu extends Pantalla {
                 juego.setScreen(new Credits(juego));
                 // Iniciar juego Mario
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
-                //juego.setScreen((new ScreenEight(juego,640,32)));
+                //juego.setScreen((new ScreenFiveTwo(juego,1100,20)));
 
                 //juego.setScreen((new ScreenFinal(juego,10,64)));
                 //stage.addAction(Actions.fadeOut(10.0f));//pasa a negro fadeOut
                // juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
                 //escenaMenu.addAction(Actions.fadeIn(1));
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER)); //screen gatos
+
                 //juego.setScreen(new ScreenTwelve(juego,2000,64));
 
                 //juego.setScreen(new pantallaGlobos(juego));
