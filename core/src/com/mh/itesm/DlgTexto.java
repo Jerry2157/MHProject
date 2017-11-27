@@ -40,7 +40,7 @@ public class DlgTexto extends Stage
         glyp.setText(font, mensaje);
         float anchoTexto = glyp.width;
         font.draw(batch, glyp, x-anchoTexto/2, y);
-        font.setColor(com.badlogic.gdx.graphics.Color.BLACK);
+        font.setColor(com.badlogic.gdx.graphics.Color.WHITE);
     }
     //Mueve color por escala RGB
     public void setColor(float a,float b, float c,float d){

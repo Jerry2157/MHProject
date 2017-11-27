@@ -36,12 +36,6 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
@@ -105,7 +99,6 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
     private void cargarTexturas() {
         BackgroundLayerOne = new Texture("ScreenSeven/ElevadorSegundoPiso.png");
 
-
     }
 
     @Override
@@ -120,22 +113,13 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
         batch.begin();
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        //batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
         Steven.dibujar(batch);
 
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
-
-        //batch.draw(puzzlePintura(),50,100);
         batch.end();
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
-        //b2dr.render(world,camara.combined);
-        //batch.setProjectionMatrix(camara.combined);
+
         controller.draw();
 
 
@@ -189,7 +173,7 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenEight(juego,640,64));
+                    juego.setScreen(new ScreenEight(juego,640,50));
                 }
             }, delay);
         }

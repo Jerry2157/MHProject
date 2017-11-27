@@ -26,6 +26,9 @@ public class EscenaPausa extends Stage {
     private AssetManager manager; //para manegar texturas y demas con manager
     private MHMain juego;
     private EstadoJuego estadoJuego;
+    //botones para screen six y mayores
+    private ImageButton btnContinuarD;
+    private ImageButton btnSalirD;
 
     //Varible que lleva la cuenta del boton de musica para acivar y desactiva la musica
     private int tocado=0;
@@ -336,7 +339,7 @@ public class EscenaPausa extends Stage {
             estadoJuego=currentS.getEstadoJuego();
 
             // Crear rectángulo transparente
-            Pixmap pixmap = new Pixmap((int) (currentS.ANCHO/*currentS.ANCHO * 0.7f*/), (int) (currentS.ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            Pixmap pixmap = new Pixmap((int) (3840/*currentS.ANCHO * 0.7f*/), (int) (720/* 0.8f*/), Pixmap.Format.RGBA8888);
             pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture( pixmap );
@@ -349,9 +352,9 @@ public class EscenaPausa extends Stage {
             Texture texturaBtnSalir =new Texture("Botones/SALIR.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
-            ImageButton btnSalir = new ImageButton(trdSalir);
-            btnSalir.setPosition(currentS.ANCHO/2-btnSalir.getWidth()/2, currentS.ALTO*0.2f);
-            btnSalir.addListener(new ClickListener(){
+            btnSalirD = new ImageButton(trdSalir);
+            btnSalirD.setPosition(currentS.ANCHO/2-btnSalirD.getWidth()/2, currentS.ALTO*0.2f);
+            btnSalirD.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al menú
@@ -361,15 +364,15 @@ public class EscenaPausa extends Stage {
 
                 }
             });
-            this.addActor(btnSalir);
+            this.addActor(btnSalirD);
 
             // Continuar
             Texture texturaBtnReintentar = new Texture("Botones/CONTINUAR.png");
             TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnReintentar));
-            ImageButton btnReintentar = new ImageButton(trdReintentar);
-            btnReintentar.setPosition(currentS.ANCHO/2-btnReintentar.getWidth()/2, currentS.ALTO*0.5f);
-            btnReintentar.addListener(new ClickListener(){
+            btnContinuarD = new ImageButton(trdReintentar);
+            btnContinuarD.setPosition(currentS.ANCHO/2-btnContinuarD.getWidth()/2, currentS.ALTO*0.5f);
+            btnContinuarD.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
@@ -377,7 +380,7 @@ public class EscenaPausa extends Stage {
                     Gdx.input.setInputProcessor(currentS.getController().getStage());
                 }
             });
-            this.addActor(btnReintentar);
+            this.addActor(btnContinuarD);
             //falta entonces que se mantenga la referencia porque estamos editando en una variable lcoal
 
             // Musica
@@ -556,7 +559,7 @@ public class EscenaPausa extends Stage {
             estadoJuego=currentS.getEstadoJuego();
 
             // Crear rectángulo transparente
-            Pixmap pixmap = new Pixmap((int) (currentS.ANCHO/*currentS.ANCHO * 0.7f*/), (int) (currentS.ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
+            Pixmap pixmap = new Pixmap((int) (2560/*currentS.ANCHO * 0.7f*/), (int) (720 /* 0.8f*/), Pixmap.Format.RGBA8888);
             pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture( pixmap );
@@ -569,9 +572,9 @@ public class EscenaPausa extends Stage {
             Texture texturaBtnSalir =new Texture("Botones/SALIR.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
-            ImageButton btnSalir = new ImageButton(trdSalir);
-            btnSalir.setPosition(currentS.ANCHO/2-btnSalir.getWidth()/2, currentS.ALTO*0.2f);
-            btnSalir.addListener(new ClickListener(){
+            btnSalirD = new ImageButton(trdSalir);
+            btnSalirD.setPosition(1870, currentS.ALTO*0.2f);
+            btnSalirD.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al menú
@@ -581,15 +584,15 @@ public class EscenaPausa extends Stage {
 
                 }
             });
-            this.addActor(btnSalir);
+            this.addActor(btnSalirD);
 
             // Continuar
             Texture texturaBtnReintentar = new Texture("Botones/CONTINUAR.png");
             TextureRegionDrawable trdReintentar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnReintentar));
-            ImageButton btnReintentar = new ImageButton(trdReintentar);
-            btnReintentar.setPosition(currentS.ANCHO/2-btnReintentar.getWidth()/2, currentS.ALTO*0.5f);
-            btnReintentar.addListener(new ClickListener(){
+            btnContinuarD = new ImageButton(trdReintentar);
+            btnContinuarD.setPosition(1800, currentS.ALTO*0.5f);
+            btnContinuarD.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
@@ -597,7 +600,7 @@ public class EscenaPausa extends Stage {
                     Gdx.input.setInputProcessor(currentS.getController().getStage());
                 }
             });
-            this.addActor(btnReintentar);
+            this.addActor(btnContinuarD);
             //falta entonces que se mantenga la referencia porque estamos editando en una variable lcoal
 
             // Musica
@@ -623,5 +626,19 @@ public class EscenaPausa extends Stage {
             });
             this.addActor(btnMusica);*/
         }
+    }
+    //metodo que actualiza la posicion
+    public void updateBtnPos(Pantalla p){
+        if(p instanceof ScreenSix){
+          ScreenSix ps=(ScreenSix)p;
+            btnContinuarD.setPosition(ps.getPlayerSteven().getX()-120,p.ALTO*0.5f);
+            btnSalirD.setPosition(ps.getPlayerSteven().getX()-50,p.ALTO*0.2f);
+        }
+        if(p instanceof ScreenNine){
+            ScreenNine ps=(ScreenNine)p;
+            btnContinuarD.setPosition(ps.getPlayerSteven().getX()-120,p.ALTO*0.5f);
+            btnSalirD.setPosition(ps.getPlayerSteven().getX()-50,p.ALTO*0.2f);
+        }
+
     }
 }

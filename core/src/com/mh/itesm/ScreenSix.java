@@ -33,9 +33,6 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
     private Texture nurseTex;
     private Sprite nurse;
 
-
-
-
     //World world;
     //private Box2DDebugRenderer b2dr;
     Body player;
@@ -146,7 +143,7 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
         fondo.render(batch);
         fondo.setPosicion(0,0);
 
-        if(prefs.getBoolean("finalunlocked")) {
+        if(prefs.getBoolean("cuartosPassed")) {
 
         }else{
             batch.draw(nurse, nurse.getX(), nurse.getY());
@@ -155,7 +152,7 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
         Steven.dibujar(batch);
 
         //Dialogo
-        if((Steven.getX()>=550 && Steven.getX()<=550 || runningDialogo) && !playedDialogo){
+        if((Steven.getX()>=550 && Steven.getX()<=550 || runningDialogo) && !playedDialogo  && !prefs.getBoolean("cuartosPassed")){
             played = playedDialogo;
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,1);
@@ -166,9 +163,15 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            if(Steven.getX()>=this.ANCHO/2){
+                escenaPausa.updateBtnPos(this);
+            }
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
-        controller.draw();
+        //si esta ocurriendo el sistema de dialogos steven no se puede mover ni pausar el juego
+        if(playedDialogo==true || runningDialogo==false){
+            controller.draw();
+        }
 
 
     }
@@ -199,11 +202,11 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=3700 && passed == false) {
+        if(Steven.getX()>=3700 && passed == false&& !prefs.getBoolean("cuartosPassed")) {
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=10 && passed == false) {
+        if(Steven.getX()<=10 && passed == false&& prefs.getBoolean("cuartosPassed")) {
             trabar();
             nextScreenLeft();
         }
@@ -233,7 +236,7 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenFive(juego,10,64));
+                juego.setScreen(new ScreenFiveTwo(juego,1050,64));
             }
         }, delay);
     }
@@ -281,5 +284,8 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
     }
     public void setEstadoJuego(EstadoJuego estado){
         estadoJuego=estado;
+    }
+    public PlayerSteven getPlayerSteven(){
+        return Steven;
     }
 }

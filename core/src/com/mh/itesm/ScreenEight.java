@@ -47,11 +47,24 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
     private EscenaPausa escenaPausa;
     private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
 
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    //------
+
 
     public ScreenEight(MHMain juego, int xS, int yS) {
         copito = new Sprite(new Texture("Characters/Policia.png"));
         copito.setPosition(200.0f,32.0f);
         prefs = Gdx.app.getPreferences("My Preferences");
+
+        //Dialogo
+        playedDialogo = false;
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
+
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
@@ -73,8 +86,8 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
             } else {
                 //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
-            }
-            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+            }//el linar velocity marca erro
+            if (controller.isUpPressed() /*&& player.getLinearVelocity().y == 0*/) {
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
@@ -122,6 +135,13 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
         //cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
+        //Dialogo MODIFICAR COORDENADAS
+        if((Steven.getX()<=250 || runningDialogo) && !playedDialogo ){
+            played = playedDialogo;
+            runningDialogo = true;
+            playedDialogo = dialogos.dibujar(batch,2);
+        }
+        //-------
 
 
         //batch.draw(puzzlePintura(),50,100);
@@ -131,8 +151,10 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
-
-        controller.draw();
+        //si esta ocurriendo el sistema de dialogos steven no se puede mover ni pausar el juego
+        if(playedDialogo==true || runningDialogo==false){
+            controller.draw();
+        }
 
 
     }
@@ -219,7 +241,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenNine(juego,2450,64));
+                juego.setScreen(new ScreenNine(juego,2200,64));
             }
         }, delay);
     }

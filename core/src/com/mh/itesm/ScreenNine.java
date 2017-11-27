@@ -36,12 +36,6 @@ public class ScreenNine extends Pantalla { //cocina
     Body player;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen que se muestra
-    //Pinturas interactuables
-    //Imagen(Pintura) interactuable
-    private Texture paint1,paint2, paint3, paint4, paint5, paint6, paint7, paint8, paint9, paint10, paint11, paint12, paint13, paint14, paint15, paint16;
-    private Texture[] pinturas;
-    //Variable nImage lleva el conteo de cuantos clicks en la pantalla se han hecho
-    private int nImage;
     // Contenedor de los botones
     private Stage escenaMenu;
     private Texture texturaBtnPintura;
@@ -92,7 +86,7 @@ public class ScreenNine extends Pantalla { //cocina
                 //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
-            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+            if (controller.isUpPressed() /*&& player.getLinearVelocity().y == 0*/) {
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
@@ -154,20 +148,27 @@ public class ScreenNine extends Pantalla { //cocina
         batch.draw(coocker,coocker.getX(),coocker.getY());
         Steven.dibujar(batch);
         //cop.dibujar(batch);
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
-        }
+        //Dialogo
+        if((Steven.getX()<=200 || runningDialogo) && !playedDialogo  ){
+            played = playedDialogo;
+            runningDialogo = true;
 
-        //batch.draw(puzzlePintura(),50,100);
+            playedDialogo = dialogos.dibujar(batch,3);
+        }
+        //-------
+
         batch.end();
-        //b2dr.render(world,camara.combined);
-        //batch.setProjectionMatrix(camara.combined);
+
         if (estadoJuego == EstadoJuego.PAUSADO && escenaPausa!=null ) {
+            if(Steven.getX()<=1800 /*&& Steven.getX()>=this.ANCHO/2*/){
+                escenaPausa.updateBtnPos(this);
+            }
             escenaPausa.draw(); //DIBUJAMOS escenaPausa si esta pausado
         }
-        controller.draw();
+        //si esta ocurriendo el sistema de dialogos steven no se puede mover ni pausar el juego
+        if(playedDialogo==true || runningDialogo==false){
+            controller.draw();
+        }
 
 
     }
@@ -211,7 +212,7 @@ public class ScreenNine extends Pantalla { //cocina
     }
     public void reaction(){//interaccion con la comida
         //if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && !prefs.getBoolean("areaverdelocked") && !prefs.getBoolean("cocinaPassed")) {
-        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && !prefs.getBoolean("cocinaPassed")) {
+        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && !prefs.getBoolean("cocinaPassed") && playedDialogo==true) {
             played = true;
             //launchDiaologue(dialogue.speech(6));
             juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
@@ -283,5 +284,8 @@ public class ScreenNine extends Pantalla { //cocina
     }
     public void setEstadoJuego(EstadoJuego estado){
         estadoJuego=estado;
+    }
+    public PlayerSteven getPlayerSteven(){
+        return Steven;
     }
 }

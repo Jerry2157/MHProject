@@ -37,6 +37,9 @@ public class Dialogos extends Objeto {
     private Sprite viejita;
     private Sprite villano;
     private Sprite fadeObject;
+    private Sprite fadeObject2;
+    private Sprite fadeObject3;
+
     private Sprite dote;
 
     private int posAvatarX;
@@ -56,12 +59,29 @@ public class Dialogos extends Objeto {
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Dialogos() {
-        dialogueLines = new String[][]{{"hola","perro","manzana"},{"Hola, soy tu enfermera, \n estas en el Manicomio Colonia, ",
-                "Vimos tus antecedentes, \n parece que padeces esquizofrenia","Eres el principal sospechoso \n en el acuchillamiento de tu familia",
-                "Ve y platica con la cocinera \n en la cafeteria, ella te dira que hacer"},{"hola","perro","manzana"}};
+        dialogueLines = new String[][]{
+                //0
+                {"Hola, soy tu enfermera, \n estas en el Manicomio Colonia, ",
+                "Vimos tus antecedentes, \n parece que padeces esquizofrenia",
+                        "Eres el principal sospechoso \n en el acuchillamiento de tu familia",
+                "Ve un piso abajo y platica con el policia, \n el te dira que hacer"},
+                //1
+                {"Hola Steven, \n Soy el oficial acargo de esta zona del manicomio",
+                "Lamentablemente no podemos dejarte ir, \n para eso tendras que probar tu inocencia",
+                        "Tu esposa e hija se encuentran hospitalizadas, \n aun no nos confirman que tan graves estan",
+                        "Ve a la cocina que esta a tu izquierda, \n la cocinera es una de tus vecinas quiere decirte algo"},
+                //2
+                {"Hola, soy la cocinera de este lugar \n asi como tu vecina",
+                "Antes de que ocurriera el ataque \n yo estaba caminando por la acera \n frente a tu casa y logre ver a un hombre \n que miraba fijamente el interior de tu casa ",
+                        "El hombre \n era de una edad parecida a la tuya, \n vestia unas botas color cafe, su pelo era claro ",
+                        "Es todo lo que recuerdo. \n Deberias comer un poco. \n Sientate en la segunda mesa de la izquierda \n te prepare un plato",
+                        "Despues dirijete a tu habitacion y espera"
+                }
+        };
         //screenOne el primer elemento es esposa, el segundo hija
         dialogueOne = new String[][]{{"Hola Steven","Que lindo dia para pasarla en parque","Quedate quieta hija, tu padre te pintara"},{"Hola Padre", "Esta muy relajado","No te muevas madre"}};
         lineStarted = false;
+        linePoint=0;
 
         font = new DlgTexto("fonts/gamefont.fnt");
         cocinera = new Sprite(new Texture("CabezasDialogos/CabezaCocinera.png"));
@@ -73,6 +93,9 @@ public class Dialogos extends Objeto {
         viejita = new Sprite(new Texture("CabezasDialogos/CabezaViejita.png"));
         villano = new Sprite(new Texture("CabezasDialogos/CabezaVillano.png"));
         fadeObject = new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject2 = new Sprite(new Texture("Dialoguefade.png"));
+        fadeObject3 = new Sprite(new Texture("Dialoguefade.png"));
+
         dote = new Sprite(new Texture("dote.png"));
 
 
@@ -97,7 +120,7 @@ public class Dialogos extends Objeto {
             case 1: //Dialogo 1
                 switch (linePoint){
                     case 0://linea 0
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
+                        font.mostrarMensaje(batch,dialogueLines[0][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -107,7 +130,7 @@ public class Dialogos extends Objeto {
                         enfermera.setY(400);
                         break;
                     case 1: //linea 1
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
+                        font.mostrarMensaje(batch,dialogueLines[0][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -117,7 +140,7 @@ public class Dialogos extends Objeto {
                         enfermera.setY(400);
                         break;
                     case 2: //linea 2
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
+                        font.mostrarMensaje(batch,dialogueLines[0][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -125,9 +148,10 @@ public class Dialogos extends Objeto {
                         enfermera.draw(batch);
                         enfermera.setX(300);
                         enfermera.setY(400);
+
                         break;
                     case 3: // linea 3 ULTIMA
-                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],600,450);
+                        font.mostrarMensaje(batch,dialogueLines[0][linePoint],600,450);
                         fadeObject.draw(batch);
                         fadeObject.setX(240);
                         fadeObject.setY(250);
@@ -135,45 +159,54 @@ public class Dialogos extends Objeto {
                         enfermera.draw(batch);
                         enfermera.setX(300);
                         enfermera.setY(400);
-                        terminado = true; //en la ultima linea se debe regresar true
+
                         break;
+                    case 4:
+
+                        terminado = true; //en la ultima linea se debe regresar true
                 }
                 break;
-            case 2: //Dialogo 2
+            case 2: //Dialogo 2 POLICIA 1
                 switch (linePoint){
                     case 0:
-                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],2760,450);
-                        fadeObject.draw(batch);
-                        fadeObject.setX(2500);
-                        fadeObject.setY(250);
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],660,450);
+                        fadeObject2.draw(batch);
+                        fadeObject2.setX(240);
+                        fadeObject2.setY(250);
 
-                        cocinera.draw(batch);
-                        cocinera.setX(2560);
-                        cocinera.setY(400);
+                        policia.draw(batch);
+                        policia.setX(300);
+                        policia.setY(400);
                         break;
                     case 1:
-                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],2760,450);
-                        fadeObject.draw(batch);
-                        fadeObject.setX(2500);
-                        fadeObject.setY(250);
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],660,450);
+                        fadeObject2.draw(batch);
+                        fadeObject2.setX(240);
+                        fadeObject2.setY(250);
 
-                        cocinera.draw(batch);
-                        cocinera.setX(2560);
-                        cocinera.setY(400);
+                        policia.draw(batch);
+                        policia.setX(300);
+                        policia.setY(400);
                         break;
                     case 2:
-                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],2760,450);
-                        fadeObject.draw(batch);
-                        fadeObject.setX(2500);
-                        fadeObject.setY(250);
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],660,450);
+                        fadeObject2.draw(batch);
+                        fadeObject2.setX(240);
+                        fadeObject2.setY(250);
 
-                        cocinera.draw(batch);
-                        cocinera.setX(2560);
-                        cocinera.setY(400);
-                        terminado = true;
+                        policia.draw(batch);
+                        policia.setX(300);
+                        policia.setY(400);
                         break;
                     case 3:
+                        font.mostrarMensaje(batch,dialogueLines[1][linePoint],660,450);
+                        fadeObject2.draw(batch);
+                        fadeObject2.setX(240);
+                        fadeObject2.setY(250);
 
+                        policia.draw(batch);
+                        policia.setX(300);
+                        policia.setY(400);
                         break;
                     case 4:
 
@@ -181,29 +214,59 @@ public class Dialogos extends Objeto {
                         break;
                 }
                 break;
-            case 3: //Dialogo 3
+            case 3: //Dialogo 3 cocina
                 switch (linePoint){
                     case 0:
-                        font.mostrarMensaje(batch,dialogueLines[1][0],450,450);
-                        fadeObject.draw(batch);
-                        fadeObject.setX(240);
-                        fadeObject.setY(250);
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],660,450);
+                        fadeObject3.draw(batch);
+                        fadeObject3.setX(240);
+                        fadeObject3.setY(250);
 
                         cocinera.draw(batch);
                         cocinera.setX(300);
                         cocinera.setY(400);
                         break;
                     case 1:
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],660,450);
+                        fadeObject3.draw(batch);
+                        fadeObject3.setX(240);
+                        fadeObject3.setY(250);
 
+                        cocinera.draw(batch);
+                        cocinera.setX(300);
+                        cocinera.setY(400);
                         break;
                     case 2:
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],660,450);
+                        fadeObject3.draw(batch);
+                        fadeObject3.setX(240);
+                        fadeObject3.setY(250);
 
+                        cocinera.draw(batch);
+                        cocinera.setX(300);
+                        cocinera.setY(400);
                         break;
                     case 3:
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],660,450);
+                        fadeObject3.draw(batch);
+                        fadeObject3.setX(240);
+                        fadeObject3.setY(250);
 
+                        cocinera.draw(batch);
+                        cocinera.setX(300);
+                        cocinera.setY(400);
                         break;
                     case 4:
+                        font.mostrarMensaje(batch,dialogueLines[2][linePoint],660,450);
+                        fadeObject3.draw(batch);
+                        fadeObject3.setX(240);
+                        fadeObject3.setY(250);
 
+                        cocinera.draw(batch);
+                        cocinera.setX(300);
+                        cocinera.setY(400);
+                        break;
+                    case 5:
                         terminado = true;
                         break;
                 }
@@ -286,26 +349,26 @@ public class Dialogos extends Objeto {
         return terminado;
     }
     public void linePointer(int Dialogue){
-        System.out.printf("line pointer called");
-        counterDialogue = dialogueLines[Dialogue].length * 4.0f;
-        counterDialogueStart = 0.0f;
+        //System.out.printf("line pointer called");
+        //counterDialogue = dialogueLines[Dialogue].length * 4.0f;
+        //counterDialogueStart = 0.0f;
         linePoint = 0;
         linePointerHelperA();
     }
     private void linePointerHelperA(){
-        float delay = 4.0f;
+        float delay = 6.0f;
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
                 // Do your work
-                counterDialogueStart += 4.0f;
-                if(counterDialogueStart>=counterDialogue){
+                //counterDialogueStart += 5.0f;
+                //if(counterDialogueStart>=counterDialogue){
 
-                }else{
+                //}else{
                     linePoint+=1;
-                    System.out.printf("linepoint:" + linePoint);
+                    //System.out.printf("linepoint:" + linePoint);
                     linePointerHelperA();
-                }
+                //}
             }
         }, delay);
     }
