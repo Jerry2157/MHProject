@@ -83,6 +83,12 @@ public class PlayerSteven extends Objeto {
                 batch.draw(region,sprite.getX(),sprite.getY());
                 break;
             case QUIETO:
+            case QUIETOTWO:
+                if(sprite.isFlipX()){
+                    sprite.flip(true,false);
+                }
+                sprite.draw(batch);
+                break;
             case INICIANDO:
                 sprite.draw(batch); // Dibuja el sprite estático
                 break;
@@ -224,6 +230,7 @@ public class PlayerSteven extends Objeto {
         QUIETO,
         MOV_IZQUIERDA,
         MOV_DERECHA,
+        QUIETOTWO,
     }
 
     public enum EstadoSalto {

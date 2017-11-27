@@ -73,7 +73,7 @@ public class HabitacionOne extends Pantalla { //cocina
                 //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
-            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+            if (controller.isUpPressed()) {
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
@@ -88,7 +88,7 @@ public class HabitacionOne extends Pantalla { //cocina
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
+        BackgroundLayerOne = new Texture("ScreenFourteen/Cuarto1.png");
 
 
     }
@@ -98,7 +98,7 @@ public class HabitacionOne extends Pantalla { //cocina
         cambiarEscena();
         reaction();
         Steven.actualizar();
-        cop.actualizar();
+
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -106,9 +106,9 @@ public class HabitacionOne extends Pantalla { //cocina
         batch.begin();
 
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
+
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){

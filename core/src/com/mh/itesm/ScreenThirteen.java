@@ -48,11 +48,44 @@ public class ScreenThirteen extends Pantalla {//oficina director
     private Texture texturaBtnPintura;
     Preferences prefs;
 
+    private Sprite director;
+
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    private boolean startDialogue;
+    //------
+
+    //Dialogos
+    private Dialogos dialogoTwo;
+    private boolean playedDialogoTwo;
+    private boolean runningDialogoTwo;
+    private boolean finalDialogue;
+    //------
 
     public ScreenThirteen(MHMain juego, int xS, int yS) {
-        escritorio = new Sprite(new Texture("atrapasueños.png"));
-        escritorio.setPosition(32,64);
+
         prefs = Gdx.app.getPreferences("My Preferences");
+        //Dialogo
+        playedDialogo = prefs.getBoolean("playedTalkDir");
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
+
+        //Dialogo
+        playedDialogoTwo = false;
+        runningDialogoTwo = false;
+        dialogoTwo = new Dialogos();
+        finalDialogue = false;
+        //-------
+
+        escritorio = new Sprite(new Texture("ScreenThirteen/Escritorio.png"));
+        escritorio.setPosition(40,10);
+
+        director  = new Sprite(new Texture("Characters/Director.png"));
+        director.setPosition(32,32);
+
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
@@ -91,28 +124,45 @@ public class ScreenThirteen extends Pantalla {//oficina director
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
+        BackgroundLayerOne = new Texture("ScreenThirteen/OficinaDirectorSinMuebles.png");
     }
     @Override
     public void render(float delta) {
+        reaction();
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+        //cop.actualizar();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
+
+
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        director.draw(batch);
         batch.draw(escritorio,escritorio.getX(),escritorio.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
-        //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
-        //boton
-        if(nImage>0 && nImage<16){
-            batch.draw(pinturas[nImage-1],50,100);
+
+        //cop.dibujar(batch);
+
+        //Dialogo
+        if((prefs.getBoolean("playedTalkDir") || runningDialogo) && !playedDialogo && !prefs.getBoolean("playedTalkDirCat")){
+            //played = playedDialogo;
+            runningDialogo = true;
+            playedDialogo = dialogos.dibujar(batch,1);
         }
+        //-------
+
+        //DialogoTwo
+        if(prefs.getBoolean("playedTalkDir") && !playedDialogoTwo && prefs.getBoolean("playedTalkDirCat")){
+            finalDialogue = true;
+            runningDialogoTwo = true;
+
+            playedDialogoTwo = dialogoTwo.dibujar(batch,2);
+        }
+        //----------
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
@@ -151,36 +201,38 @@ public class ScreenThirteen extends Pantalla {//oficina director
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=10 && passed == false  && prefs.getBoolean("playedTalkDir") == true) {
+        /*if(Steven.getX()<=100 && passed == false  && !prefs.getBoolean("playedTalkDir")) {
             //passed = true;
-            //trabar();
+            trabar();
             //nextScreenLeft();
             //prefs.putBoolean("playedTalkDir", false);
-        }
+        }*/
     }
     public void reaction(){//hablar con director
-        if(Steven.getX()>=520 && Steven.getX()<=570 &&  passed == false && prefs.getBoolean("playedTalkDir") == false) {//hablo la primera vez
-            prefs.putBoolean("playedDir", true);
+        if(Steven.getX()>=230 && Steven.getX()<=250 &&  !passed && !prefs.getBoolean("playedTalkDir")) {//hablo la primera vez
+            System.out.printf("holaaaaaaaa");
             prefs.putBoolean("playedTalkDir", true);
+
+            //prefs.putBoolean("playedTalkDir", true);
 
             prefs.flush();
             //llamar al dialogo
             passed = true;
             trabar();
             //Se espera un segundo
-            float delay = 0.1f; // seconds
+            float delay = 20f; // seconds
             Timer.schedule(new Timer.Task(){
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenEleven(juego,10,64));
+                    juego.setScreen(new ScreenGatos(juego,11,64));
                 }
             }, delay);
         }
-        if(Steven.getX()>=520 && Steven.getX()<=570 &&  passed == false && prefs.getBoolean("playedTalkDirCat") == true) {//hablo la segunda vez
+        if(Steven.getX()>=230 && Steven.getX()<=240 &&  !passed && prefs.getBoolean("playedTalkDir") && prefs.getBoolean("playedTalkDirCat")) {//hablo la segunda vez
             prefs.putBoolean("playedDir", true);
             prefs.putBoolean("playedTalkDir", true);
-            prefs.putBoolean("playedTalkDirCat",false);
+            prefs.putBoolean("playedTalkDirCat",true);
             prefs.putBoolean("continuehistory",true);
 
 
@@ -189,19 +241,20 @@ public class ScreenThirteen extends Pantalla {//oficina director
             passed = true;
             trabar();
             //Se espera un segundo
-            float delay = 0.1f; // seconds
+            float delay = 30.0f; // seconds
             Timer.schedule(new Timer.Task(){
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenEleven(juego,10,64));
+                    juego.setScreen(new ScreenSeven(juego,10,64));
                 }
             }, delay);
         }
     }
     public void trabar(){//bloquea a steven
         passed = true;
-        Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+        Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETOTWO);
+
     }
 
 

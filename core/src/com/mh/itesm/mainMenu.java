@@ -61,6 +61,10 @@ public class mainMenu extends Pantalla {
         prefs.putBoolean("PassedParty",false);
         prefs.putBoolean("playedDir",false);
         prefs.putBoolean("lockedDir",false);
+        prefs.putBoolean("playedTalkDir", false);
+        prefs.putBoolean("playedTalkDirCat",false);
+        prefs.putBoolean("cuartosPassed",false);
+        prefs.putBoolean("finalunlocked",false);
 
         prefs.flush();
         this.juego = juego;
@@ -126,12 +130,12 @@ public class mainMenu extends Pantalla {
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.NIVEL_WHACK_A_MOLE));
                 //juego.setScreen((new ScreenEight(juego,640,32)));
 
-                //juego.setScreen((new ScreenTwelve(juego,2000,32)));
+                //juego.setScreen((new ScreenThirteen(juego,1100,32)));
                 //stage.addAction(Actions.fadeOut(10.0f));//pasa a negro fadeOut
-                juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
+                //juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
                 //escenaMenu.addAction(Actions.fadeIn(1));
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER)); //screen gatos
-                //juego.setScreen(new ScreenSix(juego,20,64));
+                juego.setScreen(new ScreenSix(juego,32,32));
 
                 //juego.setScreen(new pantallaGlobos(juego));
             }

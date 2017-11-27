@@ -202,17 +202,17 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=3700 && passed == false&& !prefs.getBoolean("cuartosPassed")) {
+        if(Steven.getX()>=3700 && passed == false && !prefs.getBoolean("cuartosPassed")) {
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=10 && passed == false&& prefs.getBoolean("cuartosPassed")) {
+        if(Steven.getX()<=10 && passed == false && prefs.getBoolean("cuartosPassed")) {
             trabar();
             nextScreenLeft();
         }
     }
     public void reaction(){//interaccion con la enfermera
-        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false) {
+        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && !prefs.getBoolean("cuartosPassed")) {
             played = true;
             //launchDiaologue(dialogue.speech(6));
         }

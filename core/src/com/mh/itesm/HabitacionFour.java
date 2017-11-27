@@ -54,6 +54,8 @@ public class HabitacionFour extends Pantalla { //cocina
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_DERECHA);
 
+        momNdaughter = new Sprite(new Texture("Radio.png"));
+
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
 
@@ -73,7 +75,7 @@ public class HabitacionFour extends Pantalla { //cocina
                 //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
-            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+            if (controller.isUpPressed()) {
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
@@ -88,7 +90,7 @@ public class HabitacionFour extends Pantalla { //cocina
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
+        BackgroundLayerOne = new Texture("ScreenFourteen/Cuarto4.png");
     }
 
     @Override
@@ -96,7 +98,7 @@ public class HabitacionFour extends Pantalla { //cocina
         cambiarEscena();
         reaction();
         Steven.actualizar();
-        cop.actualizar();
+
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -106,7 +108,7 @@ public class HabitacionFour extends Pantalla { //cocina
         batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
         batch.draw(momNdaughter,momNdaughter.getX(),momNdaughter.getY());
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
@@ -149,20 +151,20 @@ public class HabitacionFour extends Pantalla { //cocina
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false) {//derecha
+        if(Steven.getX()>=1270 && !passed) {//derecha
             passed = true;
             trabar();
             nextScreenRight();
 
         }
-        if(Steven.getX()<=10 && passed == false) {//izquierda
+        if(Steven.getX()<=10 && !passed) {//izquierda
             passed = true;
             trabar();
             nextScreenLeft();
         }
     }
     public void reaction(){//interaccion con la comida
-        if(Steven.getX()>=520 && Steven.getX()<=620 && played == false && prefs.getBoolean("cuartosPassed") == false) {
+        if(Steven.getX()>=520 && Steven.getX()<=620 && !played && !prefs.getBoolean("cuartosPassed")) {
             played = true;
             prefs.putBoolean("cuartosPassed",true);
             prefs.flush();
@@ -188,7 +190,7 @@ public class HabitacionFour extends Pantalla { //cocina
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenFourteen(juego,10,64));
+                juego.setScreen(new ScreenFourteen(juego,2500,64));
             }
         }, delay);
     }
@@ -200,7 +202,7 @@ public class HabitacionFour extends Pantalla { //cocina
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenFourteen(juego,10,64));
+                juego.setScreen(new ScreenFourteen(juego,2500,64));
             }
         }, delay);
     }

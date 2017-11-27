@@ -48,10 +48,25 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
     private Texture texturaBtnPintura;
     Preferences prefs;
 
+    private static Fondo fondo; //Imagen de fondo
+
+    //Dialogos
+    private Dialogos dialogos;
+    private boolean playedDialogo;
+    private boolean runningDialogo;
+    //------
+
 
     public ScreenFourteen(MHMain juego, int xS, int yS) {
-        enfermeraTex = new Texture("enfermera.png");
-        enfermera = new Sprite(enfermeraTex);
+
+        //Dialogo
+        playedDialogo = false;
+        runningDialogo = false;
+        dialogos = new Dialogos();
+        //-------
+
+        enfermera = new Sprite(new Texture("Characters/Jardinero.png"));
+        enfermera.setPosition(400,32);
         prefs = Gdx.app.getPreferences("My Preferences");
         //Crear a Steven
         Steven = new PlayerSteven(xS,yS,tamMundoWidth);
@@ -75,7 +90,7 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
                 //player.setLinearVelocity(new Vector2(0, player.getLinearVelocity().y));
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
-            if (controller.isUpPressed() && player.getLinearVelocity().y == 0) {
+            if (controller.isUpPressed()) {
                 //player.applyLinearImpulse(new Vector2(0, 20f), player.getWorldCenter(), true);
                 Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
             }
@@ -90,30 +105,48 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
     }
 
     private void cargarTexturas() {
-        BackgroundLayerOne = new Texture("ScreenFive/ScreenFiveBNG.png");
+        BackgroundLayerOne = new Texture("ScreenFourteen/Pasillo Cuartos.png");
+        fondo = new Fondo(BackgroundLayerOne);
+        fondo.setPosicion(0,0);
     }
     @Override
     public void render(float delta) {
+
         cambiarEscena();
         Steven.actualizar();
-        cop.actualizar();
+        reaction();
+        //cop.actualizar();
+        actualizarCamara();
         update(Gdx.graphics.getDeltaTime());
         borrarPantalla(0.8f,0.45f,0.2f);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camara.combined);
         batch.begin();
 
-        batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
-        if(prefs.getBoolean("cuartosPassed")==true) {
-            batch.draw(enfermera, enfermera.getX(), enfermera.getY());
-        }
+        //batch.draw(BackgroundLayerOne, Pantalla.ANCHO/2 -BackgroundLayerOne.getWidth()/2, Pantalla.ALTO/2-BackgroundLayerOne.getHeight()/2);
+        fondo.render(batch);
+        fondo.setPosicion(0,0);
         Steven.dibujar(batch);
-        cop.dibujar(batch);
+        if(prefs.getBoolean("cuartosPassed")) {
+            batch.draw(enfermera, enfermera.getX(), enfermera.getY());
+
+            //Dialogo
+            if((Steven.getX()>=350 && Steven.getX()<=550 || runningDialogo) && !playedDialogo){
+                played = playedDialogo;
+                runningDialogo = true;
+                playedDialogo = dialogos.dibujar(batch,1);
+            }
+            //-------
+
+        }
+        //cop.dibujar(batch);
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         if(nImage>0 && nImage<16){
             batch.draw(pinturas[nImage-1],50,100);
         }
+
+
 
         //batch.draw(puzzlePintura(),50,100);
         batch.end();
@@ -147,20 +180,23 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
     }
 
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false && prefs.getBoolean("playedDir") == false) {
+        /*if(Steven.getX()>=1270 && passed == false && prefs.getBoolean("playedDir") == false) {
             passed = true;
             trabar();
             nextScreenRight();
-        }
-        if(Steven.getX()<=10 && passed == false  && prefs.getBoolean("playedTalkDir") == true) {
+        }*/
+        if(Steven.getX()<=10 && !passed  && prefs.getBoolean("cuartosPassed")) {
             //passed = true;
             //trabar();
-            //nextScreenLeft();
+            nextScreenLeft();
             //prefs.putBoolean("playedTalkDir", false);
+
         }
     }
     public void reaction(){//habitaciones
-        if(Steven.getX()>=520 && Steven.getX()<=570 && passed == false && controller.isButtonPressed()) {//primera habitacion
+
+        if(Steven.getX()>=520 && Steven.getX()<=770 && passed == false && (controller.isButtonPressed() || controller.isSpacePressed())) {//primera habitacion
+            System.out.println("entro a condicion");
             //llamar al dialogo
             passed = true;
             trabar();
@@ -170,11 +206,11 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new HabitacionOne(juego,10,64));
+                    juego.setScreen(new HabitacionOne(juego,360,64));
                 }
             }, delay);
         }
-        else if(Steven.getX()>=720 && Steven.getX()<=770 && passed == false && controller.isButtonPressed()) {//segunda habitacion
+        else if(Steven.getX()>=1350 && Steven.getX()<=1550 && passed == false&& (controller.isButtonPressed() || controller.isSpacePressed())) {//segunda habitacion
             //llamar al dialogo
             passed = true;
             trabar();
@@ -184,11 +220,11 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new HabitacionTwo(juego,10,64));
+                    juego.setScreen(new HabitacionTwo(juego,360,64));
                 }
             }, delay);
         }
-        else if(Steven.getX()>=920 && Steven.getX()<=970 && passed == false && controller.isButtonPressed()) {//tercera habitacion
+        else if(Steven.getX()>=2100 && Steven.getX()<=2300 && passed == false&& (controller.isButtonPressed() || controller.isSpacePressed())) {//tercera habitacion
             //llamar al dialogo
             passed = true;
             trabar();
@@ -198,11 +234,11 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new HabitacionThree(juego,10,64));
+                    juego.setScreen(new HabitacionThree(juego,360,64));
                 }
             }, delay);
         }
-        else if(Steven.getX()>=1120 && Steven.getX()<=1170 && passed == false && controller.isButtonPressed()) {//cuarta habitacion
+        else if(Steven.getX()>=2800 && Steven.getX()<=3000 && passed == false&& (controller.isButtonPressed() || controller.isSpacePressed())) {//cuarta habitacion
             //llamar al dialogo
             passed = true;
             trabar();
@@ -212,11 +248,13 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new HabitacionFour(juego,10,64));
+                    prefs.putBoolean("cuartosPassed",true);
+                    prefs.flush();
+                    juego.setScreen(new HabitacionFour(juego,360,64));
                 }
             }, delay);
         }
-        else if(Steven.getX()>=1320 && Steven.getX()<=1370 &&  passed == false && controller.isButtonPressed()) {//quinta habitacion
+        else if(Steven.getX()>=3500 && Steven.getX()<=3700 &&  passed == false&& (controller.isButtonPressed() || controller.isSpacePressed())) {//quinta habitacion
             //llamar al dialogo
             passed = true;
             trabar();
@@ -226,11 +264,11 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new HabitacionFive(juego,10,64));
+                    juego.setScreen(new HabitacionFive(juego,360,64));
                 }
             }, delay);
         }
-        if(Steven.getX()>=620 && Steven.getX()<=670 &&  passed == false && prefs.getBoolean("cuartosPassed") == true) {//enfermera
+        if(Steven.getX()>=620 && Steven.getX()<=670 &&  passed == false && prefs.getBoolean("cuartosPassed") && (controller.isButtonPressed() || controller.isPausePressed())) {//enfermera
             //llamar al dialogo
             passed = true;
             trabar();
@@ -253,8 +291,8 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenTwelve(juego,10,64));
-                prefs.putBoolean("lockedDir", true);
+                juego.setScreen(new ScreenSeven(juego,1100,64));
+
             }
         }, delay);
     }
@@ -272,4 +310,21 @@ public class ScreenFourteen extends Pantalla {//Habitaciones
             }
         }, delay);
     }
+
+    private void actualizarCamara() {
+        float posX = Steven.sprite.getX();
+        // Si está en la parte 'media'
+        if (posX>=ANCHO/2 && posX<=tamMundoWidth-ANCHO/2) {
+            // El personaje define el centro de la cámara
+            camara.position.set((int)posX, camara.position.y, 0);
+            //fondo.setPosicion(posX,camara.position.y);
+        } else if (posX>tamMundoWidth-ANCHO/2) {    // Si está en la última mitad
+            // La cámara se queda a media pantalla antes del fin del mundo  :)
+            camara.position.set(tamMundoWidth-ANCHO/2, camara.position.y, 0);
+        } else if ( posX<ANCHO/2 ) { // La primera mitad
+            camara.position.set(ANCHO/2, ALTO/2,0);
+        }
+        camara.update();
+    }
+
 }

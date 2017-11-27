@@ -581,7 +581,9 @@ public class ScreenGatos extends Pantalla {//jardin
                 @Override
                 public void run() {
                     // Do your work
-                    juego.setScreen(new ScreenTwelve(juego, 2400, 64));
+                    prefs.putBoolean("playedTalkDirCat",true);
+                    juego.setScreen(new ScreenThirteen(juego, 2400, 64));
+
                 }
             }, delay);
         }

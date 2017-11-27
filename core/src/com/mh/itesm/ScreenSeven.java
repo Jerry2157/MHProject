@@ -151,19 +151,19 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
 
     }
     public void cambiarEscena(){
-        if(Steven.getX()>=1270 && passed == false  && prefs.getBoolean("areaverdelocked") == true && prefs.getBoolean("cuartosPassed")==false) { // && cuartosActivados == true
+        if(Steven.getX()>=1100 && !passed  && prefs.getBoolean("playedTalkDirCat") && !prefs.getBoolean("cuartosPassed")) { // && cuartosActivados == true
             passed = true;
             trabar();
             nextScreenRight();
         }
-        if(Steven.getX()<=10 && passed == false && prefs.getBoolean("finalunlocked") == true) {
+        if(Steven.getX()<=10 && !passed && prefs.getBoolean("cuartosPassed")) {
             passed = true;
             trabar();
             nextScreenLeft();
         }
     }
     public void reaction(){//elevador
-        if(Steven.getX()>=550 && Steven.getX()<=850 && (controller.isButtonPressed() || controller.isSpacePressed()) && passed == false) {
+        if(Steven.getX()>=600 && Steven.getX()<=900 && (controller.isButtonPressed() || controller.isSpacePressed()) && !passed && !prefs.getBoolean("finalunlocked")) {
             passed = true;
             trabar();
 
@@ -192,7 +192,7 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenFourteen(juego,10,64));
+                juego.setScreen(new ScreenSix(juego,3700,64));
             }
         }, delay);
     }
@@ -204,7 +204,7 @@ public class ScreenSeven extends Pantalla {//elevador 2do piso
             @Override
             public void run() {
                 // Do your work
-                //juego.setScreen(new ScreenSeven(juego,10,64));
+                juego.setScreen(new ScreenFourteen(juego,10,64));
                 //llevar a cuartos
             }
         }, delay);
