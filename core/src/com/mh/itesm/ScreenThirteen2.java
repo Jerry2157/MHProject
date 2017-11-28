@@ -175,6 +175,7 @@ public class ScreenThirteen2 extends Pantalla {//oficina director
 
             playedDialogoTwo = dialogoTwo.dibujar(batch,8);
             arege();
+            prefs.putBoolean("playedTalkDirCat",true);
         }
         //----------
         batch.end();

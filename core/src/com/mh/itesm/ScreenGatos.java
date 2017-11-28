@@ -334,6 +334,7 @@ public class ScreenGatos extends Pantalla {//jardin
             tiempo = 0;
             estado = EstadoJuego.PAUSADO;
             prefs.putBoolean("cocinaPassed",true);
+            prefs.putBoolean("playedTalkDirCat",true);
             prefs.flush();
             playedTimer = true;
             //stage.addAction(Actions.fadeOut(1.0f));//pasa a negro fadeOut

@@ -16,7 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class ScreenAnimFinal extends Objeto {
     //Atlases
-    private Texture FondoAtlas,FondoAtlasTwo,FondoAtlasThree;
+    private Texture FondoAtlas,FondoAtlasTwo,FondoAtlasThree,FondoAtlasFour,FondoAtlasFive;
     private Texture StevenJump;
 
     private int SceneTam = 0;
@@ -41,6 +41,8 @@ public class ScreenAnimFinal extends Objeto {
         FondoAtlas = manager.get("ScreenEnding/EscenaFinal1.png");
         FondoAtlasTwo = manager.get("ScreenEnding/EscenaFinal2.png");
         FondoAtlasThree = manager.get("ScreenEnding/EscenaFinal3.png");
+        FondoAtlasFour = manager.get("SScreenEnding/EscenaFinal2One.png");
+        FondoAtlasFive = manager.get("ScreenEnding/EscenaFinal2Two.png");
         //FondoAtlas = new Texture("ScreenEnding/EscenaFinal1.png");
         //FondoAtlasTwo = new Texture("ScreenEnding/EscenaFinal2.png");
         //FondoAtlasThree = new Texture("ScreenEnding/EscenaFinal3.png");
@@ -50,16 +52,20 @@ public class ScreenAnimFinal extends Objeto {
         TextureRegion texturaCompleta = new TextureRegion(FondoAtlas);
         TextureRegion texturaCompletaTwo = new TextureRegion(FondoAtlasTwo);
         TextureRegion texturaCompletaThree = new TextureRegion(FondoAtlasThree);
+        TextureRegion texturaCompletaFour = new TextureRegion(FondoAtlasFour);
+        TextureRegion texturaCompletaFive = new TextureRegion(FondoAtlasFive);
 
         // La divide en 4 frames de 32x64 (ver marioSprite.png)
         TextureRegion[][] texturaPersonaje = texturaCompleta.split(1280,720);
         TextureRegion[][] texturaPersonajeTwo = texturaCompletaTwo.split(1280,720);
         TextureRegion[][] texturaPersonajeThree = texturaCompletaThree.split(1280,720);
+        TextureRegion[][] texturaPersonajeFour = texturaCompletaFour.split(1280,720);
+        TextureRegion[][] texturaPersonajeFive = texturaCompletaFive.split(1289,720);
 
 
         // Crea la animación con tiempo de 0.25 segundos entre frames.
 
-        spriteAnimadoCam = new Animation(1.0f
+        /*spriteAnimadoCam = new Animation(1.0f
                 , texturaPersonaje[0][0],texturaPersonaje[0][0], texturaPersonaje[0][1], texturaPersonaje[0][2]
                 , texturaPersonaje[1][0], texturaPersonaje[1][1], texturaPersonaje[1][2]
                 , texturaPersonaje[2][0], texturaPersonaje[2][1], texturaPersonaje[2][2]
@@ -71,8 +77,20 @@ public class ScreenAnimFinal extends Objeto {
                 ,texturaPersonajeTwo[4][0],texturaPersonajeTwo[4][1],texturaPersonajeTwo[4][2],texturaPersonajeTwo[4][3]
                 ,texturaPersonajeThree[0][0],texturaPersonajeThree[0][1]
                 ,texturaPersonajeThree[1][0],texturaPersonajeThree[1][1]
+                ,texturaPersonajeThree[2][0],texturaPersonajeThree[2][1],texturaPersonajeThree[2][1]);*/
+        spriteAnimadoCam = new Animation(1.0f
+                , texturaPersonaje[0][0],texturaPersonaje[0][0], texturaPersonaje[0][1], texturaPersonaje[0][2]
+                , texturaPersonaje[1][0], texturaPersonaje[1][1], texturaPersonaje[1][2]
+                , texturaPersonaje[2][0], texturaPersonaje[2][1], texturaPersonaje[2][2]
+                , texturaPersonaje[3][0], texturaPersonaje[3][1], texturaPersonaje[3][2]
+                ,texturaPersonajeFour[0][0],texturaPersonajeFour[0][1],texturaPersonajeFour[0][2],texturaPersonajeFour[0][3]
+                ,texturaPersonajeFour[1][0],texturaPersonajeFour[1][1],texturaPersonajeFour[1][2],texturaPersonajeFour[1][3]
+                ,texturaPersonajeFour[2][0],texturaPersonajeFour[2][1],texturaPersonajeFour[2][2],texturaPersonajeFour[2][3]
+                ,texturaPersonajeFive[3][0],texturaPersonajeFive[3][1],texturaPersonajeFive[3][2],texturaPersonajeFive[3][3]
+                ,texturaPersonajeFive[4][0],texturaPersonajeFive[4][1],texturaPersonajeFive[4][2],texturaPersonajeFive[4][3]
+                ,texturaPersonajeThree[0][0],texturaPersonajeThree[0][1]
+                ,texturaPersonajeThree[1][0],texturaPersonajeThree[1][1]
                 ,texturaPersonajeThree[2][0],texturaPersonajeThree[2][1],texturaPersonajeThree[2][1]);
-
 
 
         // Animación infinita
