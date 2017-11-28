@@ -93,8 +93,9 @@ public class ScreenNine extends Pantalla { //cocina
         }
     }
     public void pausaInput(){
-        if(controller.isPausePressed()){
+        if(controller.isPausePressed() || controller.isBackPressed()){
             estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+            controller.setBackPressed(false);
         }
         if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
@@ -110,6 +111,7 @@ public class ScreenNine extends Pantalla { //cocina
     public void show() {
         cargarTexturas();
         //Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        Gdx.input.setCatchBackKey(true);
 
     }
 

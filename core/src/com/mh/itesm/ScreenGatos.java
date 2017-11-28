@@ -77,6 +77,9 @@ public class ScreenGatos extends Pantalla {//jardin
     private boolean finalDialogue;
     //------
 
+    private com.mh.itesm.EscenaPausa escenaPausa;
+    private EstadoJuego estadoJuego = EstadoJuego.JUGANDO; //Estado del juego
+
 
     //cats functions
     private final float DELTA_X = 10;    // Desplazamiento del personaje
@@ -91,8 +94,7 @@ public class ScreenGatos extends Pantalla {//jardin
     private int punteroHorizontal = INACTIVO;
     private int punteroVertical = INACTIVO;
 
-    // Para salir
-    private EscenaPausa escenaPausa;
+
 
     // Coordenadas
     private float xHorizontal = 0;
@@ -140,7 +142,7 @@ public class ScreenGatos extends Pantalla {//jardin
     private EstadoJuego estado = EstadoJuego.JUGANDO;
 
     //Tiempo restante
-    private int tiempo = 1500;
+    private float tiempo = 40f;
     private Texto textoTiempo;
 
     private boolean playedTimer;
@@ -282,10 +284,25 @@ public class ScreenGatos extends Pantalla {//jardin
         }
     }
 
+    public void pausaInput(){
+        if(controller.isPausePressed() || controller.isBackPressed()){
+            estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+            controller.setBackPressed(false);
+        }
+        if (estadoJuego== EstadoJuego.PAUSADO ) {
+            // Activar escenaPausa y pasarle el control
+            if (escenaPausa==null) {
+                escenaPausa = new com.mh.itesm.EscenaPausa(this,controller,vista, batch);
+            }
+            Gdx.input.setInputProcessor(escenaPausa);
+            controller.pausePressed=false; //Evita que cree la escena varias veces
+        }
+    }
+
     @Override
     public void show() {
         cargarTexturas();
-
+        Gdx.input.setCatchBackKey(true);
         enemigos = new Array<Hongo>();   // Arreglo de hongos
         balas = new Array<Bala>();
         tiempoEnemigo = MathUtils.random(1.5f,5.0f);
@@ -407,7 +424,7 @@ public class ScreenGatos extends Pantalla {//jardin
             cop.dibujar(batch);
         }
         //texto.mostrarMensaje(batch,"Puntos: "+puntos,2*ANCHO/3,ALTO-texturaMazo.getHeight()/2);
-        textoTiempo.mostrarMensaje(batch,"Aguanta: " + (tiempo/6000) + ":" + (tiempo%6000),ANCHO/3*1,ALTO/8*7);
+        textoTiempo.mostrarMensaje(batch,"Agunta: " + (int)tiempo+" s",(ANCHO / 4)-150, (ALTO / 1)-5);
 
         if(playedTimer && !playedXplosion){
             globos[0].draw(batch);
@@ -437,8 +454,7 @@ public class ScreenGatos extends Pantalla {//jardin
 
         //b2dr.render(world,camara.combined);
         //batch.setProjectionMatrix(camara.combined);
-        if(Gdx.app.getType() == Application.ApplicationType.Android)
-            controller.draw();
+        controller.draw();
     }
 
     public void facecathelper(){
@@ -509,7 +525,7 @@ public class ScreenGatos extends Pantalla {//jardin
                 juego.setScreen(new ScreenGatos(juego,11,64));
                 // Activar escenaPausa y pasarle el control
                 if (escenaPausa==null) {
-                    escenaPausa = new EscenaPausa(vista, batch);
+                    //escenaPausa = new EscenaPausa(vista, batch);
                 }
                 Gdx.input.setInputProcessor(escenaPausa);
             } else if (hongo.sprite.getX()<-hongo.sprite.getWidth()) {
@@ -520,7 +536,7 @@ public class ScreenGatos extends Pantalla {//jardin
     private void terminar() {
         // Activar escenaPausa y pasarle el control
         if (escenaPausa==null) {
-            escenaPausa = new EscenaPausa(vista, batch);
+            //escenaPausa = new EscenaPausa(vista, batch);
         }
         Gdx.input.setInputProcessor(escenaPausa);
     }

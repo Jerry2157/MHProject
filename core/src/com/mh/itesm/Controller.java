@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Controller extends Pantalla {
     Viewport viewport;
     Stage stage;
-    boolean upPressed, downPressed, leftPressed, rightPressed,pausePressed, spacePressed,buttonPressed;
+    boolean upPressed, downPressed, leftPressed, rightPressed,pausePressed, spacePressed,buttonPressed,backPressed;
     OrthographicCamera cam;
 
     public Controller(){
@@ -30,7 +30,6 @@ public class Controller extends Pantalla {
         viewport = new FitViewport(800, 480, cam);
         //viewport = new FitViewport(1280, 720, cam);
         stage = new Stage(viewport, batch);
-
         stage.addListener(new InputListener(){
 
             @Override
@@ -50,6 +49,9 @@ public class Controller extends Pantalla {
                         break;
                     case Input.Keys.SPACE:
                         spacePressed=true;
+                        break;
+                    case Input.Keys.BACK:
+                        backPressed=true;
                         break;
                 }
                 return true;
@@ -78,10 +80,22 @@ public class Controller extends Pantalla {
             }
         });
 
+
+
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
         table.left().bottom();
+
+        /*s.addListener(new InputListener(){
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode== Input.Keys.BACK){
+
+                }
+                return true;
+            }
+        });*/
 
         Image upImg = new Image(new Texture("controllers/flatLight22up.png"));
         upImg.setSize(50, 50);
@@ -236,6 +250,13 @@ public class Controller extends Pantalla {
     public boolean isButtonPressed(){
         return buttonPressed;
     }
+
+    public boolean isBackPressed(){return backPressed;}
+
+    public void setBackPressed(Boolean b){
+        backPressed=b;
+    }
+
 
 
     @Override

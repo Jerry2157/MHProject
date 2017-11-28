@@ -125,8 +125,9 @@ public class ScreenEleven extends Pantalla {//sotano
     }
 
     public void pausaInput(){
-        if(controller.isPausePressed()){
+        if(controller.isPausePressed() || controller.isBackPressed()){
             estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+            controller.setBackPressed(false);
         }
         if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
@@ -141,6 +142,7 @@ public class ScreenEleven extends Pantalla {//sotano
     @Override
     public void show() {
         cargarTexturas();
+        Gdx.input.setCatchBackKey(true);
     }
 
     private void cargarTexturas() {

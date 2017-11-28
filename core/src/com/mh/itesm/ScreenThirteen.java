@@ -114,8 +114,9 @@ public class ScreenThirteen extends Pantalla {//oficina director
         }
     }
     public void pausaInput(){
-        if(controller.isPausePressed()){
+        if(controller.isPausePressed() || controller.isBackPressed()){
             estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+            controller.setBackPressed(false);
         }
         if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
@@ -131,6 +132,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
     public void show() {
         cargarTexturas();
         //Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        Gdx.input.setCatchBackKey(true);
 
     }
 
@@ -167,7 +169,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
         //-------
 
         //DialogoTwo
-        if(prefs.getBoolean("playedTalkDir") && !playedDialogoTwo && prefs.getBoolean("playedTalkDirCat")){
+        if( !playedDialogoTwo && prefs.getBoolean("playedTalkDirCat")){
             finalDialogue = true;
             runningDialogoTwo = true;
 
@@ -260,7 +262,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
                 }
             }, delay);
         }
-        if(Steven.getX()>=230 && Steven.getX()<=240 &&  !passed && prefs.getBoolean("playedTalkDir") && prefs.getBoolean("playedTalkDirCat")) {//hablo la segunda vez
+        if(Steven.getX()>=230 && Steven.getX()<=250 &&  !passed && prefs.getBoolean("playedTalkDir") && prefs.getBoolean("playedTalkDirCat")) {//hablo la segunda vez
             prefs.putBoolean("playedDir", true);
             prefs.putBoolean("playedTalkDir", true);
             prefs.putBoolean("playedTalkDirCat",true);

@@ -11,8 +11,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
 
@@ -25,6 +28,9 @@ public class ScreenOne extends Pantalla {
     private MHMain juego;
     private final AssetManager manager; //para manegar texturas y demas con manager
     World world;
+    //PARA BOTON BACK
+    private Viewport view;
+    private Stage escena;
     private Box2DDebugRenderer b2dr;
     Controller controller;
     private Texture BackgroundLayerOne;   // Imagen fondo
@@ -94,10 +100,13 @@ public class ScreenOne extends Pantalla {
     private Music sonidoF;
     private boolean startdialog=false;
 
+
+
     public ScreenOne(MHMain juego) {
         played = false;
         Steven = new PlayerSteven(10,64,tamMundoWidth);
         Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.INICIANDO);
+
 
         this.juego = juego;
         world = new World(new Vector2(0, -9.81f), true);
@@ -144,13 +153,14 @@ public class ScreenOne extends Pantalla {
         if(Steven.getX()>=1150){
             Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.MOV_IZQUIERDA);
         }
-        //Debemos limitar que no se mueva por si solo ya que se mueve por si solo perdemos el control al regresar
+
 
     }
 
     public void pausaInput(){
-        if(controller.isPausePressed()){
+        if(controller.isPausePressed() || controller.isBackPressed()){
             estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+            controller.setBackPressed(false);
         }
         if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
@@ -162,6 +172,8 @@ public class ScreenOne extends Pantalla {
         }
     }
 
+
+
     @Override
     public void show() {
         generarNumRandom();
@@ -169,6 +181,8 @@ public class ScreenOne extends Pantalla {
         crearObjetos();
         //Proceso entrada para mover a steven y pausa
         Gdx.input.setInputProcessor(controller.getStage());
+        Gdx.input.setCatchBackKey(true);
+
         //variables para manipular tiempo
         tiempo = 0;
         tiempoParpadeo=0;
@@ -563,6 +577,8 @@ public class ScreenOne extends Pantalla {
         camara.update();
 
     }
+
+
 //Metodos get que nos permiten modificar en escena pausa
     public Pantalla getScreenOne(){
         return this;
@@ -577,6 +593,8 @@ public class ScreenOne extends Pantalla {
         return this.juego;
     }
     public Music getSonidoF(){ return sonidoF;}
+
+
 }
 
 

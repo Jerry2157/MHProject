@@ -83,8 +83,9 @@ public class HabitacionFive extends Pantalla { //cocina
         }
     }
     public void pausaInput(){
-        if(controller.isPausePressed()){
+        if(controller.isPausePressed() || controller.isBackPressed()){
             estadoJuego = estadoJuego== EstadoJuego.PAUSADO? EstadoJuego.JUGANDO: EstadoJuego.PAUSADO; // Se pausa el juego
+            controller.setBackPressed(false);
         }
         if (estadoJuego== EstadoJuego.PAUSADO ) {
             // Activar escenaPausa y pasarle el control
@@ -100,6 +101,7 @@ public class HabitacionFive extends Pantalla { //cocina
     public void show() {
         cargarTexturas();
         //Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        Gdx.input.setCatchBackKey(true);
 
     }
 
@@ -196,7 +198,7 @@ public class HabitacionFive extends Pantalla { //cocina
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenFourteen(juego,10,64));
+                juego.setScreen(new ScreenFourteen(juego,30,64));
             }
         }, delay);
     }
@@ -208,7 +210,7 @@ public class HabitacionFive extends Pantalla { //cocina
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenFourteen(juego,10,64));
+                juego.setScreen(new ScreenFourteen(juego,30,64));
             }
         }, delay);
     }
