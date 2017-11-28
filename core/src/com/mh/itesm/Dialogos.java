@@ -201,6 +201,7 @@ public class Dialogos extends Objeto {
                         enfermera.draw(batch);
                         enfermera.setX(300);
                         enfermera.setY(400);
+                        terminado = true; //en la ultima linea se debe regresar true
                         break;
                     case 2: //linea 2
                         font.mostrarMensaje(batch, dialogueLines[0][linePoint], 600, 450);
@@ -251,6 +252,7 @@ public class Dialogos extends Objeto {
                         policia.draw(batch);
                         policia.setX(300);
                         policia.setY(400);
+                        terminado = true; //en la ultima linea se debe regresar true
                         break;
                     case 2:
                         font.mostrarMensaje(batch, dialogueLines[1][linePoint], 660, 450);
@@ -300,6 +302,7 @@ public class Dialogos extends Objeto {
                         cocinera.draw(batch);
                         cocinera.setX(300);
                         cocinera.setY(400);
+                        terminado = true; //en la ultima linea se debe regresar true
                         break;
                     case 2:
                         font.mostrarMensaje(batch, dialogueLines[2][linePoint], 660, 450);
@@ -516,6 +519,7 @@ public class Dialogos extends Objeto {
                         villano.draw(batch);
                         villano.setX(300);
                         villano.setY(400);
+                        terminado = true; //en la ultima linea se debe regresar true
                         break;
                     case 2: //linea 2
                         font.mostrarMensaje(batch, dialogueLines[8][linePoint], 660, 450);
@@ -600,6 +604,7 @@ public class Dialogos extends Objeto {
                                 esposa.draw(batch);
                                 esposa.setX(500);
                                 esposa.setY(400);
+                                terminado = true; //en la ultima linea se debe regresar true
                                 break;
                             case 2: //linea 2
                                 font.mostrarMensaje(batch, dialogueLines[10][linePoint], 860, 450);
@@ -653,10 +658,10 @@ public class Dialogos extends Objeto {
                                 gato.draw(batch);
                                 gato.setX(300);
                                 gato.setY(400);
-                                //terminado = true;
+                                terminado = true;
                                 break;
                             case 1: //linea 1
-                                tex.draw(batch);
+                                //tex.draw(batch);
                                 terminado=true;
                                 break;
                             case 2:
