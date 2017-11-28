@@ -41,7 +41,7 @@ public class ScreenAnimFinal extends Objeto {
         FondoAtlas = manager.get("ScreenEnding/EscenaFinal1.png");
         FondoAtlasTwo = manager.get("ScreenEnding/EscenaFinal2.png");
         FondoAtlasThree = manager.get("ScreenEnding/EscenaFinal3.png");
-        FondoAtlasFour = manager.get("SScreenEnding/EscenaFinal2One.png");
+        FondoAtlasFour = manager.get("ScreenEnding/EscenaFinal2One.png");
         FondoAtlasFive = manager.get("ScreenEnding/EscenaFinal2Two.png");
         //FondoAtlas = new Texture("ScreenEnding/EscenaFinal1.png");
         //FondoAtlasTwo = new Texture("ScreenEnding/EscenaFinal2.png");
@@ -60,7 +60,7 @@ public class ScreenAnimFinal extends Objeto {
         TextureRegion[][] texturaPersonajeTwo = texturaCompletaTwo.split(1280,720);
         TextureRegion[][] texturaPersonajeThree = texturaCompletaThree.split(1280,720);
         TextureRegion[][] texturaPersonajeFour = texturaCompletaFour.split(1280,720);
-        TextureRegion[][] texturaPersonajeFive = texturaCompletaFive.split(1289,720);
+        TextureRegion[][] texturaPersonajeFive = texturaCompletaFive.split(1280,720);
 
 
         // Crea la animación con tiempo de 0.25 segundos entre frames.
@@ -83,11 +83,11 @@ public class ScreenAnimFinal extends Objeto {
                 , texturaPersonaje[1][0], texturaPersonaje[1][1], texturaPersonaje[1][2]
                 , texturaPersonaje[2][0], texturaPersonaje[2][1], texturaPersonaje[2][2]
                 , texturaPersonaje[3][0], texturaPersonaje[3][1], texturaPersonaje[3][2]
-                ,texturaPersonajeFour[0][0],texturaPersonajeFour[0][1],texturaPersonajeFour[0][2],texturaPersonajeFour[0][3]
-                ,texturaPersonajeFour[1][0],texturaPersonajeFour[1][1],texturaPersonajeFour[1][2],texturaPersonajeFour[1][3]
-                ,texturaPersonajeFour[2][0],texturaPersonajeFour[2][1],texturaPersonajeFour[2][2],texturaPersonajeFour[2][3]
-                ,texturaPersonajeFive[3][0],texturaPersonajeFive[3][1],texturaPersonajeFive[3][2],texturaPersonajeFive[3][3]
-                ,texturaPersonajeFive[4][0],texturaPersonajeFive[4][1],texturaPersonajeFive[4][2],texturaPersonajeFive[4][3]
+                ,texturaPersonajeFour[0][0],texturaPersonajeFour[0][1],texturaPersonajeFour[0][2],texturaPersonajeFive[0][0]
+                ,texturaPersonajeFour[1][0],texturaPersonajeFour[1][1],texturaPersonajeFour[1][2],texturaPersonajeFive[1][0]
+                ,texturaPersonajeFour[2][0],texturaPersonajeFour[2][1],texturaPersonajeFour[2][2],texturaPersonajeFive[2][0]
+                ,texturaPersonajeFour[3][0],texturaPersonajeFour[3][1],texturaPersonajeFour[3][2],texturaPersonajeFive[3][0]
+                ,texturaPersonajeFour[4][0],texturaPersonajeFour[4][1],texturaPersonajeFour[4][2],texturaPersonajeFive[4][0]
                 ,texturaPersonajeThree[0][0],texturaPersonajeThree[0][1]
                 ,texturaPersonajeThree[1][0],texturaPersonajeThree[1][1]
                 ,texturaPersonajeThree[2][0],texturaPersonajeThree[2][1],texturaPersonajeThree[2][1]);

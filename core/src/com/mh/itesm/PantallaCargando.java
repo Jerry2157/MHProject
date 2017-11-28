@@ -148,6 +148,8 @@ class PantallaCargando extends Pantalla
         manager.load("ScreenEnding/EscenaFinal2.png",Texture.class);
         manager.load("ScreenEnding/EscenaFinal3.png",Texture.class);
         manager.load("ScreenEnding/Credits.png",Texture.class);
+        manager.load("ScreenEnding/EscenaFinal2One.png",Texture.class);
+        manager.load("ScreenEnding/EscenaFinal2Two.png",Texture.class);
     }
 
     @Override
