@@ -52,6 +52,7 @@ public class Dialogos extends Objeto {
     private Sprite fadeObject10;
     private Sprite fadeObject11;
     private Sprite fadeObject12;
+    private Sprite tex;
 
     private Sprite dote;
 
@@ -143,6 +144,7 @@ public class Dialogos extends Objeto {
         esposa= new Sprite(new Texture("CabezasDialogos/CabezaEsposa.png"));
         hija= new Sprite(new Texture("CabezasDialogos/CabezaHija.png"));
         gato=new Sprite(new Texture("CabezasDialogos/GatoItem.png"));
+         tex=new Sprite(new Texture("dote.png"));
 
         fadeObject = new Sprite(new Texture("Dialoguefade.png"));
         fadeObject2 = new Sprite(new Texture("Dialoguefade.png"));
@@ -220,10 +222,10 @@ public class Dialogos extends Objeto {
                         enfermera.draw(batch);
                         enfermera.setX(300);
                         enfermera.setY(400);
-
+                        terminado = true; //en la ultima linea se debe regresar true
                         break;
                     case 4:
-
+                        //tex.draw(batch);
                         terminado = true; //en la ultima linea se debe regresar true
                         break;
                 }
@@ -269,9 +271,10 @@ public class Dialogos extends Objeto {
                         policia.draw(batch);
                         policia.setX(300);
                         policia.setY(400);
+                        terminado = true;
                         break;
                     case 4:
-
+                        //tex.draw(batch);
                         terminado = true;
                         break;
                 }
@@ -327,8 +330,10 @@ public class Dialogos extends Objeto {
                         cocinera.draw(batch);
                         cocinera.setX(300);
                         cocinera.setY(400);
+                        terminado = true;
                         break;
                     case 5:
+                        //tex.draw(batch);
                         terminado = true;
                         break;
                 }
@@ -355,8 +360,10 @@ public class Dialogos extends Objeto {
                         viejita.draw(batch);
                         viejita.setX(300);
                         viejita.setY(400);
+                        terminado = true;
                         break;
                     case 2:
+                        //tex.draw(batch);
                         terminado = true;
                         break;
                     case 3:
@@ -390,8 +397,10 @@ public class Dialogos extends Objeto {
                         jardinero.draw(batch);
                         jardinero.setX(300);
                         jardinero.setY(400);
+                        terminado = true;
                         break;
                     case 2:
+                        //tex.draw(batch);
                         terminado = true;
                         break;
                 }
@@ -418,8 +427,10 @@ public class Dialogos extends Objeto {
                         villano.draw(batch);
                         villano.setX(300);
                         villano.setY(400);
+                        terminado = true;
                         break;
                     case 2:
+                        //tex.draw(batch);
                         terminado = true;
                         break;
                 }
@@ -446,8 +457,10 @@ public class Dialogos extends Objeto {
                         director.draw(batch);
                         director.setX(300);
                         director.setY(400);
+                        terminado = true;
                         break;
                     case 2:
+                        //tex.draw(batch);
                         terminado = true;
                         break;
                 }
@@ -474,8 +487,10 @@ public class Dialogos extends Objeto {
                         director.draw(batch);
                         director.setX(300);
                         director.setY(400);
+                        terminado = true;
                         break;
                     case 2:
+                        //tex.draw(batch);
                         terminado = true;
                         break;
                 }
@@ -522,11 +537,12 @@ public class Dialogos extends Objeto {
                         villano.draw(batch);
                         villano.setX(300);
                         villano.setY(400);
-
+                        terminado = true;
                         break;
                     case 4:
-
+                        //tex.draw(batch);
                         terminado = true; //en la ultima linea se debe regresar true
+                        break;
                 }
                 break;
             case 10:///dialogo screen final
@@ -550,9 +566,12 @@ public class Dialogos extends Objeto {
                         policia.draw(batch);
                         policia.setX(300);
                         policia.setY(400);
+                        terminado = true;
                         break;
                     case 2: //linea 2
+                        //tex.draw(batch);
                         terminado = true;
+                        break;
                 }
 
 
@@ -591,8 +610,10 @@ public class Dialogos extends Objeto {
                                 hija.draw(batch);
                                 hija.setX(500);
                                 hija.setY(400);
+                                terminado = true;
                                 break;
                             case 3:
+                                //tex.draw(batch);
                                 terminado=true;
                                 break;
                         }
@@ -609,8 +630,10 @@ public class Dialogos extends Objeto {
                                 steven.draw(batch);
                                 steven.setX(300);
                                 steven.setY(400);
+                                terminado = true;
                                 break;
                             case 1: //linea 1
+                                //tex.draw(batch);
                                 terminado=true;
                                 break;
                             case 2:
@@ -630,8 +653,10 @@ public class Dialogos extends Objeto {
                                 gato.draw(batch);
                                 gato.setX(300);
                                 gato.setY(400);
+                                //terminado = true;
                                 break;
                             case 1: //linea 1
+                                tex.draw(batch);
                                 terminado=true;
                                 break;
                             case 2:
