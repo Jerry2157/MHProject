@@ -225,6 +225,7 @@ public class Dialogos extends Objeto {
                     case 4:
 
                         terminado = true; //en la ultima linea se debe regresar true
+                        break;
                 }
                 break;
             case 2: //Dialogo 2 POLICIA 1

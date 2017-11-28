@@ -152,7 +152,7 @@ public class ScreenSix extends Pantalla {//pasillo 1er piso
         Steven.dibujar(batch);
 
         //Dialogo
-        if((Steven.getX()>=550 && Steven.getX()<=550 || runningDialogo) && !playedDialogo  && !prefs.getBoolean("cuartosPassed")){
+        if((Steven.getX()>=550 && Steven.getX()<=550 || runningDialogo) && !playedDialogo  /*&& !prefs.getBoolean("cuartosPassed")*/){
             played = playedDialogo;
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,1);

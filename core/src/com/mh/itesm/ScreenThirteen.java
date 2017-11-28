@@ -297,7 +297,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
             @Override
             public void run() {
                 // Do your work
-                juego.setScreen(new ScreenTwelve(juego,10,64));
+                juego.setScreen(new ScreenTwelve(juego,20,64));
                 prefs.putBoolean("lockedDir", true);
             }
         }, delay);
@@ -309,7 +309,7 @@ public class ScreenThirteen extends Pantalla {//oficina director
         Timer.schedule(new Timer.Task(){
             @Override
             public void run() {
-                juego.setScreen(new ScreenTwelve(juego,10,64));
+                juego.setScreen(new ScreenTwelve(juego,30,64));
                 // Do your work
                 //juego.setScreen(new ScreenTen(juego,10,64));
                 //llevar a cuartos

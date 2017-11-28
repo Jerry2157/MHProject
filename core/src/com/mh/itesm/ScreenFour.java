@@ -172,7 +172,7 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
                     cop.setX(Steven.getX()-1000);
                     //cop.setEstadoMovimiento(FirstCop.EstadoMovimiento.Cutting);
                     if(SceneActive == false) {
-                        SceneActive = false;
+                        SceneActive = true;
                         sonidoF.stop();
                         juego.setScreen(new ScreenFive(juego,20,64));
                     }
@@ -250,8 +250,8 @@ public class ScreenFour extends Pantalla {//pasillo casa steven
             this.efectoPuertaTemplo.play(PantallaMenu.volumen);
             PantallaCargando.partidaGuardada.putBoolean("nivelAgua", true); //se guarda el progreso y se desbloquea el nivel de agua...
             PantallaCargando.partidaGuardada.flush(); //se guardan los cambios*/
-            sonidoF.stop();
-            juego.setScreen(new ScreenFive(juego,64,64));//Debug
+            //sonidoF.stop();
+            //juego.setScreen(new ScreenFive(juego,64,64));//Debug
 
             //Se espera un segundo
             float delay = 1; // seconds

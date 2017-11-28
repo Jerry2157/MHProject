@@ -136,7 +136,7 @@ public class ScreenEight extends Pantalla {//elevador 1er piso
         //dibujar imagen pintura, al clickear el metodo recibira una imagen dependiendo de la que mande
         //boton
         //Dialogo MODIFICAR COORDENADAS
-        if((Steven.getX()<=250 || runningDialogo) && !playedDialogo && !prefs.getBoolean("cocinaPassed")){
+        if((Steven.getX()<=250 || runningDialogo) && !playedDialogo  /* &&!prefs.getBoolean("cocinaPassed")*/){
             played = playedDialogo;
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,2);

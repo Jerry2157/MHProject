@@ -150,15 +150,16 @@ public class ScreenNine extends Pantalla { //cocina
         //cop.dibujar(batch);
         //Dialogo
         if((Steven.getX()<=200 || runningDialogo) && !playedDialogo  ){
+            played = playedDialogo;
             runningDialogo = true;
             playedDialogo = dialogos.dibujar(batch,3);
-            if(!playedDialogo){
-                played = true;
-                Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
+            //if(!playedDialogo){
+                //played = true;
+                //Steven.setEstadoMovimiento(PlayerSteven.EstadoMovimiento.QUIETO);
 
-            }else{
-                played = false;
-            }
+            //}else{
+                //played = false;
+            //}
         }
         //-------
 
