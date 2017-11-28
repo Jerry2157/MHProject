@@ -185,7 +185,7 @@ public class ScreenFinal extends Pantalla {//jardin
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
 
-        controller = new Controller();
+        controller = new Controller(true);
 
         // evil
         if(prefs.getBoolean("finalunlocked")==true){
@@ -256,7 +256,7 @@ public class ScreenFinal extends Pantalla {//jardin
             }
 
             if((controller.isButtonPressed() || controller.isSpacePressed()) && firerepeater){
-                disparar();
+                /*disparar();
                 firerepeater = false;
                 //Se espera un segundo
                 float delay = 0.1f; // seconds
@@ -267,7 +267,7 @@ public class ScreenFinal extends Pantalla {//jardin
                         // Do your work
                         firerepeater = true;
                     }
-                }, delay);
+                }, delay);*/
             }
 
         }

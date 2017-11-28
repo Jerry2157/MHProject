@@ -136,9 +136,9 @@ public class mainMenu extends Pantalla {
                 //juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
                 //juego.setScreen(new PantallaCargando(juego,Pantallas.FINAL));
                 //escenaMenu.addAction(Actions.fadeIn(1));
-                juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER)); //screen gatos
+                //juego.setScreen(new PantallaCargando(juego, Pantallas.RUNNER)); //screen gatos
                 //juego.setScreen(new PantallaCargando(juego, Pantallas.ENDING)); //screen gatos
-                //juego.setScreen(new ScreenThirteen(juego,500,64));
+                juego.setScreen(new ScreenThirteen2(juego,500,64));
 
                 //juego.setScreen(new pantallaGlobos(juego));
             }
