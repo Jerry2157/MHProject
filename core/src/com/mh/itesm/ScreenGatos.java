@@ -220,7 +220,7 @@ public class ScreenGatos extends Pantalla {//jardin
         Gdx.input.setInputProcessor(escenaMenu);
         this.juego = juego;
 
-        controller = new Controller();
+        controller = new Controller(true);
 
         // evil
         if(prefs.getBoolean("finalunlocked")==true){
@@ -603,7 +603,7 @@ public class ScreenGatos extends Pantalla {//jardin
                 public void run() {
                     // Do your work
                     prefs.putBoolean("playedTalkDirCat",true);
-                    juego.setScreen(new ScreenThirteen(juego, 640, 64));
+                    juego.setScreen(new ScreenThirteen2(juego, 640, 64));
 
                 }
             }, delay);
@@ -623,39 +623,7 @@ public class ScreenGatos extends Pantalla {//jardin
         }, delay);
     }
 
-    // La escena que se muestra cuando el juego se pausa
-    // (simplificado, ver la misma escena en PantallaWhackAMole)
-    private class EscenaPausa extends Stage
-    {
-        public EscenaPausa(Viewport vista, SpriteBatch batch) {
-            // Crear rectángulo transparente
-            Pixmap pixmap = new Pixmap((int) (ANCHO/*currentS.ANCHO * 0.7f*/), (int) (ALTO /* 0.8f*/), Pixmap.Format.RGBA8888);
-            pixmap.setColor(1f, 1f, 1f, 0.40f/*0.65f*/);
-            pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
-            Texture texturaRectangulo = new Texture( pixmap );
-            pixmap.dispose();
-            Image imgRectangulo = new Image(texturaRectangulo);
-            imgRectangulo.setPosition(0,0/*0.15f*currentS.ANCHO, 0.1f*currentS.ALTO*/);
-            this.addActor(imgRectangulo);
 
-            // Salir
-            Texture texturaBtnSalir = new Texture("Botones/CONTINUAR.png");
-            TextureRegionDrawable trdSalir = new TextureRegionDrawable(
-                    new TextureRegion(texturaBtnSalir));
-            ImageButton btnSalir = new ImageButton(trdSalir);
-            btnSalir.setPosition(ANCHO/2-btnSalir.getWidth()/2, ALTO*0.2f);
-            btnSalir.addListener(new ClickListener(){
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    // Regresa al menú
-                    juego.setScreen(new mainMenu(juego));
-                }
-            });
-            this.addActor(btnSalir);
-
-
-        }
-    }
 
     // Escena pierde
     class EscenaPierde extends Stage {
